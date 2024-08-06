@@ -1,4 +1,4 @@
-LoginBean.class
+com/syntech/sbs/bean/LoginBean.class
 com/syntech/sbs/JAXRSConfiguration.class
 com/syntech/sbs/bean/dashboardBean.class
 com/syntech/sbs/resources/JavaEE8Resource.class

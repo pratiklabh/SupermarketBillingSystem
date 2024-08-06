@@ -1,0 +1,108 @@
+/* Reset and basic setup */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styling */
+.header {
+    width: calc(100% - 3in); /* Adjust width to accommodate the sidebar */
+    height: 1in;
+    background-color: #FDF5E6;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 1; /* Ensure it stays above other elements */
+    margin-left: 3in; /* Position it to the right of the sidebar */
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2em;
+    text-align: left; /* Align text to the left */
+    flex-grow: 1; /* Allow it to take available space */
+}
+
+.header .profile {
+    font-size: 1.5em;
+}
+
+.header .profile a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Container setup */
+.container {
+    display: flex;
+    flex: 1;
+    height: calc(100% - 1in); /* Adjust height to exclude header height */
+    margin-top: 0; /* Remove space for the border line */
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 3in;
+    background-color: #2F4F4F;
+    color: white;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%; /* Ensure the sidebar covers full height */
+    flex-shrink: 0;
+    position: fixed; /* Ensure it stays in place while scrolling */
+    top: 0; /* Align with top of the viewport */
+    left: 0; /* Align with left edge of the viewport */
+}
+
+/* Ensure sidebar doesn’t overlap the header */
+.sidebar ~ .header {
+    margin-left: 3in;
+}
+
+.sidebar ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 15px 30px;
+    transition: background-color 0.3s ease; 
+}
+
+.sidebar ul li:hover {
+    background-color: #007bff; 
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 1.5em;
+    padding: 0;
+}
+
+/* Content styling */
+.content {
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
+    margin-left: 3in; /* Ensure content starts after sidebar */
+    background-color: #FDF5E6;
+}
+
+.content h2 {
+    font-size: 2em; 
+}
+
+.content p {
+    font-size: 1.5em; 
+}
