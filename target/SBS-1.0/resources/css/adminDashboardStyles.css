@@ -21,31 +21,58 @@ body, html {
     position: relative;
     flex-shrink: 0;
     z-index: 1; /* Ensure it stays above other elements */
-    margin-left: 3in; /* Position it to the right of the sidebar */
+    margin-left: 3in; 
 }
 
 .header h1 {
     margin: 0;
     font-size: 2em;
-    text-align: left; /* Align text to the left */
-    flex-grow: 1; /* Allow it to take available space */
+    text-align: left; 
+    flex-grow: 1; 
 }
 
 .header .profile {
+    position: relative;
     font-size: 1.5em;
 }
 
 .header .profile a {
-    color: white;
+    color: black;
     text-decoration: none;
+}
+
+.header .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #FDF5E6;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header .dropdown-menu li {
+    padding: 10px 20px;
+}
+
+.header .dropdown-menu li a {
+    color: black;
+    text-decoration: none;
+}
+
+.header .profile.show .dropdown-menu {
+    display: block;
 }
 
 /* Line below header */
 .header-line {
     width: 100%;
-    height: 2px;
-    background-color: #2F4F4F; /* Same color as the sidebar */
-    margin-left: 3in; /* Ensure it spans across the screen */
+    height: 3px;
+    background-color: #2F4F4F; 
+    margin-left: 3in; 
 }
 
 /* Container setup */
@@ -63,7 +90,7 @@ body, html {
     color: white;
     padding: 20px;
     box-sizing: border-box;
-    height: 100%; /* Ensure the sidebar covers full height */
+    height: 100%; 
     flex-shrink: 0;
     position: fixed; /* Ensure it stays in place while scrolling */
     top: 0; /* Align with top of the viewport */
@@ -78,10 +105,7 @@ body, html {
     height: 0.7in;
     display: block;
     margin: 0 auto;
-    
 }
-
-/* Removed .separator */
 
 /* Sidebar list styling */
 .sidebar ul {
@@ -96,7 +120,8 @@ body, html {
     transition: background-color 0.3s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align items to the left */
+    position: relative;
 }
 
 .sidebar ul li:hover {
@@ -114,6 +139,27 @@ body, html {
 /* Ensure sidebar doesn’t overlap the header */
 .sidebar ~ .header {
     margin-left: 3in;
+}
+
+/* Dropdown menu styling */
+.sidebar ul li .dropdown-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #2F4F4F;
+}
+
+.sidebar ul li.show .dropdown-menu {
+    display: block;
+}
+
+.sidebar ul li .dropdown-menu li {
+    padding: 15px 30px;
+}
+
+.sidebar ul li .dropdown-menu li a {
+    font-size: 1em;
 }
 
 /* Content styling */
