@@ -1,3 +1,8 @@
+com/syntech/sbs/bean/UserBean.class
 com/syntech/sbs/bean/LoginBean.class
+com/syntech/sbs/repository/UserRepository.class
+com/syntech/sbs/service/UserService.class
+com/syntech/sbs/model/User.class
+com/syntech/sbs/controller/UserController.class
 com/syntech/sbs/JAXRSConfiguration.class
 com/syntech/sbs/resources/JavaEE8Resource.class
