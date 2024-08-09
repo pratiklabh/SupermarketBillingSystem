@@ -35,4 +35,8 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.getByUsername(username);
     }
+    
+     public User authenticate(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
 }   

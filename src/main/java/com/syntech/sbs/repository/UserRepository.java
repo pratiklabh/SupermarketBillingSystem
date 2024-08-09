@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 @Stateless
@@ -48,9 +49,14 @@ public class UserRepository {
         } catch (Exception e) {
             return null;
         }
-    
-    
     }
-    
+
+    public User findByUsernameAndPassword(String username, String password) {
+        TypedQuery<User> query = entityManager.createQuery(
+            "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        return query.getResultStream().findFirst().orElse(null);
+    }
     
 }
