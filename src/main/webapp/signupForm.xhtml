@@ -14,13 +14,20 @@
                 <p:inputText id="name" value="#{UserBean.user.name}" 
                              placeholder="Name" required="true" requiredMessage="Name is required" />
 
+                <br/><br/>
+                
                 <p:inputText id="username" value="#{UserBean.user.username}" 
                              placeholder="Username" required="true" requiredMessage="Username is required" />
 
+                <br/><br/>
+                
                 <p:password id="password" value="#{UserBean.user.password}" 
                             placeholder="Password" required="true" requiredMessage="Password is required" />
 
+                <br/><br/>
                 <p:commandButton value="Submit" action="#{UserBean.saveUser}" update="messages" />
+                <br/><br/>
+                <a href="/SBS-1.0/userList.xhtml">View Users List</a>
             </p:panel>
         </h:form>
     </h:body>
