@@ -36,7 +36,7 @@ public class UserService {
         return userRepository.getByUsername(username);
     }
     
-     public User authenticate(String username, String password) {
+    public User authenticate(String username, String password){
         return userRepository.findByUsernameAndPassword(username, password);
     }
-}   
+}

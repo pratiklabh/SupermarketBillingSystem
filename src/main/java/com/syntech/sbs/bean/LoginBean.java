@@ -40,16 +40,18 @@ public class LoginBean {
         User user = userService.authenticate(username, password);
         
         if (user != null) {
-            if ("admin".equals(user.getUsername())) {
+            if (username.equals(user.getUsername())) {
                 return "adminDashboard?faces-redirect=true";
             } else {
                 context.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Access Denied", "You are not authorized to access this page."));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                                "Access Denied", "You are not authorized to access this page."));
                 return null;
             }
         } else {
             context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", "Please try again."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Invalid credentials", "Please try again."));
             return null;
         }
     }

@@ -8,7 +8,7 @@
     </h:head>
     <h:body>
         <h:form id="userListForm">
-            <p:dataTable id="users" value="#{userBean.users}" var="user" rowKey="#{user.id}" >
+            <p:dataTable id="users" value="#{UserBean.users}" var="user" rowKey="#{user.id}">
                 <f:facet name="header">
                     Users List
                 </f:facet>
@@ -24,15 +24,25 @@
                 <p:column headerText="Username">
                     <h:outputText value="#{user.username}" />
                 </p:column>
+                
+                <p:column headerText="Email">
+                    <h:outputText value="#{user.email}" />
+                </p:column>
 
-                <p:column headerText="Password">
-                    <h:outputText value="#{user.password}" />
+                <p:column headerText="Phone">
+                    <h:outputText value="#{user.phone}" />
+                </p:column>
+
+                <p:column headerText="Role">
+                    <h:outputText value="#{user.role}" />
+                </p:column>
+
+                <p:column headerText="Status">
+                    <h:outputText value="#{user.status}" />
                 </p:column>
 
                 <p:column headerText="Actions">
-                    
-                    <p:commandButton value="Delete" action="#{userBean.deleteUser(user)}"
-                                     class="btn btn-danger"
+                    <p:commandButton value="Delete" action="#{UserBean.deleteUser(user)}"
                                      update=":userListForm:users"
                                      onclick="return confirm('Are you sure you want to delete this user?');"
                                      ajax="true" />
