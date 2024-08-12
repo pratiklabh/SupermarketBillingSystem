@@ -24,7 +24,7 @@
                 <p:column headerText="Username">
                     <h:outputText value="#{user.username}" />
                 </p:column>
-                
+
                 <p:column headerText="Email">
                     <h:outputText value="#{user.email}" />
                 </p:column>
@@ -42,15 +42,51 @@
                 </p:column>
 
                 <p:column headerText="Actions">
-                    <p:commandButton value="Delete" action="#{UserBean.deleteUser(user)}"
+                    <p:commandButton value="Edit" 
+                                     action="#{UserBean.prepareEditUser(user)}"
+                                     oncomplete="PF('editUserDialog').show()" 
+                                     update=":editUserForm"
+                                     ajax="true" />
+                    <p:commandButton value="Delete" 
+                                     action="#{UserBean.deleteUser(user)}"
                                      update=":userListForm:users"
                                      onclick="return confirm('Are you sure you want to delete this user?');"
                                      ajax="true" />
                 </p:column>
+
             </p:dataTable>
         </h:form>
-        
-        <a href="/SBS-1.0/signupForm.xhtml"> Back</a>
 
+        <p:dialog header="Edit User" widgetVar="editUserDialog" modal="true" showEffect="fade" hideEffect="fade">
+            <h:form id="editUserForm">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" />
+                    <p:inputText id="name" value="#{UserBean.user.name}" required="true" />
+
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{UserBean.user.username}" required="true" />
+
+                    <h:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{UserBean.user.email}" required="true" />
+
+                    <h:outputLabel for="phone" value="Phone:" />
+                    <p:inputText id="phone" value="#{UserBean.user.phone}" required="true" />
+
+                    <h:outputLabel for="role" value="Role:" />
+                    <p:inputText id="role" value="#{UserBean.user.role}" required="true" />
+
+                    <h:outputLabel for="status" value="Status:" />
+                    <p:inputText id="status" value="#{UserBean.user.status}" required="true" />
+
+                    <p:commandButton value="Update" action="#{UserBean.updateUser()}"
+                                     update=":userListForm:users"
+                                     oncomplete="PF('editUserDialog').hide();"
+                                     ajax="true" />
+                    <p:commandButton value="Cancel" onclick="PF('editUserDialog').hide();" type="button"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <a href="/SBS-1.0/signupForm.xhtml"> Back</a>
     </h:body>
 </html>
