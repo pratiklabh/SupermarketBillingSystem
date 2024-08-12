@@ -5,7 +5,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Add Product Form</title>
-        <h:outputStylesheet name="css/DropdownStyle.css" />
     </h:head>
     <h:body>
         
@@ -33,20 +32,20 @@
                              placeholder="Description" required="true" requiredMessage="Description is required" />
 
                 <br/><br/>
-                <h:selectOneMenu id="unit" value="#{ProductBean.product.unit}" styleClass="input-size"
-                                 required="true" requiredMessage="Unit is required">
+                <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px">
+                    <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
                     <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
                     <f:selectItem itemValue="Kg" itemLabel="Kg" />
                     <f:selectItem itemValue="Liters" itemLabel="Liters" />
-                </h:selectOneMenu>
-
+                </p:selectOneMenu>
+                
                 <br/><br/>
-                <h:selectOneMenu id="type" value="#{ProductBean.product.type}" styleClass="input-size"
-                                 required="true" requiredMessage="Type is required">
+                <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px">
+                    <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
                     <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
                     <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
-                </h:selectOneMenu>
-
+                </p:selectOneMenu>
+                
 
                 <br/><br/>
                 <p:commandButton value="Submit" action="#{ProductBean.saveProduct}" update="messages" />

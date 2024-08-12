@@ -81,20 +81,22 @@
                     <h:outputLabel for="description" value="Description: " />
                     <p:inputText id="description" value="#{ProductBean.product.description}" required="true" />
 
-                    <h:outputLabel for="type" value="Type: " />
-                    <h:selectOneMenu id="type" value="#{ProductBean.product.type}" styleClass="input-size"
-                                     required="true" requiredMessage="Role is required">
+                    <h:outputLabel for="type" value="Type: " />                   
+                    <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px"
+                                     required="true" requiredMessage="Type is required">>
+                        <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
                         <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
-                    </h:selectOneMenu>
-
+                    </p:selectOneMenu>
+                   
                     <h:outputLabel for="unit" value="Unit:" />
-                    <h:selectOneMenu id="unit" value="#{ProductBean.product.unit}" styleClass="input-size"
-                                     required="true" requiredMessage="Unit is required">
+                    <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px"
+                                     required="true" requiredMessage="Unit is required">>
+                        <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
                         <f:selectItem itemValue="Kg" itemLabel="Kg" />
                         <f:selectItem itemValue="Liters" itemLabel="Liters" />
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
 
                     <p:commandButton value="Save" action="#{ProductBean.updateProduct()}"
                                      update=":productListForm:products"

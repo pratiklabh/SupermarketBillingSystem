@@ -73,20 +73,23 @@
                     <p:inputText id="phone" value="#{UserBean.user.phone}" required="true" />
 
                     <h:outputLabel for="role" value="Role:" />
-                    <h:selectOneMenu id="role" value="#{UserBean.user.role}" styleClass="input-size"
-                                     required="true" requiredMessage="Role is required">
+                    <p:selectOneMenu id="role" value="#{UserBean.user.role}" style="width:223px"
+                                     required="true" requiredMessage="Role is required">>
+                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemValue="Admin" itemLabel="Admin" />
                         <f:selectItem itemValue="Cashier" itemLabel="Cashier" />
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
 
-                    <h:outputLabel for="status" value="Status:" />
-                    <h:selectOneMenu id="status" value="#{UserBean.user.status}" styleClass="input-size"
-                                     required="true" requiredMessage="Status is required">
+                    <h:outputLabel for="status" value="Status:" />                   
+                    <p:selectOneMenu id="status" value="#{UserBean.user.status}" style="width:223px"
+                                     required="true" requiredMessage="Status is required">>
+                        <f:selectItem itemLabel="Select Status" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemValue="Active" itemLabel="Active" />
                         <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
-                    </h:selectOneMenu>
-
-                    <p:commandButton value="Save" action="#{UserBean.updateUser()}"
+                    </p:selectOneMenu>
+                    
+                    
+                    <p:commandButton value="Update" action="#{UserBean.updateUser()}"
                                      update=":userListForm:users"
                                      oncomplete="PF('editUserDialog').hide();"
                                      ajax="true" />

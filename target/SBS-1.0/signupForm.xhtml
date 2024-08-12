@@ -5,7 +5,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sign up Form</title>
-        <h:outputStylesheet name="css/DropdownStyle.css" />
     </h:head>
     <h:body>
         
@@ -34,19 +33,19 @@
 
 
                 <br/><br/>
-                <h:selectOneMenu id="role" value="#{UserBean.user.role}" styleClass="input-size"
-                                 required="true" requiredMessage="Role is required">
+                <p:selectOneMenu id="role" value="#{UserBean.user.role}" style="width:223px">
+                    <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
                     <f:selectItem itemValue="Admin" itemLabel="Admin" />
                     <f:selectItem itemValue="Cashier" itemLabel="Cashier" />
-                </h:selectOneMenu>
-
+                </p:selectOneMenu>
+                
                 <br/><br/>
-                <h:selectOneMenu id="status" value="#{UserBean.user.status}" styleClass="input-size"
-                                 required="true" requiredMessage="Status is required">
+                <p:selectOneMenu id="status" value="#{UserBean.user.status}" style="width:223px">
+                    <f:selectItem itemLabel="Select Status" itemValue="" noSelectionOption="true"/>
                     <f:selectItem itemValue="Active" itemLabel="Active" />
                     <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
-                </h:selectOneMenu>
-
+                </p:selectOneMenu>
+                
 
                 <br/><br/>
                 <p:commandButton value="Submit" action="#{UserBean.saveUser}" update="messages" />
