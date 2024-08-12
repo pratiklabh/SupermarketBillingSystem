@@ -81,11 +81,13 @@ public class UserBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             userService.updateUser(user);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User updated successfully"));
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                    "Success", "User updated successfully"));
             users = userService.getAllUsers(); // Refresh the user list
             user = new User(); // Clear form after update
         } catch (Exception e) {
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to update user"));
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Error", "Failed to update user"));
             e.printStackTrace();
         }
     }
