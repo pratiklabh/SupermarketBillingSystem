@@ -85,7 +85,6 @@ public class UserBean implements Serializable {
     }
 
     public void prepareNewUser() {
-        this.user = new User();
         this.editMode = false;
     }
 }
