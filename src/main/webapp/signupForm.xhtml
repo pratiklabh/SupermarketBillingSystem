@@ -8,12 +8,11 @@
     </h:head>
     <h:body>
 
-        <h:form> 
+        <h:form id="userSignupForm"> 
             <p:panel header="Signup Form">
+                <p:messages id="messages" showDetail="true" />
                 <h:panelGrid columns="2" cellpadding="10">
-                    <p:messages id="messages" showDetail="true" />
 
-                    <h:outputLabel />
                     <h:outputLabel for="name" value="Name: " />
                     <p:inputText id="name" value="#{UserBean.user.name}" 
                                  placeholder="Name" required="true" requiredMessage="Name is required" />
@@ -50,7 +49,9 @@
 
                     <h:outputLabel />
 
-                    <p:commandButton value="Submit" action="#{UserBean.saveUser}" update="messages" />
+                    <p:commandButton value="Submit" 
+                                     action="#{UserBean.saveUser}" 
+                                     update="userSignupForm,messages" />
                 </h:panelGrid>
             </p:panel>
         </h:form>

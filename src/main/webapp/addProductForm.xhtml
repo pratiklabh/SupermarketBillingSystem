@@ -7,48 +7,59 @@
         <title>Add Product Form</title>
     </h:head>
     <h:body>
-        
-        <h:form>
+
+        <h:form id="addProductForm">
             <p:panel header="Add Product Form">
                 <p:messages id="messages" showDetail="true" />
+                <h:panelGrid columns="3" cellpadding="10">
 
-                <p:inputText id="name" value="#{ProductBean.product.name}" 
-                             placeholder="Name" required="true" requiredMessage="Name is required" />
+                    <h:outputLabel for="name" value="Name: " />
+                    <p:inputText id="name" value="#{ProductBean.product.name}" 
+                                 placeholder="Name" required="true" requiredMessage="Name is required" />
 
-                <br/><br/>
-                <p:inputText id="rate" value="#{ProductBean.product.rate}" 
-                             placeholder="Rate" required="true" requiredMessage="Rate is required" />
+                    <br/><br/>
+                    <h:outputLabel for="rate" value="Rate: " />
+                    <p:inputText id="rate" value="#{ProductBean.product.rate}" 
+                                 placeholder="Rate" required="true" requiredMessage="Rate is required" />
 
-                <br/><br/>
-                <p:inputText id="code" value="#{ProductBean.product.code}" 
-                             placeholder="Code" required="true" requiredMessage="Code is required" />
+                    <br/><br/>
+                    <h:outputLabel for="code" value="Code: " />
+                    <p:inputText id="code" value="#{ProductBean.product.code}" 
+                                 placeholder="Code" required="true" requiredMessage="Code is required" />
 
-                <br/><br/>
-                <p:inputText id="discount" value="#{ProductBean.product.discount}" 
-                            placeholder="Discount" required="true" requiredMessage="Discount is required" />
+                    <br/><br/>
+                    <h:outputLabel for="discount" value="Discount: " />
+                    <p:inputText id="discount" value="#{ProductBean.product.discount}" 
+                                 placeholder="Discount" required="true" requiredMessage="Discount is required" />
 
-                <br/><br/>
-                <p:inputText id="description" value="#{ProductBean.product.description}" 
-                             placeholder="Description" required="true" requiredMessage="Description is required" />
+                    <br/><br/>
+                    <h:outputLabel for="description" value="Description: " />
+                    <p:inputText id="description" value="#{ProductBean.product.description}" 
+                                 placeholder="Description" required="true" requiredMessage="Description is required" />
 
-                <br/><br/>
-                <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px">
-                    <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
-                    <f:selectItem itemValue="Kg" itemLabel="Kg" />
-                    <f:selectItem itemValue="Liters" itemLabel="Liters" />
-                </p:selectOneMenu>
-                
-                <br/><br/>
-                <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px">
-                    <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
-                    <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
-                </p:selectOneMenu>
-                
+                    <br/><br/>
+                    <h:outputLabel for="unit" value="Unit: " />
+                    <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px">
+                        <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
+                        <f:selectItem itemValue="Kg" itemLabel="Kg" />
+                        <f:selectItem itemValue="Liters" itemLabel="Liters" />
+                    </p:selectOneMenu>
 
-                <br/><br/>
-                <p:commandButton value="Submit" action="#{ProductBean.saveProduct}" update="messages" />
+                    <br/><br/>
+                    <h:outputLabel for="tyope" value="Type: " />
+                    <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px">
+                        <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
+                        <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
+                    </p:selectOneMenu>
+
+
+                    <br/><br/>
+                    <p:commandButton value="Add Product" 
+                                     action="#{ProductBean.saveProduct}" 
+                                     update="addProductForm, messages" />
+                </h:panelGrid>
             </p:panel>
         </h:form>
 

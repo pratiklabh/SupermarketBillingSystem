@@ -54,6 +54,8 @@ public class ProductBean implements Serializable{
              facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
                      "Success", "Product saved successfully"));
             System.out.println("Product saved successfully: " + product.getName());
+            
+            product = new Product();
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "Error", "Failed to save product"));
