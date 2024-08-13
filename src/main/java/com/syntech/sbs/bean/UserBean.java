@@ -18,17 +18,16 @@ public class UserBean implements Serializable {
 
     private User user = new User();
     private List<User> users;
-    
+    private boolean editMode = false;
 
     @EJB
     private UserService userService;
-    
 
     @PostConstruct
-    public void init(){
+    public void init() {
         users = userService.getAllUsers();
     }
-    
+
     public User getUser() {
         return user;
     }
@@ -37,59 +36,56 @@ public class UserBean implements Serializable {
         this.user = user;
     }
 
-    public List<User> getUsers() { 
+    public List<User> getUsers() {
         return users;
     }
-    
-    public void saveUser() {
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public void saveOrUpdateUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            System.out.println("Attempting to save user: " + user.getUsername());
-            userService.saveUser(user);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User saved successfully"));
-            System.out.println("User saved successfully: " + user.getUsername());
+            if (editMode) {
+                userService.updateUser(user);
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User updated successfully"));
+            } else {
+                userService.saveUser(user);
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User saved successfully"));
+            }
+            users = userService.getAllUsers(); // Refresh the user list
             user = new User(); // Clear form after submission
+            editMode = false; // Reset the edit mode flag
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to save user"));
             e.printStackTrace();
         }
     }
-    
+
     public void deleteUser(User user) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             userService.deleteUser(user.getId());
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Success", "User deleted successfully"));
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully"));
             users = userService.getAllUsers(); // Refresh the user list
-        
         } catch (Exception e) {
-            
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Error", "Failed to delete user"));
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete user"));
             e.printStackTrace();
         }
-    }
-    
-    
-    
-    public void prepareEditUser(User user) {
-        this.user = user;
     }
 
-    public void updateUser() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        try {
-            userService.updateUser(user);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Success", "User updated successfully"));
-            users = userService.getAllUsers(); // Refresh the user list
-            user = new User(); // Clear form after update
-        } catch (Exception e) {
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Error", "Failed to update user"));
-            e.printStackTrace();
-        }
+    public void prepareEditUser(User user) {
+        this.user = user;
+        this.editMode = true;
     }
-    
+
+    public void prepareNewUser() {
+        this.user = new User();
+        this.editMode = false;
+    }
 }
