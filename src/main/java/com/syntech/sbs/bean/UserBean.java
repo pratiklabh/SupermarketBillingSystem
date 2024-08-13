@@ -15,11 +15,12 @@ import javax.inject.Named;
 @Named("UserBean")
 @ViewScoped
 public class UserBean implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Inject
     private User user;
-    
+
     private List<User> users;
     private boolean editMode = false;
 
@@ -54,13 +55,23 @@ public class UserBean implements Serializable {
     public void saveOrUpdateUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
+            String duplicateMessage = checkForDuplicateUser();
+            if (duplicateMessage != null) {
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        duplicateMessage, "Error"));
+                return; // Exit the method if a duplicate is found
+            }
+
             if (editMode) {
                 userService.updateUser(user);
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User updated successfully"));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Success", "User updated successfully"));
             } else {
                 userService.saveUser(user);
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User saved successfully"));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Success", "User saved successfully"));
             }
+
             users = userService.getAllUsers(); // Refresh the user list
             user = new User(); // Clear form after submission
             editMode = false; // Reset the edit mode flag
@@ -72,10 +83,6 @@ public class UserBean implements Serializable {
     public void deleteUser(User user) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            if (facesContext.isValidationFailed()) {
-            // If validation fails, let the dialog remain open
-            return;
-        }
             userService.deleteUser(user.getId());
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully"));
             users = userService.getAllUsers(); // Refresh the user list
@@ -92,4 +99,39 @@ public class UserBean implements Serializable {
     public void prepareNewUser() {
         this.editMode = false;
     }
+
+    private String checkForDuplicateUser() {
+        // Check if updating and the current user's ID is not null
+        if (editMode && user.getId() != null) {
+            User existingUserByUsername = userService.findUserByUsername(user.getUsername());
+            if (existingUserByUsername != null && !existingUserByUsername.getId().equals(user.getId())) {
+                return "Username already exists";
+            }
+
+            User existingUserByEmail = userService.findUserByEmail(user.getEmail());
+            if (existingUserByEmail != null && !existingUserByEmail.getId().equals(user.getId())) {
+                return "Email already exists";
+            }
+
+            User existingUserByPhone = userService.findUserByPhone(user.getPhone());
+            if (existingUserByPhone != null && !existingUserByPhone.getId().equals(user.getId())) {
+                return "Phone number already exists";
+            }
+        } else {
+            // Check for duplicates without considering the current user
+            if (userService.findUserByUsername(user.getUsername()) != null) {
+                return "Username already exists";
+            }
+
+            if (userService.findUserByEmail(user.getEmail()) != null) {
+                return "Email already exists";
+            }
+
+            if (userService.findUserByPhone(user.getPhone()) != null) {
+                return "Phone number already exists";
+            }
+        }
+        return null; // No duplicates found
+    }
+
 }

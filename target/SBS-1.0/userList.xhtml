@@ -118,11 +118,15 @@
                         <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="#{UserBean.editMode ? 'Update' : 'Save'}" 
-                                     action="#{UserBean.saveOrUpdateUser()}"
+                    <p:commandButton value="#{UserBean.editMode ? 'Update' : 'Save'}"
+                                     action="#{UserBean.saveOrUpdateUser}"
                                      update=":userListForm :editUserForm :userListForm:messages"
-                                     oncomplete="if (!args.validationFailed) PF('userDialog').hide();" 
+                                     oncomplete="if (args.validationFailed) 
+                                                    { PF('userDialog').show(); } 
+                                                else 
+                                                    { PF('userDialog').hide(); }"
                                      ajax="true" />
+
                     <p:commandButton value="Cancel" onclick="PF('userDialog').hide();" type="button"/>
                 </h:panelGrid>
             </h:form>
