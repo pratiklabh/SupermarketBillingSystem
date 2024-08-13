@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("UserBean")
@@ -16,7 +17,9 @@ import javax.inject.Named;
 public class UserBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private User user = new User();
+    @Inject
+    private User user;
+    
     private List<User> users;
     private boolean editMode = false;
 
@@ -63,17 +66,21 @@ public class UserBean implements Serializable {
             editMode = false; // Reset the edit mode flag
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to save user"));
-            e.printStackTrace();
         }
     }
 
     public void deleteUser(User user) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
+            if (facesContext.isValidationFailed()) {
+            // If validation fails, let the dialog remain open
+            return;
+        }
             userService.deleteUser(user.getId());
-            addMessage("Confirmed", "Record deleted");
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully"));
             users = userService.getAllUsers(); // Refresh the user list
         } catch (Exception e) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete user"));
         }
     }
 
@@ -84,10 +91,5 @@ public class UserBean implements Serializable {
 
     public void prepareNewUser() {
         this.editMode = false;
-    }
-    
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

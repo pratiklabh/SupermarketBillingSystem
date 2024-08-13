@@ -7,32 +7,39 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable{
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
+    @NotBlank(message = "Name is required.")
     private String name;
 
-    @Column(unique = true, nullable = false) 
+    @NotBlank(message = "Username is required.")
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;
 
+    @NotBlank(message = "Email is required.")
     @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Phone is required.")
     @Column(unique = true, nullable = false)
     private String phone;
 
+    @NotBlank(message = "Role is required.")
     @Column(nullable = false)
     private String role;
-    
+
+    @NotBlank(message = "Status is required.")
     @Column(nullable = false)
     private String status;
 
