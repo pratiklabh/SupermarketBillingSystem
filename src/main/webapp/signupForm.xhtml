@@ -7,48 +7,51 @@
         <title>Sign up Form</title>
     </h:head>
     <h:body>
-        
-        <h:form>
+
+        <h:form> 
             <p:panel header="Signup Form">
-                <p:messages id="messages" showDetail="true" />
+                <h:panelGrid columns="2" cellpadding="10">
+                    <p:messages id="messages" showDetail="true" />
 
-                <p:inputText id="name" value="#{UserBean.user.name}" 
-                             placeholder="Name" required="true" requiredMessage="Name is required" />
+                    <h:outputLabel />
+                    <h:outputLabel for="name" value="Name: " />
+                    <p:inputText id="name" value="#{UserBean.user.name}" 
+                                 placeholder="Name" required="true" requiredMessage="Name is required" />
 
-                <br/><br/>
-                <p:inputText id="username" value="#{UserBean.user.username}" 
-                             placeholder="Username" required="true" requiredMessage="Username is required" />
+                    <h:outputLabel for="username" value="Username: " />
+                    <p:inputText id="username" value="#{UserBean.user.username}" 
+                                 placeholder="Username" required="true" requiredMessage="Username is required" />
 
-                <br/><br/>
-                <p:password id="password" value="#{UserBean.user.password}" 
-                            placeholder="Password" required="true" requiredMessage="Password is required" />
+                    <h:outputLabel for="password" value="Password: " />
+                    <p:password id="password" value="#{UserBean.user.password}" 
+                                placeholder="Password" required="true" requiredMessage="Password is required" />
 
-                <br/><br/>
-                <p:inputText id="email" value="#{UserBean.user.email}" 
-                             placeholder="Email" required="true" requiredMessage="Email is required" />
+                    <h:outputLabel for="email" value="Email: " />
+                    <p:inputText id="email" value="#{UserBean.user.email}" 
+                                 placeholder="Email" required="true" requiredMessage="Email is required" />
 
-                <br/><br/>
-                <p:inputText id="phone" value="#{UserBean.user.phone}" 
-                             placeholder="Phone" required="true" requiredMessage="Phone is required" />
+                    <h:outputLabel for="phone" value="Phone: " />
+                    <p:inputText id="phone" value="#{UserBean.user.phone}" 
+                                 placeholder="Phone" required="true" requiredMessage="Phone is required" />
 
+                    <h:outputLabel for="role" value="Role: " />
+                    <p:selectOneMenu id="role" value="#{UserBean.user.role}" style="width:223px">
+                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Admin" itemLabel="Admin" />
+                        <f:selectItem itemValue="Cashier" itemLabel="Cashier" />
+                    </p:selectOneMenu>
 
-                <br/><br/>
-                <p:selectOneMenu id="role" value="#{UserBean.user.role}" style="width:223px">
-                    <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemValue="Admin" itemLabel="Admin" />
-                    <f:selectItem itemValue="Cashier" itemLabel="Cashier" />
-                </p:selectOneMenu>
-                
-                <br/><br/>
-                <p:selectOneMenu id="status" value="#{UserBean.user.status}" style="width:223px">
-                    <f:selectItem itemLabel="Select Status" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemValue="Active" itemLabel="Active" />
-                    <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
-                </p:selectOneMenu>
-                
+                    <h:outputLabel for="status" value="Status: " />
+                    <p:selectOneMenu id="status" value="#{UserBean.user.status}" style="width:223px">
+                        <f:selectItem itemLabel="Select Status" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Active" itemLabel="Active" />
+                        <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
+                    </p:selectOneMenu>
 
-                <br/><br/>
-                <p:commandButton value="Submit" action="#{UserBean.saveUser}" update="messages" />
+                    <h:outputLabel />
+
+                    <p:commandButton value="Submit" action="#{UserBean.saveUser}" update="messages" />
+                </h:panelGrid>
             </p:panel>
         </h:form>
 
