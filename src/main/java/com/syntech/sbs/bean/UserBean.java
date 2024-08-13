@@ -71,11 +71,9 @@ public class UserBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             userService.deleteUser(user.getId());
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully"));
+            addMessage("Confirmed", "Record deleted");
             users = userService.getAllUsers(); // Refresh the user list
         } catch (Exception e) {
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete user"));
-            e.printStackTrace();
         }
     }
 
@@ -86,5 +84,10 @@ public class UserBean implements Serializable {
 
     public void prepareNewUser() {
         this.editMode = false;
+    }
+    
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }
