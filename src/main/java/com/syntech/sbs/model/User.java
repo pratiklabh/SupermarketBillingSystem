@@ -11,11 +11,8 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseIdEntity {
 
     @Column(nullable = false)
     @NotBlank(message = "Name is required.")
@@ -58,14 +55,6 @@ public class User implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

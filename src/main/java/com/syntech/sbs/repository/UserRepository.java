@@ -1,47 +1,22 @@
 package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.User;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 @Stateless
-public class UserRepository {
+public class UserRepository extends GenericRepository<User> {
 
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
 
-    @Transactional
-    public void save(User user){
-        entityManager.persist(user);
+    public UserRepository() {
+        super(User.class);
     }
-
-     public User getById(Long id){
-        return entityManager.find(User.class, id);
-    }
-
-    @Transactional
-    public void update(User user){
-        entityManager.merge(user);
-    }
-
-    @Transactional
-    public void delete(Long id){
-        User user = getById(id);
-        if(user != null){
-            entityManager.remove(user);
-        }
-    }
-
-    //to get all users 
-    public List<User> getAll(){
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
-    }
-
-
+    
+    
     public User getByUsername(String username) {
         try {
             return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
@@ -74,8 +49,6 @@ public class UserRepository {
         return query.getResultStream().findFirst().orElse(null);
     
     }
-    
-    
     
     //authentication for login
     public User findByUsernameAndPassword(String username, String password){

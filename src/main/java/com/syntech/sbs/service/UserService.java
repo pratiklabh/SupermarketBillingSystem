@@ -17,7 +17,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id);
     }
 
     public void updateUser(User user) {
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.getAll();
+        return userRepository.findAll();
     }
 
     public User getUserByUsername(String username) {
