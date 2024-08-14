@@ -86,6 +86,13 @@ public class UserRepository {
         query.setParameter("password", password);
         return query.getResultStream().findFirst().orElse(null);
     }
-
+    
+//    public List<User> getUsers(int number){
+//        String query = "SELECT u FROM User u";
+//        List<User> users = entityManager.createQuery(query, User.class)
+//                                        .setMaxResults(number)
+//                                        .getResultList();
+//        return users;
+//    }
 
 }

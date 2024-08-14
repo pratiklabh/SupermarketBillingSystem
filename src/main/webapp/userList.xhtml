@@ -8,6 +8,7 @@
         <title>Users List</title>
     </h:head>
     <h:body>
+        <p:growl id="growl" showDetail="true" />
         <ui:include src="menu.xhtml" />
 
         <h:form id="userListForm">
@@ -23,7 +24,7 @@
                                      margin-left: 83%"
                                      action="#{UserBean.prepareNewUser()}" 
                                      oncomplete="PF('userDialog').show()"
-                                     update=":editUserForm"
+                                     update=":editUserForm :growl"
                                      ajax="true" />
                 </f:facet>
 
@@ -61,11 +62,11 @@
                                      style="color: white; background-color: gold;margin: 3px "
                                      action="#{UserBean.prepareEditUser(user)}"
                                      oncomplete="PF('userDialog').show()"
-                                     update=":editUserForm"
+                                     update=":editUserForm :growl"
                                      ajax="true" />
 
                     <p:commandButton  
-                        update=":userListForm:users, :userListForm:message" 
+                        update=":userListForm:users, :userListForm:message :growl" 
                         action="#{UserBean.deleteUser(user)}"
                         styleClass="ui-button-danger mr-2" 
                         icon="pi pi-trash">
@@ -120,7 +121,7 @@
 
                     <p:commandButton value="#{UserBean.editMode ? 'Update' : 'Save'}"
                                      action="#{UserBean.saveOrUpdateUser}"
-                                     update=":userListForm :editUserForm :userListForm:messages"
+                                     update=":userListForm :editUserForm :userListForm :messages :growl"
                                      oncomplete="if (args.validationFailed) 
                                                     { PF('userDialog').show(); } 
                                                 else 

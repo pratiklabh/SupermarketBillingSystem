@@ -101,36 +101,24 @@ public class UserBean implements Serializable {
     }
 
     private String checkForDuplicateUser() {
-        // Check if updating and the current user's ID is not null
-        if (editMode && user.getId() != null) {
-            User existingUserByUsername = userService.findUserByUsername(user.getUsername());
-            if (existingUserByUsername != null && !existingUserByUsername.getId().equals(user.getId())) {
-                return "Username already exists";
-            }
-
-            User existingUserByEmail = userService.findUserByEmail(user.getEmail());
-            if (existingUserByEmail != null && !existingUserByEmail.getId().equals(user.getId())) {
-                return "Email already exists";
-            }
-
-            User existingUserByPhone = userService.findUserByPhone(user.getPhone());
-            if (existingUserByPhone != null && !existingUserByPhone.getId().equals(user.getId())) {
-                return "Phone number already exists";
-            }
-        } else {
-            // Check for duplicates without considering the current user
-            if (userService.findUserByUsername(user.getUsername()) != null) {
-                return "Username already exists";
-            }
-
-            if (userService.findUserByEmail(user.getEmail()) != null) {
-                return "Email already exists";
-            }
-
-            if (userService.findUserByPhone(user.getPhone()) != null) {
-                return "Phone number already exists";
-            }
+        // Check for duplicate username
+        User existingUser = userService.findUserByUsername(user.getUsername());
+        if (existingUser != null && !existingUser.getId().equals(user.getId())) {
+            return "Username already exists";
         }
+
+        // Check for duplicate email
+        existingUser = userService.findUserByEmail(user.getEmail());
+        if (existingUser != null && !existingUser.getId().equals(user.getId())) {
+            return "Email already exists";
+        }
+
+        // Check for duplicate phone number
+        existingUser = userService.findUserByPhone(user.getPhone());
+        if (existingUser != null && !existingUser.getId().equals(user.getId())) {
+            return "Phone number already exists";
+        }
+
         return null; // No duplicates found
     }
 
