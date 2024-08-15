@@ -7,10 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 // T will be replaced by a specific entity class that extends BaseIdEntity 
-public class GenericRepository <T extends BaseIdEntity>{ 
-
-    @PersistenceContext(name = "sbs")
-    private EntityManager entityManager;
+public abstract class GenericRepository <T extends BaseIdEntity>{ 
     
     //entityClass holds objects ->represents specific entity class
     // for which repo is being used
@@ -25,30 +22,14 @@ public class GenericRepository <T extends BaseIdEntity>{
     }
     
     @Transactional
-    public void save(T entity){
-        entityManager.persist(entity);
-    }
+    public abstract void save(T entity);
     
     @Transactional
-    public void update(T entity){
-        entityManager.merge(entity);
-    }
+    public abstract void update(T entity);
     
-    public T findById(Long id){
-        return entityManager.find(entityClass, id);
-    }
+    public abstract void delete(Long id);
     
-    public void delete(Long id){
-        T entityClass = findById(id);
-        if(entityClass != null){
-            entityManager.remove(entityClass);
-        }
-    }
-    
-    public List<T> findAll(){
-        return entityManager.createQuery(
-                "SELECT t from "+entityClass
-                        .getSimpleName()+" t", entityClass)
-                        .getResultList();
-    }
+    public abstract T findById(Long id);
+        
+    public abstract List<T> findAll();
 }

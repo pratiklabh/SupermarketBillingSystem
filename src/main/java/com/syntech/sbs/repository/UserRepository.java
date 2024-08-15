@@ -1,6 +1,7 @@
 package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +16,33 @@ public class UserRepository extends GenericRepository<User> {
     public UserRepository() {
         super(User.class);
     }
-    
+      
+    @Override
+    public void save(User entity) {
+        entityManager.persist(entity);
+    }
+
+    @Override
+    public void update(User entity) {
+        entityManager.merge(entity);
+    }
+
+    @Override
+    public void delete(Long id) {
+        entityManager.remove(findById(id));
+    }
+
+    @Override
+    public User findById(Long id) {
+        return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        
+        return query.getResultList();
+    }
     
     public User getByUsername(String username) {
         try {
@@ -60,12 +87,12 @@ public class UserRepository extends GenericRepository<User> {
         return query.getResultStream().findFirst().orElse(null);
     }
     
-//    public List<User> getUsers(int number){
-//        String query = "SELECT u FROM User u";
-//        List<User> users = entityManager.createQuery(query, User.class)
-//                                        .setMaxResults(number)
-//                                        .getResultList();
-//        return users;
-//    }
+    public List<User> getUsers(int number){
+        String query = "SELECT u FROM User u";
+        List<User> users = entityManager.createQuery(query, User.class)
+                                        .setMaxResults(number)
+                                        .getResultList();
+        return users;
+    }
 
 }

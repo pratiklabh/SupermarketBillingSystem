@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import javax.persistence.TypedQuery;
 
 @Stateless
 public class ProductRepository extends GenericRepository<Product>{
@@ -16,7 +16,34 @@ public class ProductRepository extends GenericRepository<Product>{
     public ProductRepository() {
         super(Product.class);
     }
-  
+
+    @Override
+    public void save(Product entity) {
+        entityManager.persist(entity);
+    }
+
+    @Override
+    public void update(Product entity) {
+        entityManager.merge(entity);
+    }
+
+    @Override
+    public void delete(Long id) {
+        entityManager.remove(findById(id));
+    }
+
+    @Override
+    public Product findById(Long id) {
+        return entityManager.find(Product.class, id);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        TypedQuery<Product> query = entityManager.createQuery("SELECT u FROM Product u", Product.class);
+        
+        return query.getResultList();
+    }
+    
     public Product findByCode(Long code){
         try {
             return entityManager.createQuery(
@@ -27,5 +54,5 @@ public class ProductRepository extends GenericRepository<Product>{
             return null;
         }
     }
-    
+
 }
