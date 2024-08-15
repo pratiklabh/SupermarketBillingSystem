@@ -1,7 +1,7 @@
 package com.syntech.sbs.bean;
 
 import com.syntech.sbs.model.Product;
-import com.syntech.sbs.service.ProductService;
+import com.syntech.sbs.repository.ProductRepository;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,11 +21,11 @@ public class ProductBean implements Serializable{
     private List<Product> products;
     
     @EJB
-    private ProductService productService;
+    private ProductRepository productRepo;
 
     @PostConstruct
     public void init(){
-        products = productService.findAllProducts();
+        products = productRepo.findAll();
     }
     
     public Product getProduct() {
@@ -50,7 +50,7 @@ public class ProductBean implements Serializable{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             System.out.println("Attempting to save: "+product);
-            productService.saveProduct(product);
+            productRepo.save(product);
              facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
                      "Success", "Product saved successfully"));
             System.out.println("Product saved successfully: " + product.getName());
@@ -66,10 +66,10 @@ public class ProductBean implements Serializable{
     public void deleteProduct(Product product){
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            productService.deleteProduct(product.getId());
+            productRepo.delete(product.getId());
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
             "Sucess", "Product Deleted Successfully"));
-            products = productService.findAllProducts(); //refresh product list
+            products = productRepo.findAll(); //refresh product list
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "Error", "Failed to delete product"));
@@ -84,10 +84,10 @@ public class ProductBean implements Serializable{
     public void updateProduct() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            productService.updateProduct(product);
+            productRepo.update(product);
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
                     "Success", "Product updated successfully"));
-            products = productService.findAllProducts(); // Refresh the user list
+            products = productRepo.findAll(); // Refresh the user list
             product = new Product(); // Clear form after update
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 

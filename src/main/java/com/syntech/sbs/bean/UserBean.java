@@ -1,7 +1,7 @@
 package com.syntech.sbs.bean;
 
 import com.syntech.sbs.model.User;
-import com.syntech.sbs.service.UserService;
+import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,11 +25,11 @@ public class UserBean implements Serializable {
     private boolean editMode = false;
 
     @EJB
-    private UserService userService;
+    private UserRepository userRepo;
 
     @PostConstruct
     public void init() {
-        users = userService.getAllUsers();
+        users = userRepo.findAll();
     }
 
     public User getUser() {
@@ -63,16 +63,16 @@ public class UserBean implements Serializable {
             }
 
             if (editMode) {
-                userService.updateUser(user);
+                userRepo.update(user);
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Success", "User updated successfully"));
             } else {
-                userService.saveUser(user);
+                userRepo.save(user);
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Success", "User saved successfully"));
             }
 
-            users = userService.getAllUsers(); // Refresh the user list
+            users = userRepo.findAll(); // Refresh the user list
             user = new User(); // Clear form after submission
             editMode = false; // Reset the edit mode flag
         } catch (Exception e) {
@@ -83,9 +83,9 @@ public class UserBean implements Serializable {
     public void deleteUser(User user) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
-            userService.deleteUser(user.getId());
+            userRepo.delete(user.getId());
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully"));
-            users = userService.getAllUsers(); // Refresh the user list
+            users = userRepo.findAll(); // Refresh the user list
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete user"));
         }
@@ -102,19 +102,19 @@ public class UserBean implements Serializable {
 
     private String checkForDuplicateUser() {
         // Check for duplicate username
-        User existingUser = userService.findUserByUsername(user.getUsername());
+        User existingUser = userRepo.findByUsername(user.getUsername());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Username already exists";
         }
 
         // Check for duplicate email
-        existingUser = userService.findUserByEmail(user.getEmail());
+        existingUser = userRepo.findByEmail(user.getEmail());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Email already exists";
         }
 
         // Check for duplicate phone number
-        existingUser = userService.findUserByPhone(user.getPhone());
+        existingUser = userRepo.findByPhone(user.getPhone());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Phone number already exists";
         }

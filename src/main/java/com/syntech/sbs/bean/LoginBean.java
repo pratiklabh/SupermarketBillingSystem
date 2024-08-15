@@ -1,7 +1,7 @@
 package com.syntech.sbs.bean;
 
 import com.syntech.sbs.model.User;
-import com.syntech.sbs.service.UserService;
+import com.syntech.sbs.repository.UserRepository;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -15,7 +15,7 @@ public class LoginBean {
     private String password;
     
     @Inject
-    private UserService userService;
+    private UserRepository userRepo;
 
     // Getters and Setters
     public String getUsername() {
@@ -37,7 +37,7 @@ public class LoginBean {
     // Login method
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
-        User user = userService.authenticate(username, password);
+        User user = userRepo.findByUsernameAndPassword(username, password);
         
         if (user != null) {
             if (username.equals(user.getUsername())) {
