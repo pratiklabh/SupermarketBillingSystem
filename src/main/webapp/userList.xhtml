@@ -17,7 +17,7 @@
                 <f:facet name="header" >
                     Users List
 
-                     <!--adding a new user--> 
+                    <!--adding a new user--> 
                     <p:commandButton icon="pi pi-fw pi-user-plus"
                                      value="Add User"
                                      style="color: white; background-color: #007bff; margin: 4px;
@@ -56,7 +56,7 @@
                     <h:outputText value="#{user.status}" />
                 </p:column>
 
-                 <!--Actions column with Edit and Delete buttons--> 
+                <!--Actions column with Edit and Delete buttons--> 
                 <p:column headerText="Actions">
                     <p:commandButton icon="pi pi-fw pi-user-edit"
                                      style="color: white; background-color: gold;margin: 3px "
@@ -87,7 +87,7 @@
 
         </h:form>
 
-<!--         Dialog for user form -->
+        <!--         Dialog for user form -->
         <p:dialog header="User Form" widgetVar="userDialog" modal="true" showEffect="fade" hideEffect="fade">
             <h:form id="editUserForm">
                 <p:messages id="messages" showSummary="true" />
@@ -98,6 +98,9 @@
 
                     <h:outputLabel for="username" value="Username:" />
                     <p:inputText id="username" value="#{UserBean.user.username}" />
+
+                    <h:outputLabel for="password" value="Password:" rendered="#{not UserBean.editMode}" />
+                    <p:password id="password" value="#{UserBean.user.password}" rendered="#{not UserBean.editMode}" />
 
                     <h:outputLabel for="email" value="Email:" />
                     <p:inputText id="email" value="#{UserBean.user.email}" />
@@ -123,9 +126,9 @@
                                      action="#{UserBean.saveOrUpdateUser}"
                                      update=":userListForm :editUserForm :userListForm :messages :growl"
                                      oncomplete="if (args.validationFailed) 
-                                                    { PF('userDialog').show(); } 
-                                                else 
-                                                    { PF('userDialog').hide(); }"
+                                     { PF('userDialog').show(); } 
+                                     else 
+                                     { PF('userDialog').hide(); }"
                                      ajax="true" />
 
                     <p:commandButton value="Cancel" onclick="PF('userDialog').hide();" type="button"/>
