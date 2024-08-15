@@ -31,7 +31,7 @@ public class UserBean implements Serializable {
 
     private LazyDataModel<User> lazyUsers;
 
-    @EJB
+    @Inject
     private UserRepository userRepo;
 
     @PostConstruct
