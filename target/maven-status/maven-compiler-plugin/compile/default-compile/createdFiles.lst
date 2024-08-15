@@ -4,8 +4,9 @@ com/syntech/sbs/repository/UserRepository.class
 com/syntech/sbs/model/User.class
 com/syntech/sbs/bean/ProductBean.class
 com/syntech/sbs/repository/GenericRepository.class
+com/syntech/sbs/bean/UserBean$1.class
+com/syntech/sbs/JAXRSConfiguration.class
+com/syntech/sbs/resources/JavaEE8Resource.class
 com/syntech/sbs/repository/ProductRepository.class
 com/syntech/sbs/model/Product.class
-com/syntech/sbs/JAXRSConfiguration.class
 com/syntech/sbs/model/BaseIdEntity.class
-com/syntech/sbs/resources/JavaEE8Resource.class

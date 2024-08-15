@@ -4,6 +4,7 @@ import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -11,6 +12,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
 @Named("UserBean")
 @ViewScoped
@@ -24,12 +29,38 @@ public class UserBean implements Serializable {
     private List<User> users;
     private boolean editMode = false;
 
+    private LazyDataModel<User> lazyUsers;
+
     @EJB
     private UserRepository userRepo;
 
     @PostConstruct
     public void init() {
-        users = userRepo.findAll();
+        lazyUsers = new LazyDataModel<User>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public int count(Map<String, FilterMeta> filterBy) {
+                return userRepo.countUsers(filterBy); 
+            }
+
+            @Override
+            public List<User> load(int first, int pageSize, 
+                    Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+                List<User> users = userRepo.getUsers(first, pageSize); // Add pagination support in UserRepository
+                this.setRowCount(userRepo.countUsers(filterBy)); // Count the total number of records
+                return users;
+            }
+
+        };
+    }
+
+    public LazyDataModel<User> getLazyUsers() {
+        return lazyUsers;
+    }
+
+    public void setLazyUsers(LazyDataModel<User> lazyUsers) {
+        this.lazyUsers = lazyUsers;
     }
 
     public User getUser() {
