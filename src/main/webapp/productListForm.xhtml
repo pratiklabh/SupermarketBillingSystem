@@ -1,21 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Product List</title>
+        <title>Products List</title>
     </h:head>
     <h:body>
+        <p:growl id="growl" showDetail="true" />
         <ui:include src="menu.xhtml" />
-        <h:form id="productListForm">
-            <p:dataTable id="products" value="#{ProductBean.products}" var="product" rowKey="#{product.id}">
-                <f:facet name="header">
-                    Product List
-                </f:facet>
 
-                <!-- Data columns -->
+        <h:form id="productListForm">
+
+            <p:dataTable id="products" value="#{ProductBean.products}" var="product" rowKey="#{product.id}">
+                <f:facet name="header" >
+                    Products List
+
+                    <!--adding a new product--> 
+                    <p:commandButton icon="pi pi-fw pi-product-plus"
+                                     value="Add Product"
+                                     style="color: white; background-color: #007bff; margin: 4px;
+                                     margin-left: 83%"
+                                     action="#{ProductBean.prepareNewProduct()}" 
+                                     oncomplete="PF('productDialog').show()"
+                                     update=":editProductForm :growl"
+                                     ajax="true" />
+                </f:facet>
 
                 <p:column headerText="ID">
                     <h:outputText value="#{product.id}" />
@@ -49,66 +60,90 @@
                     <h:outputText value="#{product.unit}" />
                 </p:column>
 
+                <!--Actions column with Edit and Delete buttons--> 
                 <p:column headerText="Actions">
-                    <p:commandButton value="Edit" 
+                    <p:commandButton icon="pi pi-fw pi-product-edit"
+                                     style="color: white; background-color: gold;margin: 3px "
                                      action="#{ProductBean.prepareEditProduct(product)}"
-                                     oncomplete="PF('editProductDialog').show()" 
-                                     update=":editProductForm"
+                                     oncomplete="PF('productDialog').show()"
+                                     update=":editProductForm :growl"
                                      ajax="true" />
-                    <p:commandButton value="Delete" 
-                                     action="#{ProductBean.deleteProduct(product)}"
-                                     update=":productListForm:products"
-                                     onclick="return confirm('Are you sure you want to delete this product?');"
-                                     ajax="true" />
-                </p:column>
 
+                    <p:commandButton  
+                        update=":productListForm:products, :productListForm:message :growl" 
+                        action="#{ProductBean.deleteProduct(product)}"
+                        styleClass="ui-button-danger mr-2" 
+                        icon="pi pi-trash">
+                        <p:confirm type="popup" header="Confirmation" 
+                                   message="Do you want to delete this record?" 
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
+
+                </p:column>
             </p:dataTable>
+
+            <p:confirmPopup global="true" widgetVar="confirmPopup">
+                <p:commandButton value="No" type="button" 
+                                 styleClass="ui-confirm-popup-no ui-button-flat" icon="pi pi-times" />
+                <p:commandButton value="Yes" type="button" 
+                                 styleClass="ui-confirm-popup-yes" icon="pi pi-check" />
+            </p:confirmPopup>
+
         </h:form>
 
-        <p:dialog header="Edit Product" widgetVar="editProductDialog" modal="true" showEffect="fade" hideEffect="fade">
+        <!--         Dialog for product form -->
+        <p:dialog header="Product Form" widgetVar="productDialog" modal="true" showEffect="fade" hideEffect="fade">
             <h:form id="editProductForm">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="name" value="Name:" />
-                    <p:inputText id="name" value="#{ProductBean.product.name}" required="true" />
+                <p:messages id="messages" showSummary="true" />
 
-                    <h:outputLabel for="code" value="Code" />
-                    <p:inputText id="code" value="#{ProductBean.product.code}" required="true" />
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <h:outputLabel for="name" value="Name:" />
+                    <p:inputText id="productname" value="#{ProductBean.product.name}" />
 
                     <h:outputLabel for="rate" value="Rate:" />
-                    <p:inputText id="rate" value="#{ProductBean.product.rate}" required="true" />
-                    
-                    <h:outputLabel for="discount" value="Discount:" />
-                    <p:inputText id="discount" value="#{ProductBean.product.discount}" required="true" />
-                    
-                    <h:outputLabel for="description" value="Description: " />
-                    <p:inputText id="description" value="#{ProductBean.product.description}" required="true" />
+                    <p:inputText id="rate" value="#{ProductBean.product.rate}" />
 
-                    <h:outputLabel for="type" value="Type: " />                   
-                    <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px"
-                                     required="true" requiredMessage="Type is required">>
-                        <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
-                        <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
-                        <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
-                    </p:selectOneMenu>
-                   
+                    <h:outputLabel for="code" value="Code:" />
+                    <p:inputText id="code" value="#{ProductBean.product.code}" />
+
+                    <h:outputLabel for="discount" value="Discount:" />
+                    <p:inputText id="discount" value="#{ProductBean.product.discount}" />
+
+                    <h:outputLabel for="description" value="Description:" />
+                    <p:inputText id="description" value="#{ProductBean.product.description}" />
+
                     <h:outputLabel for="unit" value="Unit:" />
-                    <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px"
-                                     required="true" requiredMessage="Unit is required">>
+                    <p:selectOneMenu id="unit" value="#{ProductBean.product.unit}" style="width:223px">
                         <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
                         <f:selectItem itemValue="Kg" itemLabel="Kg" />
-                        <f:selectItem itemValue="Liters" itemLabel="Liters" />
+                        <f:selectItem itemValue="Liter" itemLabel="Liter" />
+
                     </p:selectOneMenu>
 
-                    <p:commandButton value="Save" action="#{ProductBean.updateProduct()}"
-                                     update=":productListForm:products"
-                                     oncomplete="PF('editProductDialog').hide();"
+                    <h:outputLabel for="type" value="Type:" />
+                    <p:selectOneMenu id="type" value="#{ProductBean.product.type}" style="width:223px">
+                        <f:selectItem itemLabel="Select type" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Grocery" itemLabel="Grocery" />
+                        <f:selectItem itemValue="Electronics" itemLabel="Electronics" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="#{ProductBean.editMode ? 'Update' : 'Save'}"
+                                     icon="pi pi-fw pi-save"
+                                     action="#{ProductBean.saveOrUpdateProduct}"
+                                     update=":productListForm :editProductForm :productListForm :messages :growl"
+                                     oncomplete="if (args.validationFailed) 
+                                     { PF('productDialog').show(); } 
+                                     else 
+                                     { PF('productDialog').hide(); }"
                                      ajax="true" />
-                    <p:commandButton value="Cancel" onclick="PF('editProductDialog').hide();" type="button"/>
+
+                    <p:commandButton value="Cancel" icon="pi pi fw pi-times" onclick="PF('productDialog').hide();" type="button"/>
                 </h:panelGrid>
             </h:form>
+
         </p:dialog>
 
-        <a href="/SBS-1.0/addProductForm.xhtml"> Back</a>
     </h:body>
 </html>

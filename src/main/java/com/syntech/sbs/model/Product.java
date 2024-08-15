@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ public class Product extends BaseIdEntity {
     private String description;
     private String unit;
     private Long discount;
+    @Column(unique = true)
     private Long code;
 
     public Product() {
