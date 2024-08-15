@@ -8,39 +8,16 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 @Stateless
-public class ProductRepository {
+public class ProductRepository extends GenericRepository<Product>{
     
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
 
-    @Transactional
-    public void save(Product product){
-        entityManager.persist(product);
+    public ProductRepository() {
+        super(Product.class);
     }
-    
-    @Transactional
-    public void update(Product product){
-        entityManager.merge(product);
-    }
-    
-    private Product getById(Long id){
-        return entityManager.find(Product.class, id);
-    }
-    
-    @Transactional
-    public void delete(Long id){
-        Product product = getById(id);
-        if(product != null){
-            entityManager.remove(product);
-        }
-    }
-    
-    public List<Product> getAll(){
-        return entityManager.createQuery(
-                "SELECT p FROM Product p", Product.class).getResultList();
-    }
-    
-    public Product getByCode(Long code){
+  
+    public Product findByCode(Long code){
         try {
             return entityManager.createQuery(
                     "SELECT p FROM Product p WHERE p.code = :code", Product.class)

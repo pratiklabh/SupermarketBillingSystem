@@ -25,7 +25,7 @@ public class ProductBean implements Serializable{
 
     @PostConstruct
     public void init(){
-        products = productService.getAllProducts();
+        products = productService.findAllProducts();
     }
     
     public Product getProduct() {
@@ -69,7 +69,7 @@ public class ProductBean implements Serializable{
             productService.deleteProduct(product.getId());
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
             "Sucess", "Product Deleted Successfully"));
-            products = productService.getAllProducts(); //refresh product list
+            products = productService.findAllProducts(); //refresh product list
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "Error", "Failed to delete product"));
@@ -87,7 +87,7 @@ public class ProductBean implements Serializable{
             productService.updateProduct(product);
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
                     "Success", "Product updated successfully"));
-            products = productService.getAllProducts(); // Refresh the user list
+            products = productService.findAllProducts(); // Refresh the user list
             product = new Product(); // Clear form after update
         } catch (Exception e) {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 

@@ -6,16 +6,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-public class GenericRepository <T extends BaseIdEntity>{
+// T will be replaced by a specific entity class that extends BaseIdEntity 
+public class GenericRepository <T extends BaseIdEntity>{ 
 
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
     
+    //entityClass holds objects ->represents specific entity class
+    // for which repo is being used
     private Class<T> entityClass;
 
     public GenericRepository() {
     }
 
+    //allows repo to be aware of specific entity class it is handling
     public GenericRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }

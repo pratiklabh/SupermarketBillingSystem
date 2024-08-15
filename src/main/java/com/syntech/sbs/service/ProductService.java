@@ -24,12 +24,12 @@ public class ProductService {
         productRepository.delete(id);
     }
     
-    public List<Product> getAllProducts(){
-        return productRepository.getAll();
+    public List<Product> findAllProducts(){
+        return productRepository.findAll();
     }
     
     public Product getProductByCode(Long code){
-        return productRepository.getByCode(code);
+        return productRepository.findByCode(code);
     }
     
     
