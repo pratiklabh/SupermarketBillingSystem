@@ -123,6 +123,7 @@
                     </p:selectOneMenu>
 
                     <p:commandButton value="#{UserBean.editMode ? 'Update' : 'Save'}"
+                                     icon="pi pi-fw pi-save"
                                      action="#{UserBean.saveOrUpdateUser}"
                                      update=":userListForm :editUserForm :userListForm :messages :growl"
                                      oncomplete="if (args.validationFailed) 
@@ -131,7 +132,10 @@
                                      { PF('userDialog').hide(); }"
                                      ajax="true" />
 
-                    <p:commandButton value="Cancel" onclick="PF('userDialog').hide();" type="button"/>
+                    <p:commandButton value="Cancel" 
+                                     icon="pi pi fw pi-times"
+                                     onclick="PF('userDialog').hide();" 
+                                     type="button"/>
                 </h:panelGrid>
             </h:form>
 

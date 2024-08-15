@@ -18,7 +18,7 @@
                     Products List
 
                     <!--adding a new product--> 
-                    <p:commandButton icon="pi pi-fw pi-product-plus"
+                    <p:commandButton icon="pi pi-fw pi-cart-plus"
                                      value="Add Product"
                                      style="color: white; background-color: #007bff; margin: 4px;
                                      margin-left: 83%"
@@ -62,7 +62,7 @@
 
                 <!--Actions column with Edit and Delete buttons--> 
                 <p:column headerText="Actions">
-                    <p:commandButton icon="pi pi-fw pi-product-edit"
+                    <p:commandButton icon="pi pi-fw pi-pen-to-square"
                                      style="color: white; background-color: gold;margin: 3px "
                                      action="#{ProductBean.prepareEditProduct(product)}"
                                      oncomplete="PF('productDialog').show()"
@@ -139,7 +139,10 @@
                                      { PF('productDialog').hide(); }"
                                      ajax="true" />
 
-                    <p:commandButton value="Cancel" icon="pi pi fw pi-times" onclick="PF('productDialog').hide();" type="button"/>
+                    <p:commandButton value="Cancel" 
+                                     icon="pi pi fw pi-times" 
+                                     onclick="PF('productDialog').hide();" 
+                                     type="button"/>
                 </h:panelGrid>
             </h:form>
 
