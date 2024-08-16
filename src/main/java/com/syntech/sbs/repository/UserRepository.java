@@ -8,6 +8,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.primefaces.model.FilterMeta;
 
 @Stateless
@@ -25,12 +29,30 @@ public class UserRepository extends GenericRepository<User> {
         setEntityManager(entityManager); // Set the EntityManager after construction
     }
     
+    public CriteriaQuery<User> criteriaQueryMethod(String fieldName, String value){
+        //get criteria builder instance
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        
+        //create CriteriaQuery object
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        
+        //define the root
+        Root<User> root = criteriaQuery.from(User.class);
+
+        //select all attribute of root 
+        Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
+        criteriaQuery.where(predicate);
+        return criteriaQuery;
+    }
+
     public User findByUsername(String username) {
 
-        TypedQuery<User> query = entityManager.
-                createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-        query.setParameter("username", username);
-        return query.getResultStream().findFirst().orElse(null);
+        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("username", username);
+        return entityManager.createQuery(criteriaQuery)
+                            .getResultStream()
+                            .findFirst()
+                            .orElse(null);
+
     }
 
     public User findByEmail(String email) {
