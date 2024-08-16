@@ -19,9 +19,10 @@ public class SupplierRepository extends GenericRepository<Supplier>{
     public SupplierRepository(){
         super(Supplier.class);
     }
-    @PostConstruct
-    public void init() {
-        setEntityManager(entityManager); // Set the EntityManager after construction
+    
+    @Override
+    protected EntityManager entityManager() {
+        return entityManager;
     }
     
     public Supplier findByPhone(String phone) {

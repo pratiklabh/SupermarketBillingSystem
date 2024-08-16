@@ -3,15 +3,12 @@ package com.syntech.sbs.repository;
 import com.syntech.sbs.model.User;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.primefaces.model.FilterMeta;
 
 @Stateless
@@ -20,55 +17,45 @@ public class UserRepository extends GenericRepository<User> {
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
 
-     public UserRepository() {
+    public UserRepository() {
         super(User.class);
     }
 
-    @PostConstruct
-    public void init() {
-        setEntityManager(entityManager); // Set the EntityManager after construction
-    }
-    
-    public CriteriaQuery<User> criteriaQueryMethod(String fieldName, String value){
-        //get criteria builder instance
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        
-        //create CriteriaQuery object
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        
-        //define the root
-        Root<User> root = criteriaQuery.from(User.class);
-
-        //select all attribute of root 
-        Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
-        criteriaQuery.where(predicate);
-        return criteriaQuery;
+    @Override
+    protected EntityManager entityManager() {
+        return entityManager;
     }
 
     public User findByUsername(String username) {
 
-        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("username", username);
+        Predicate namePredicate = criteriaBuilder.equal(root.get("username"), username);
+        criteriaQuery.where(namePredicate);
+
         return entityManager.createQuery(criteriaQuery)
-                            .getResultStream()
-                            .findFirst()
-                            .orElse(null);
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
 
     }
 
     public User findByEmail(String email) {
-        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("email", email);
+        Predicate emailPredicate = criteriaBuilder.equal(root.get("email"), email);
+        criteriaQuery.where(emailPredicate);
+
         return entityManager.createQuery(criteriaQuery)
-                            .getResultStream()
-                            .findFirst()
-                            .orElse(null);
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 
     public User findByPhone(String phone) {
-        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("phone", phone);
+        Predicate phonePredicate = criteriaBuilder.equal(root.get("phone"), phone);
+        criteriaQuery.where(phonePredicate);
+
         return entityManager.createQuery(criteriaQuery)
-                            .getResultStream()
-                            .findFirst()
-                            .orElse(null);
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
 
     }
 
@@ -83,7 +70,7 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public List<User> getUsers(int first, int pageSize) {
-        String query = "SELECT u FROM User u"; 
+        String query = "SELECT u FROM User u";
         return entityManager.createQuery(query, User.class)
                 .setFirstResult(first)
                 .setMaxResults(pageSize)

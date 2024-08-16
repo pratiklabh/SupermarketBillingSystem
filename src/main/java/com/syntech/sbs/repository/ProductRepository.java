@@ -20,10 +20,6 @@ public class ProductRepository extends GenericRepository<Product>{
         super(Product.class);
     }
     
-    @PostConstruct
-    public void init() {
-        setEntityManager(entityManager); // Set the EntityManager after construction
-    }
 
     public Product findByCode(Long code){
         try {
@@ -48,6 +44,11 @@ public class ProductRepository extends GenericRepository<Product>{
     public int countProducts(Map<String, FilterMeta> filterBy) {
         String query = "SELECT COUNT(p) FROM Product p";
         return ((Long) entityManager.createQuery(query).getSingleResult()).intValue();
+    }
+
+    @Override
+    protected EntityManager entityManager() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
