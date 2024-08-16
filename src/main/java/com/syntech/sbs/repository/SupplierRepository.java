@@ -3,6 +3,7 @@ package com.syntech.sbs.repository;
 import com.syntech.sbs.model.Supplier;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,33 +19,9 @@ public class SupplierRepository extends GenericRepository<Supplier>{
     public SupplierRepository(){
         super(Supplier.class);
     }
-    
-    @Override
-    public void save(Supplier entity) {
-        entityManager.persist(entity);
-    }
-
-    @Override
-    public void update(Supplier entity) {
-        entityManager.merge(entity);
-    }
-
-    @Override
-    public void delete(Long id) {
-         entityManager.remove(findById(id));
-    }
-
-    @Override
-    public Supplier findById(Long id) {
-        return entityManager.find(Supplier.class, id);
-    }
-
-    @Override
-    public List<Supplier> findAll() {
-        TypedQuery<Supplier> query = entityManager.createQuery(
-                "SELECT u FROM Supplier u", Supplier.class);
-
-        return query.getResultList();
+    @PostConstruct
+    public void init() {
+        setEntityManager(entityManager); // Set the EntityManager after construction
     }
     
     public Supplier findByPhone(String phone) {

@@ -3,6 +3,7 @@ package com.syntech.sbs.repository;
 import com.syntech.sbs.model.User;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,47 +16,15 @@ public class UserRepository extends GenericRepository<User> {
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
 
-    public UserRepository() {
+     public UserRepository() {
         super(User.class);
     }
 
-    @Override
-    public void save(User entity) {
-        entityManager.persist(entity);
+    @PostConstruct
+    public void init() {
+        setEntityManager(entityManager); // Set the EntityManager after construction
     }
-
-    @Override
-    public void update(User entity) {
-        entityManager.merge(entity);
-    }
-
-    @Override
-    public void delete(Long id) {
-        entityManager.remove(findById(id));
-    }
-
-    @Override
-    public User findById(Long id) {
-        return entityManager.find(User.class, id);
-    }
-
-    @Override
-    public List<User> findAll() {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
-
-        return query.getResultList();
-    }
-
-    public User getByUsername(String username) {
-        try {
-            return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+    
     public User findByUsername(String username) {
 
         TypedQuery<User> query = entityManager.
@@ -87,14 +56,6 @@ public class UserRepository extends GenericRepository<User> {
         query.setParameter("username", username);
         query.setParameter("password", password);
         return query.getResultStream().findFirst().orElse(null);
-    }
-
-    public List<User> getUsers(int number) {
-        String query = "SELECT u FROM User u";
-        List<User> users = entityManager.createQuery(query, User.class)
-                .setMaxResults(number)
-                .getResultList();
-        return users;
     }
 
     public List<User> getUsers(int first, int pageSize) {
