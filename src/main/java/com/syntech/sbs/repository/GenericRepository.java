@@ -3,6 +3,9 @@ package com.syntech.sbs.repository;
 import com.syntech.sbs.model.BaseIdEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 // T will be replaced by a specific entity class that extends BaseIdEntity 
@@ -44,9 +47,20 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
     }
 
     public List<T> findAll(){
-        return entityManager.createQuery(
-                "SELECT t from "+entityClass
-                        .getSimpleName()+" t", entityClass)
-                        .getResultList();
+        //get criteria builder instance
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        
+        //create CriteriaQuery object
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+        
+        //define the root
+        Root<T> root = criteriaQuery.from(entityClass);
+
+        //select all attribute of root 
+        criteriaQuery.select(root);
+        
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
+        
     }
 }

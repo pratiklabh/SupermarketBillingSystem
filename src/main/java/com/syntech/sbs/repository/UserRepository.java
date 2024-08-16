@@ -56,17 +56,19 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public User findByEmail(String email) {
-        TypedQuery<User> query = entityManager
-                .createQuery("SELECT u from User u WHERE u.email = :email", User.class);
-        query.setParameter("email", email);
-        return query.getResultStream().findFirst().orElse(null);
+        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("email", email);
+        return entityManager.createQuery(criteriaQuery)
+                            .getResultStream()
+                            .findFirst()
+                            .orElse(null);
     }
 
     public User findByPhone(String phone) {
-        TypedQuery<User> query = entityManager
-                .createQuery("SELECT u FROM User u WHERE u.phone = :phone", User.class);
-        query.setParameter("phone", phone);
-        return query.getResultStream().findFirst().orElse(null);
+        CriteriaQuery<User> criteriaQuery = criteriaQueryMethod("phone", phone);
+        return entityManager.createQuery(criteriaQuery)
+                            .getResultStream()
+                            .findFirst()
+                            .orElse(null);
 
     }
 
