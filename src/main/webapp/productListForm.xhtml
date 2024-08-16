@@ -13,7 +13,8 @@
 
         <h:form id="productListForm">
 
-            <p:dataTable id="products" value="#{ProductBean.products}" var="product" rowKey="#{product.id}">
+            <p:dataTable id="products" value="#{ProductBean.lazyProducts}" var="product" rowKey="#{product.id}"
+                         paginator="true" rows="3" lazy="true">
                 <f:facet name="header" >
                     Products List
 

@@ -4,6 +4,7 @@ import com.syntech.sbs.model.Product;
 import com.syntech.sbs.repository.ProductRepository;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -11,6 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 
 @Named("ProductBean")
 @ViewScoped
@@ -21,6 +25,7 @@ public class ProductBean implements Serializable {
     @Inject
     private Product product;
 
+    private LazyDataModel<Product> lazyProducts;
     private List<Product> products;
     private boolean editMode = false;
 
@@ -29,9 +34,34 @@ public class ProductBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        products = productRepo.findAll();
+        lazyProducts = new LazyDataModel<Product>() {
+            @Override
+            public int count(Map<String, FilterMeta> filterBy) {
+                return productRepo.countProducts(filterBy);
+            }
+
+            @Override
+            public List<Product> load(int first, int pageSize, 
+                    Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+                
+                List<Product> products = productRepo.getProducts(first, pageSize);
+                this.setRowCount(productRepo.countProducts(filterBy));
+                return products;
+            }
+        };
+        
     }
 
+    public LazyDataModel<Product> getLazyProducts() {
+        return lazyProducts;
+    }
+
+    public void setLazyProducts(LazyDataModel<Product> lazyProducts) {
+        this.lazyProducts = lazyProducts;
+    }
+
+    
+    
     public Product getProduct() {
         return product;
     }
