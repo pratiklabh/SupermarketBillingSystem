@@ -26,7 +26,7 @@ public abstract class BaseIdEntity implements Serializable {
     @PrePersist
     private void created(){
         createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        updatedAt = null;
     }
 
     @PreUpdate
