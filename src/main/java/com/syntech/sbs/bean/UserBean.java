@@ -86,8 +86,8 @@ public class UserBean implements Serializable {
         try {
             String duplicateMessage = checkForDuplicateUser();
             if (duplicateMessage != null) {
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        duplicateMessage, "Error"));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR
+                        , "Error", duplicateMessage));
                 return; // Exit the method if a duplicate is found
             }
 
