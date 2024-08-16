@@ -41,7 +41,7 @@ public class LoginBean {
         
         if (user != null) {
             if (username.equals(user.getUsername())) {
-                return "adminDashboard?faces-redirect=true";
+                return "userList?faces-redirect=true";
             } else {
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, 
