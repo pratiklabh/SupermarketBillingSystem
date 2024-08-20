@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import org.primefaces.model.FilterMeta;
 
@@ -28,7 +27,7 @@ public class UserRepository extends GenericRepository<User> {
 
     public User findByUsername(String username) {
 
-        Predicate namePredicate = criteriaBuilder.equal(root.get("username"), username);
+        Predicate namePredicate = criteriaBuilder.equal(root.get(username), username);
         criteriaQuery.where(namePredicate);
 
         return entityManager.createQuery(criteriaQuery)
@@ -39,7 +38,7 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public User findByEmail(String email) {
-        Predicate emailPredicate = criteriaBuilder.equal(root.get("email"), email);
+        Predicate emailPredicate = criteriaBuilder.equal(root.get(email), email);
         criteriaQuery.where(emailPredicate);
 
         return entityManager.createQuery(criteriaQuery)
@@ -49,7 +48,7 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public User findByPhone(String phone) {
-        Predicate phonePredicate = criteriaBuilder.equal(root.get("phone"), phone);
+        Predicate phonePredicate = criteriaBuilder.equal(root.get(phone), phone);
         criteriaQuery.where(phonePredicate);
 
         return entityManager.createQuery(criteriaQuery)
