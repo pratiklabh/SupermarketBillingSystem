@@ -1,6 +1,7 @@
 package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.User;
+import com.syntech.sbs.model.User_;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
@@ -27,7 +28,7 @@ public class UserRepository extends GenericRepository<User> {
 
     public User findByUsername(String username) {
 
-        Predicate namePredicate = criteriaBuilder.equal(root.get(username), username);
+        Predicate namePredicate = criteriaBuilder.equal(root.get(User_.username), username);
         criteriaQuery.where(namePredicate);
 
         return entityManager.createQuery(criteriaQuery)
@@ -38,7 +39,7 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public User findByEmail(String email) {
-        Predicate emailPredicate = criteriaBuilder.equal(root.get(email), email);
+        Predicate emailPredicate = criteriaBuilder.equal(root.get(User_.email), email);
         criteriaQuery.where(emailPredicate);
 
         return entityManager.createQuery(criteriaQuery)
@@ -48,7 +49,7 @@ public class UserRepository extends GenericRepository<User> {
     }
 
     public User findByPhone(String phone) {
-        Predicate phonePredicate = criteriaBuilder.equal(root.get(phone), phone);
+        Predicate phonePredicate = criteriaBuilder.equal(root.get(User_.phone), phone);
         criteriaQuery.where(phonePredicate);
 
         return entityManager.createQuery(criteriaQuery)
@@ -60,17 +61,20 @@ public class UserRepository extends GenericRepository<User> {
 
     //authentication for login
     public User findByUsernameAndPassword(String username, String password) {
-        TypedQuery<User> query = entityManager.
-                createQuery("SELECT U from User u WHERE u.username = :username "
-                        + "AND u.password = :password", User.class);
-        query.setParameter("username", username);
-        query.setParameter("password", password);
-        return query.getResultStream().findFirst().orElse(null);
-    }
+    Predicate usernamePredicate = criteriaBuilder.equal(root.get(User_.username), username);
+    Predicate passwordPredicate = criteriaBuilder.equal(root.get(User_.password), password);
+
+    criteriaQuery.where(criteriaBuilder.and(usernamePredicate, passwordPredicate));
+
+    return entityManager.createQuery(criteriaQuery)
+            .getResultStream()
+            .findFirst()
+            .orElse(null);
+}
 
     public List<User> getUsers(int first, int pageSize) {
-        String query = "SELECT u FROM User u";
-        return entityManager.createQuery(query, User.class)
+        
+        return entityManager.createQuery(criteriaQuery)
                 .setFirstResult(first)
                 .setMaxResults(pageSize)
                 .getResultList();

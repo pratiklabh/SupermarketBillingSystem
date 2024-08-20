@@ -3,6 +3,7 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -15,11 +16,12 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-@Named("UserBean")
+@Named("userBean")
 @ViewScoped
 public class UserBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private int pageSize = 2;
 
     @Inject
     private User user;
@@ -39,18 +41,26 @@ public class UserBean implements Serializable {
 
             @Override
             public int count(Map<String, FilterMeta> filterBy) {
-                return userRepo.countUsers(filterBy); 
+                return userRepo.countUsers(filterBy);
             }
 
             @Override
             public List<User> load(int first, int pageSize, 
                     Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                List<User> users = userRepo.getUsers(first, pageSize); // Add pagination support in UserRepository
-                this.setRowCount(userRepo.countUsers(filterBy)); // Count the total number of records
+                List<User> users = userRepo.getUsers(first, pageSize);
+                this.setRowCount(userRepo.countUsers(filterBy));
                 return users;
             }
-
         };
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+        lazyUsers.setRowCount(userRepo.countUsers(new HashMap<>()));
     }
 
     public LazyDataModel<User> getLazyUsers() {
@@ -86,19 +96,16 @@ public class UserBean implements Serializable {
         try {
             String duplicateMessage = checkForDuplicateUser();
             if (duplicateMessage != null) {
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR
-                        , "Error", duplicateMessage));
-                return; // Exit the method if a duplicate is found
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", duplicateMessage));
+                return;
             }
 
             if (editMode) {
                 userRepo.update(user);
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Success", "User updated successfully"));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User updated successfully"));
             } else {
                 userRepo.save(user);
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Success", "User saved successfully"));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User saved successfully"));
             }
 
             users = userRepo.findAll(); // Refresh the user list
@@ -126,23 +133,21 @@ public class UserBean implements Serializable {
     }
 
     public void prepareNewUser() {
+        this.user = new User();
         this.editMode = false;
     }
 
     private String checkForDuplicateUser() {
-        // Check for duplicate username
         User existingUser = userRepo.findByUsername(user.getUsername());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Username already exists";
         }
 
-        // Check for duplicate email
         existingUser = userRepo.findByEmail(user.getEmail());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Email already exists";
         }
 
-        // Check for duplicate phone number
         existingUser = userRepo.findByPhone(user.getPhone());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             return "Phone number already exists";
@@ -150,5 +155,4 @@ public class UserBean implements Serializable {
 
         return null; // No duplicates found
     }
-
 }

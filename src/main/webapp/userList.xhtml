@@ -13,8 +13,13 @@
 
         <h:form id="userListForm">
 
-            <p:dataTable id="users" value="#{UserBean.lazyUsers}" var="user" 
-                         paginator="true" rows="3" lazy="true" rowKey="#{user.id}">
+            <p:dataTable id="users" var="user" value="#{userBean.lazyUsers}"
+                         paginator="true" lazy="true" paginatorPosition="bottom"
+                         rowKey="#{user.id}"  rows="#{userBean.pageSize}"
+                         rowsPerPageTemplate="2,4,6" 
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                                             {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
                 <f:facet name="header">
                     Users List
                     <p:commandButton icon="pi pi-fw pi-user-plus"
