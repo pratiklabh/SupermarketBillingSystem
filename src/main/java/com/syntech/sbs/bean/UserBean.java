@@ -128,13 +128,13 @@ public class UserBean implements Serializable {
     }
 
     public void prepareEditUser(User user) {
-        this.user = user;
-        this.editMode = true;
+        this.user = user;  // Set the selected user for editing
+        this.editMode = true;  // Set the edit mode to true
     }
 
     public void prepareNewUser() {
-        this.user = new User();
-        this.editMode = false;
+        this.user = new User();  // Reset the user object to a new instance
+        this.editMode = false;  // Set the edit mode to false
     }
 
     private String checkForDuplicateUser() {

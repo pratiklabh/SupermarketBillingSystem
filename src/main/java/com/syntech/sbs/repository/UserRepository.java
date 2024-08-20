@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.Predicate;
 import org.primefaces.model.FilterMeta;
 
@@ -73,8 +72,8 @@ public class UserRepository extends GenericRepository<User> {
 }
 
     public List<User> getUsers(int first, int pageSize) {
-        
-        return entityManager.createQuery(criteriaQuery)
+        String query = "SELECT u FROM User u";
+        return entityManager.createQuery(query, User.class)
                 .setFirstResult(first)
                 .setMaxResults(pageSize)
                 .getResultList();
