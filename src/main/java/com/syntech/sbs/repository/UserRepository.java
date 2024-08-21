@@ -108,6 +108,7 @@ public class UserRepository extends GenericRepository<User> {
     private void applyFilters(Map<String, FilterMeta> filters, Root<User> root, CriteriaQuery<?> query) {
         Predicate[] predicates = filters.values().stream()
                 .map(filter -> criteriaBuilder.like(root.get(filter.getField()), "%" + filter.getFilterValue() + "%"))
+                //similar to sql, where username like '%john%' ==> filter.getField=username , filter.getFilterValue=john
                 .toArray(Predicate[]::new);
         query.where(predicates);
     }
