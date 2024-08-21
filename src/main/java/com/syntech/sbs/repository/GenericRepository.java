@@ -1,11 +1,13 @@
 package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.BaseIdEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
@@ -21,6 +23,7 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
     protected CriteriaQuery<T> criteriaQuery;
     protected CriteriaBuilder criteriaBuilder;
     protected Root<T> root;
+    protected List<Predicate> predicateList; 
 
     public GenericRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -58,11 +61,22 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
         this.root = root;
     }
 
+    public List<Predicate> getPredicateList() {
+        return predicateList;
+    }
+
+    public void setPredicateList(List<Predicate> predicateList) {
+        this.predicateList = predicateList;
+    }
+
+    
+    
     @PostConstruct
     protected void _startQuery(){
         this.criteriaBuilder = entityManager().getCriteriaBuilder();
         this.criteriaQuery = criteriaBuilder.createQuery(entityClass);
-        root = this.criteriaQuery.from(entityClass);
+        this.root = this.criteriaQuery.from(entityClass);
+        this.predicateList = new ArrayList<>();
     }
     
     public GenericRepository<T> startQuery(){
@@ -92,5 +106,26 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
     public List<T> findAll(){
         return entityManager().createQuery(criteriaQuery).getResultList();
         
+    }
+    
+    public GenericRepository<T> addPredicates(Predicate p){
+        this.predicateList.add(p);
+        return this;
+    }
+    
+    protected void applyPredicates(){
+        if(!predicateList.isEmpty()){
+            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[0])));
+        }
+    }
+    
+    public T getSingleResult(){
+        applyPredicates();
+        return entityManager().createQuery(criteriaQuery).getSingleResult();
+    }
+    
+    public List<T> getResultList(){
+        applyPredicates();
+        return entityManager().createQuery(criteriaQuery).getResultList();
     }
 }

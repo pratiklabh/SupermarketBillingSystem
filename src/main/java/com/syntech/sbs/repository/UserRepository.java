@@ -28,66 +28,54 @@ public class UserRepository extends GenericRepository<User> {
         return entityManager;
     }
 
-    public User findByUsername(String username) {
-
-        Predicate namePredicate = criteriaBuilder.equal(root.get(User_.username), username);
-        criteriaQuery.where(namePredicate);
-
-//        this.addPredicates(namePredicate);
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
-
+    public UserRepository filterByUsername(String username) {
+        Predicate userNamePredicates = criteriaBuilder.equal(root.get(User_.username), username);
+        this.addPredicates(userNamePredicates);
+        return this;
     }
 
-    public User findByEmail(String email) {
+    public UserRepository filterByPassword(String password) {
+        Predicate passwordPredicates = criteriaBuilder.equal(root.get(User_.password), password);
+        this.addPredicates(passwordPredicates);
+        return this;
+    }
+
+    public UserRepository filterByEmail(String email) {
         Predicate emailPredicate = criteriaBuilder.equal(root.get(User_.email), email);
-        criteriaQuery.where(emailPredicate);
-
-        return entityManager.createQuery(criteriaQuery)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+        this.addPredicates(emailPredicate);
+        return this;
     }
 
-    public User findByPhone(String phone) {
+    public UserRepository filterByPhone(String phone) {
         Predicate phonePredicate = criteriaBuilder.equal(root.get(User_.phone), phone);
-        criteriaQuery.where(phonePredicate);
-
-        return entityManager.createQuery(criteriaQuery)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-
-    }
-
-    public List<User> findByRole(String role) {
-        Predicate rolePredicate = criteriaBuilder.equal(root.get(User_.role), role);
-        criteriaQuery.where(rolePredicate);
-
-        return entityManager.createQuery(criteriaQuery)
-                .getResultList();
-
-    }
-
-    public List<User> findByStatus(String status) {
-        Predicate statusPredicate = criteriaBuilder.equal(root.get(User_.status), status);
-        criteriaQuery.where(statusPredicate);
-
-        return entityManager.createQuery(criteriaQuery)
-                .getResultList();
-
+        this.addPredicates(phonePredicate);
+        return this;
     }
 
     //authentication for login
     public User findByUsernameAndPassword(String username, String password) {
-        Predicate usernamePredicate = criteriaBuilder.equal(root.get(User_.username), username);
-        Predicate passwordPredicate = criteriaBuilder.equal(root.get(User_.password), password);
-
-        criteriaQuery.where(criteriaBuilder.and(usernamePredicate, passwordPredicate));
-
-        return entityManager.createQuery(criteriaQuery)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+        return ((UserRepository) this.startQuery())
+                                     .filterByUsername(username)
+                                     .filterByPassword(password)
+                                     .getSingleResult();
+    }
+    
+    public User findByUsername(String username){
+        return ((UserRepository) this.startQuery())
+                                     .filterByUsername(username)
+                                     .getSingleResult();
+    }
+    
+    public User findByEmail(String email){
+        return ((UserRepository) this.startQuery())
+                                     .filterByEmail(email)
+                                     .getSingleResult();
+    }
+    
+    public User findByPhone(String phone){
+        return ((UserRepository) this.startQuery())
+                                     .filterByPhone(phone)
+                                     .getSingleResult();
     }
 
     public List<User> getUsers(int first, int pageSize) {
@@ -97,11 +85,6 @@ public class UserRepository extends GenericRepository<User> {
                 .setMaxResults(pageSize)
                 .getResultList();
     }
-
-//    public int countUsers(Map<String, FilterMeta> filters) {
-//        String query = "SELECT COUNT(u) FROM User u";
-//        return ((Long) entityManager.createQuery(query).getSingleResult()).intValue();
-//    }
 
     public int countUsers(Map<String, FilterMeta> filters) {
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -116,8 +99,6 @@ public class UserRepository extends GenericRepository<User> {
     public List<User> getUsers(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filters) {
         applyFilters(filters, root, criteriaQuery);
 
-        // Apply sorting logic (if needed)
-        // if (sortBy != null) { ... }
         return entityManager.createQuery(criteriaQuery)
                 .setFirstResult(first)
                 .setMaxResults(pageSize)
