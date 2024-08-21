@@ -1,13 +1,13 @@
 package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.Supplier;
+import com.syntech.sbs.model.Supplier_;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.criteria.Predicate;
 import org.primefaces.model.FilterMeta;
 
 @Stateless
@@ -25,11 +25,17 @@ public class SupplierRepository extends GenericRepository<Supplier>{
         return entityManager;
     }
     
+    public SupplierRepository filterByPhone(String phone){
+        Predicate phonePredicate = criteriaBuilder.equal(root.get(Supplier_.phone), phone);
+        this.addPredicates(phonePredicate);
+        return this;
+    }
+    
     public Supplier findByPhone(String phone) {
-        TypedQuery<Supplier> query = entityManager
-                .createQuery("SELECT u FROM Supplier u WHERE u.phone = :phone", Supplier.class);
-        query.setParameter("phone", phone);
-        return query.getResultStream().findFirst().orElse(null);
+        
+        return ((SupplierRepository) this.startQuery())
+                                        .filterByPhone(phone)
+                                        .getSingleResult();
 
     }
     
