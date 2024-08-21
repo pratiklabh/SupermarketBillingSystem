@@ -12,7 +12,6 @@
         <ui:include src="menu.xhtml" />
 
         <h:form id="userListForm">
-
             <p:dataTable id="users" value="#{userBean.lazyUsers}" var="user" 
                          paginator="true" rows="#{userBean.pageSize}" lazy="true" 
                          rowKey="#{user.id}" paginatorPosition="bottom" 
@@ -32,31 +31,31 @@
                                      ajax="true" />
                 </f:facet>
 
-                <p:column headerText="ID">
+                <p:column headerText="ID" filterBy="#{user.id}" filterMatchMode="exact">
                     <h:outputText value="#{user.id}" />
                 </p:column>
 
-                <p:column headerText="Name">
+                <p:column headerText="Name" filterBy="#{user.name}" filterMatchMode="contains">
                     <h:outputText value="#{user.name}" />
                 </p:column>
 
-                <p:column headerText="Username">
+                <p:column headerText="Username" filterBy="#{user.username}" filterMatchMode="contains">
                     <h:outputText value="#{user.username}" />
                 </p:column>
 
-                <p:column headerText="Email">
+                <p:column headerText="Email" filterBy="#{user.email}" filterMatchMode="contains">
                     <h:outputText value="#{user.email}" />
                 </p:column>
 
-                <p:column headerText="Phone">
+                <p:column headerText="Phone" filterBy="#{user.phone}" filterMatchMode="contains">
                     <h:outputText value="#{user.phone}" />
                 </p:column>
 
-                <p:column headerText="Role">
+                <p:column headerText="Role" filterBy="#{user.role}" filterMatchMode="exact">
                     <h:outputText value="#{user.role}" />
                 </p:column>
 
-                <p:column headerText="Status">
+                <p:column headerText="Status" filterBy="#{user.status}" filterMatchMode="exact">
                     <h:outputText value="#{user.status}" />
                 </p:column>
 

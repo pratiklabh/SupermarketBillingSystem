@@ -45,11 +45,9 @@ public class UserBean implements Serializable {
             }
 
             @Override
-            public List<User> load(int first, int pageSize, 
+            public List<User> load(int first, int pageSize,
                     Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                List<User> users = userRepo.getUsers(first, pageSize);
-                this.setRowCount(userRepo.countUsers(filterBy));
-                return users;
+                return userRepo.getUsers(first, pageSize, sortBy, filterBy);
             }
         };
     }

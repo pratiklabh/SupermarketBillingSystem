@@ -57,7 +57,7 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
     public void setRoot(Root<T> root) {
         this.root = root;
     }
-    
+
     @PostConstruct
     protected void _startQuery(){
         this.criteriaBuilder = entityManager().getCriteriaBuilder();
