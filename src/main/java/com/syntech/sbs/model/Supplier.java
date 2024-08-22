@@ -4,18 +4,29 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "supplier")
-public class Supplier extends BaseIdEntity{
-    
+public class Supplier extends BaseIdEntity {
+
     @Column(nullable = false)
+    @Size(min = 5, max = 30, message = "Full name should be at least 5 characters")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name should be a valid string")
+    @NotBlank(message = "Name is required.")
     private String name;
-    
+
     @Column(nullable = false)
+    @Size(min = 5, max = 100, message = "Address should be between 5 and 100 characters")
+    @NotBlank(message = "Address is required.")
     private String address;
-    
-    @Column(nullable = false)
+
+    @NotBlank(message = "Phone is required.")
+    @Column(unique = true, nullable = false)
+    @Size(min = 10, max = 10, message = "Phone number should be exactly 10 digits")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number should be a 10-digit number")
     private String phone;
 
     public Supplier() {
@@ -26,8 +37,6 @@ public class Supplier extends BaseIdEntity{
         this.address = address;
         this.phone = phone;
     }
-    
-    
 
     public String getName() {
         return name;
@@ -82,7 +91,5 @@ public class Supplier extends BaseIdEntity{
         }
         return Objects.equals(this.phone, other.phone);
     }
-    
-    
-    
+
 }
