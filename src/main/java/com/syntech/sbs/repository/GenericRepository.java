@@ -100,7 +100,10 @@ public abstract class GenericRepository <T extends BaseIdEntity>{
     }
 
     public void delete(Long id){
-            entityManager().remove(entityClass);
+        T entity = findById(id);
+        if (entity != null) {
+            entityManager().remove(entity);
+        }
     }
 
     public List<T> findAll(){

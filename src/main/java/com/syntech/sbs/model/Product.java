@@ -2,6 +2,8 @@ package com.syntech.sbs.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,13 +16,20 @@ public class Product extends BaseIdEntity {
     private String description;
     private String unit;
     private Long discount;
+    private Long quantity;
+
     @Column(unique = true)
     private Long code;
 
+    @ManyToOne
+    @JoinColumn(name = "purchase_id")
+    private Purchase purchase;
+
+    // Constructors, Getters, and Setters
     public Product() {
     }
 
-    public Product(String name, Long rate, String type, Long code,String description, String unit, Long discount) {
+    public Product(String name, Long rate, String type, Long code, String description, String unit, Long discount) {
         this.name = name;
         this.rate = rate;
         this.type = type;
@@ -29,7 +38,25 @@ public class Product extends BaseIdEntity {
         this.discount = discount;
         this.code = code;
     }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
     
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
+    }
+
+    // Other Getters and Setters
     public String getName() {
         return name;
     }
@@ -85,6 +112,4 @@ public class Product extends BaseIdEntity {
     public void setCode(Long code) {
         this.code = code;
     }
-    
-    
 }

@@ -6,41 +6,44 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 import org.primefaces.model.FilterMeta;
 
 @Stateless
-public class SupplierRepository extends GenericRepository<Supplier>{
+public class SupplierRepository extends GenericRepository<Supplier> {
 
     @PersistenceContext(name = "sbs")
     private EntityManager entityManager;
-    
-    public SupplierRepository(){
+
+    public SupplierRepository() {
         super(Supplier.class);
     }
-    
+
     @Override
     protected EntityManager entityManager() {
         return entityManager;
     }
-    
-    public SupplierRepository filterByPhone(String phone){
+
+    public SupplierRepository filterByPhone(String phone) {
         Predicate phonePredicate = criteriaBuilder.equal(root.get(Supplier_.phone), phone);
         this.addPredicates(phonePredicate);
         return this;
     }
-    
-    public Supplier findByPhone(String phone) {
-        
-        return ((SupplierRepository) this.startQuery())
-                                        .filterByPhone(phone)
-                                        .getSingleResult();
 
+    public Supplier findByPhone(String phone) {
+        try {
+            return ((SupplierRepository) this.startQuery())
+                    .filterByPhone(phone)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Return null if no result is found
+        }
     }
-    
+
     public List<Supplier> getSuppliers(int first, int pageSize) {
-        String query = "SELECT u FROM Supplier u"; 
+        String query = "SELECT u FROM Supplier u";
         return entityManager.createQuery(query, Supplier.class)
                 .setFirstResult(first)
                 .setMaxResults(pageSize)
@@ -51,5 +54,4 @@ public class SupplierRepository extends GenericRepository<Supplier>{
         String query = "SELECT COUNT(u) FROM Supplier u";
         return ((Long) entityManager.createQuery(query).getSingleResult()).intValue();
     }
-
 }

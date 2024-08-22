@@ -39,17 +39,16 @@ public class SupplierBean implements Serializable {
 
             @Override
             public int count(Map<String, FilterMeta> filterBy) {
-                return supplierRepo.countSuppliers(filterBy); 
+                return supplierRepo.countSuppliers(filterBy);
             }
 
             @Override
-            public List<Supplier> load(int first, int pageSize, 
-                    Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+            public List<Supplier> load(int first, int pageSize,
+                                       Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
                 List<Supplier> suppliers = supplierRepo.getSuppliers(first, pageSize); // Add pagination support in SupplierRepository
                 this.setRowCount(supplierRepo.countSuppliers(filterBy)); // Count the total number of records
                 return suppliers;
             }
-
         };
     }
 
@@ -90,7 +89,7 @@ public class SupplierBean implements Serializable {
                         duplicateMessage, "Error"));
                 return; // Exit the method if a duplicate is found
             }
-            
+
             if (editMode) {
                 supplierRepo.update(supplier);
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -110,15 +109,15 @@ public class SupplierBean implements Serializable {
     }
 
     public void deleteSupplier(Supplier supplier) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        try {
-            supplierRepo.delete(supplier.getId());
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Supplier deleted successfully"));
-            suppliers = supplierRepo.findAll(); // Refresh the supplier list
-        } catch (Exception e) {
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete supplier"));
-        }
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    try {
+        supplierRepo.delete(supplier.getId());
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Supplier deleted successfully"));
+        suppliers = supplierRepo.findAll(); // Refresh the supplier list
+    } catch (Exception e) {
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete supplier"));
     }
+}
 
     public void prepareEditSupplier(Supplier supplier) {
         this.supplier = supplier;
@@ -128,9 +127,8 @@ public class SupplierBean implements Serializable {
     public void prepareNewSupplier() {
         this.editMode = false;
     }
-    
+
     private String checkForDuplicateSupplier() {
-        
         // Check for duplicate phone number
         Supplier existingSupplier = supplierRepo.findByPhone(supplier.getPhone());
         if (existingSupplier != null && !existingSupplier.getId().equals(supplier.getId())) {
@@ -139,7 +137,4 @@ public class SupplierBean implements Serializable {
 
         return null; // No duplicates found
     }
-
-    
-
 }
