@@ -5,21 +5,43 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "product")
 public class Product extends BaseIdEntity {
 
+    @NotBlank(message = "Name is required.")
+    @Size(min = 2, max = 50, message = "Name should be between 3 and 50 characters")
     private String name;
-    private Long rate;
-    private String type;
-    private String description;
-    private String unit;
-    private Long discount;
-    private Long quantity;
 
-    @Column(unique = true)
-    private Long code;
+    @NotNull(message = "Rate is required.")
+    @Positive(message = "Rate must be a positive number")
+    private Long rate;
+
+    @NotBlank(message = "Type is required.")
+    @Size(min = 3, max = 30, message = "Type should be between 3 and 30 characters")
+    private String type;
+
+    @Size(max = 255, message = "Description should be up to 255 characters")
+    private String description;
+
+    @Size(min = 1, max = 10, message = "Unit should be between 1 and 10 characters")
+    private String unit;
+
+    @NotNull(message = "Discount is required.")
+    @PositiveOrZero(message = "Discount must be zero or a positive number")
+    private Long discount;
+
+    @Column(unique = true, nullable = false)
+    @Pattern(regexp = "^[0-9]{5}$", message = "Code must be exactly 5 digits")
+    @NotNull(message = "Code is required.")
+    private String code;
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
@@ -29,7 +51,7 @@ public class Product extends BaseIdEntity {
     public Product() {
     }
 
-    public Product(String name, Long rate, String type, Long code, String description, String unit, Long discount) {
+    public Product(String name, Long rate, String type, String code, String description, String unit, Long discount) {
         this.name = name;
         this.rate = rate;
         this.type = type;
@@ -39,15 +61,7 @@ public class Product extends BaseIdEntity {
         this.code = code;
     }
 
-    public Long getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    
     public Purchase getPurchase() {
         return purchase;
     }
@@ -105,11 +119,11 @@ public class Product extends BaseIdEntity {
         this.discount = discount;
     }
 
-    public Long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }

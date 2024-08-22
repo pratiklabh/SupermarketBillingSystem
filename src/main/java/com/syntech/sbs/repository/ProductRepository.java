@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 import org.primefaces.model.FilterMeta;
@@ -25,16 +26,22 @@ public class ProductRepository extends GenericRepository<Product> {
         return entityManager;
     }
 
-    public ProductRepository filterByCode(Long code){
+    public ProductRepository filterByCode(String code){
         Predicate codePredicate = criteriaBuilder.equal(root.get(Product_.code), code);
         this.addPredicates(codePredicate);
         return this;
     }
     
-    public Product findByCode(Long code){
-        return ((ProductRepository) this.startQuery())
+    public Product findByCode(String code){
+        try {
+            return ((ProductRepository) this.startQuery())
                                      .filterByCode(code)
                                      .getSingleResult();
+            
+        } catch (NoResultException e) {
+            return null;
+        }
+        
     }
 
     public List<Product> getProducts(int first, int pageSize) {
