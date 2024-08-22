@@ -7,9 +7,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="purchase_details")
+@Table(name = "purchase_details")
 public class PurchaseDetails extends BaseIdEntity {
-    
+
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
@@ -26,11 +26,13 @@ public class PurchaseDetails extends BaseIdEntity {
     @Column(name = "unit", nullable = false)
     private String unit;
 
+    private Long discount;
+
     public PurchaseDetails() {
     }
 
-    public PurchaseDetails(Purchase purchase, String productName, 
-                           int quantity, double rate, String unit) {
+    public PurchaseDetails(Purchase purchase, String productName,
+            int quantity, double rate, String unit) {
         this.purchase = purchase;
         this.productName = productName;
         this.quantity = quantity;
@@ -76,6 +78,14 @@ public class PurchaseDetails extends BaseIdEntity {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public Long getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Long discount) {
+        this.discount = discount;
     }
 
 }

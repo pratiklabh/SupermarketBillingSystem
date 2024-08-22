@@ -2,18 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Purchase Form</title>
     </h:head>
     <h:body>
-        <h:form>
+
+        <ui:include src="menu.xhtml" />
+        <h:form id="purchaseForm">
             <h3>Purchase Details</h3>
-            <h:panelGrid columns="2" cellpadding="5">
+            <h:panelGrid columns="6" cellpadding="5">
                 <h:outputLabel for="supplier" value="Supplier:" />
-                <h:selectOneMenu value="#{purchaseBean.supplier}" converter="supplierConverter">
+                <p:selectOneMenu value="#{purchaseBean.supplier}" converter="supplierConverter" style="width:223px">
                     <f:selectItems value="#{purchaseBean.suppliers}" var="supplier" itemValue="#{supplier}" itemLabel="#{supplier.name}" />
-                </h:selectOneMenu>
+                </p:selectOneMenu>
 
                 <h:outputLabel value="Product Name:" />
                 <p:inputText id="productName" value="#{purchaseBean.productName}" />
@@ -36,7 +39,8 @@
                 </p:selectOneMenu>
 
 
-                <h:commandButton value="Add Item" action="#{purchaseBean.addItem}" />
+                <h:commandButton value="Add Item" 
+                                 action="#{purchaseBean.addItem}" />
 
             </h:panelGrid>
 

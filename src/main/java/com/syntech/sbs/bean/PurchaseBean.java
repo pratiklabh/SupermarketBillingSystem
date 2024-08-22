@@ -3,20 +3,18 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.Purchase;
 import com.syntech.sbs.model.PurchaseDetails;
 import com.syntech.sbs.model.Supplier;
-import com.syntech.sbs.repository.PurchaseDetailsRepository;
 import com.syntech.sbs.repository.PurchaseRepository;
 import com.syntech.sbs.repository.SupplierRepository;
-
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 @ManagedBean
 @ViewScoped
@@ -39,9 +37,6 @@ public class PurchaseBean implements Serializable {
 
     @Inject
     private PurchaseRepository purchaseRepository;
-
-    @Inject
-    private PurchaseDetailsRepository purchaseDetailsRepository;
 
     @PostConstruct
     public void init() {
@@ -70,6 +65,7 @@ public class PurchaseBean implements Serializable {
         detail.setQuantity(quantity);
         detail.setRate(rate);
         detail.setUnit(unit);
+        detail.setDiscount(discount);
 
         purchaseDetailsList.add(detail);
         calculateTotal();
@@ -96,12 +92,18 @@ public class PurchaseBean implements Serializable {
     }
 
     private void calculateTotal() {
-        total = purchaseDetailsList.stream()
+        // Calculate the gross total cost of all products
+        long grossTotal = purchaseDetailsList.stream()
                 .mapToLong(details -> (long) (details.getQuantity() * details.getRate()))
                 .sum();
-        if (discount > 0) {
-            total -= discount;
-        }
+
+        // Calculate the total discount
+        long totalDiscount = purchaseDetailsList.stream()
+                .mapToLong(details -> (long) (details.getQuantity() * details.getDiscount()))
+                .sum();
+
+        // Subtract the total discount from the gross total
+        total = grossTotal - totalDiscount;
     }
 
     public void clear() {
@@ -113,10 +115,11 @@ public class PurchaseBean implements Serializable {
 
     public void clearItemFields() {
         productName = "";
-        quantity = 0;
-        rate = 0.0;
+        quantity = 1;
+        rate = 0;
         unit = "";
         subTotal = 0.0;
+        discount = 0L;
     }
 
     // Getters and Setters

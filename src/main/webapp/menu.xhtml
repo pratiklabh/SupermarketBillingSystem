@@ -15,10 +15,7 @@
                 <p:menubar hideDelay="1000" style="background-color: lightgray">
                     <f:facet name="start">
                         <p:graphicImage name="images/supermarket2.png"  
-                                        style="width: 1in;
-                                        height: 0.4in;
-                                        
-                                       "/>
+                                        style="width: 1in; height: 0.4in;"/>
                     </f:facet>
 
 
@@ -38,7 +35,11 @@
                         <p:menuitem value="View All Suppliers" icon="pi pi-fw pi-users"
                                     outcome="supplierListForm"/>
                     </p:submenu>
-
+                    
+                    <p:submenu label="Manage Purchase Bill" icon="pi pi-fw pi-file">
+                        <p:menuitem value="Create Bill" icon="pi pi-fw pi-file"
+                                    outcome="purchaseForm"/>
+                    </p:submenu>
 
                     <p:divider layout="vertical"/>
 
