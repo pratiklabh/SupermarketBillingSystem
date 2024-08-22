@@ -21,6 +21,7 @@ com/syntech/sbs/model/PurchaseDetails_.class
 com/syntech/sbs/model/Supplier_.class
 com/syntech/sbs/bean/LoginBean.class
 com/syntech/sbs/model/Purchase.class
+com/syntech/sbs/converter/SupplierConverter.class
 com/syntech/sbs/model/User.class
 com/syntech/sbs/bean/SupplierBean.class
 com/syntech/sbs/resources/JavaEE8Resource.class

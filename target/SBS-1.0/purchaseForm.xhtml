@@ -11,10 +11,9 @@
             <h3>Purchase Details</h3>
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="supplier" value="Supplier:" />
-                <p:selectOneMenu id="supplier" value="#{purchaseBean.supplier}" style="width:223px">
-                    <f:selectItem itemLabel="Select Supplier" itemValue="" noSelectionOption="true" />
+                <h:selectOneMenu value="#{purchaseBean.supplier}" converter="supplierConverter">
                     <f:selectItems value="#{purchaseBean.suppliers}" var="supplier" itemValue="#{supplier}" itemLabel="#{supplier.name}" />
-                </p:selectOneMenu>
+                </h:selectOneMenu>
 
                 <h:outputLabel value="Product Name:" />
                 <p:inputText id="productName" value="#{purchaseBean.productName}" />
