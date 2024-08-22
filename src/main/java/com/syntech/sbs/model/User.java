@@ -3,7 +3,10 @@ package com.syntech.sbs.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -11,21 +14,31 @@ import javax.validation.constraints.NotBlank;
 public class User extends BaseIdEntity {
 
     @Column(nullable = false)
+    @Size(min = 5, max = 30, message = "Full name should be at least 5 characters")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name should be a valid string")
     @NotBlank(message = "Name is required.")
     private String name;
 
     @NotBlank(message = "Username is required.")
     @Column(unique = true, nullable = false)
+    @Size(min = 2, max = 30, message = "Username should have at least 2 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username should be a unique string")
     private String username;
 
+    @NotBlank(message = "Password is required.")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$",
+             message = "Password must be at least 6 characters long, containing at least one letter, one number, and one special character.")
     private String password;
 
+    @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required.")
     @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank(message = "Phone is required.")
     @Column(unique = true, nullable = false)
+    @Size(min = 10, max = 10, message = "Phone number should be exactly 10 digits")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number should be a 10-digit number")
     private String phone;
 
     @NotBlank(message = "Role is required.")

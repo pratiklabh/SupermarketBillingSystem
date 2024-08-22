@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -61,21 +62,34 @@ public class UserRepository extends GenericRepository<User> {
     }
     
     public User findByUsername(String username){
-        return ((UserRepository) this.startQuery())
+        try {
+            return ((UserRepository) this.startQuery())
                                      .filterByUsername(username)
                                      .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
     
     public User findByEmail(String email){
-        return ((UserRepository) this.startQuery())
+        try{
+            return ((UserRepository) this.startQuery())
                                      .filterByEmail(email)
                                      .getSingleResult();
+        }catch (NoResultException e) {
+            return null;
+        }
     }
     
     public User findByPhone(String phone){
-        return ((UserRepository) this.startQuery())
+        try {
+            return ((UserRepository) this.startQuery())
                                      .filterByPhone(phone)
                                      .getSingleResult();
+        }catch (NoResultException e) {
+            return null;
+        }
     }
 
     public List<User> getUsers(int first, int pageSize) {

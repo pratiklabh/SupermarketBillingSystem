@@ -21,7 +21,7 @@ import org.primefaces.model.SortMeta;
 public class UserBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int pageSize = 2;
+    private int pageSize;
 
     @Inject
     private User user;

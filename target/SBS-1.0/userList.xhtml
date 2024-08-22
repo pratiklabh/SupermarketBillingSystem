@@ -13,9 +13,9 @@
 
         <h:form id="userListForm">
             <p:dataTable id="users" value="#{userBean.lazyUsers}" var="user" 
-                         paginator="true" rows="#{userBean.pageSize}" lazy="true" 
+                         paginator="true" rows="5" lazy="true" 
                          rowKey="#{user.id}" paginatorPosition="bottom" 
-                         rowsPerPageTemplate="2,4,6"
+                         rowsPerPageTemplate="5,10,15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
                          {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
