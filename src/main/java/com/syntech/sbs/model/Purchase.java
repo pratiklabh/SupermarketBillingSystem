@@ -17,7 +17,6 @@ public class Purchase extends BaseIdEntity {
 
     private LocalDateTime date;
 
-    private Long discount;
 
     private Long total;
 
@@ -27,11 +26,10 @@ public class Purchase extends BaseIdEntity {
     public Purchase() {
     }
 
-    public Purchase(Supplier supplier, LocalDateTime date, Long discount,
+    public Purchase(Supplier supplier, LocalDateTime date, 
                     Long total, List<PurchaseDetails> purchaseDetails) {
         this.supplier = supplier;
         this.date = date;
-        this.discount = discount;
         this.total = total;
         this.purchaseDetails = purchaseDetails;
     }
@@ -50,14 +48,6 @@ public class Purchase extends BaseIdEntity {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
-    }
-
-    public Long getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Long discount) {
-        this.discount = discount;
     }
 
     public Long getTotal() {

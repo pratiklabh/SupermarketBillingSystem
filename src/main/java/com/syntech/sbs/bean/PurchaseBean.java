@@ -77,7 +77,6 @@ public class PurchaseBean implements Serializable {
         purchase.setSupplier(supplier);
         purchase.setDate(LocalDateTime.now());
         purchase.setTotal(total);
-        purchase.setDiscount(discount);
         purchase.setPurchaseDetails(purchaseDetailsList);
 
         // Set the purchase reference in purchase details
