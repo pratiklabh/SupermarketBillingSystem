@@ -11,13 +11,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import java.util.stream.Collectors;
 
 @ManagedBean
 @ViewScoped
@@ -67,13 +67,10 @@ public class SalesBean implements Serializable {
     }
 
     public List<String> completeCustomerPhone(String query) {
-        List<String> matchingPhones = customers.stream()
+        return customers.stream()
                 .map(User::getPhone)
                 .filter(phone -> phone.startsWith(query))
                 .collect(Collectors.toList());
-
-        System.out.println("Matching Phones: " + matchingPhones);
-        return matchingPhones;
     }
 
     public void searchProduct() {
@@ -82,7 +79,6 @@ public class SalesBean implements Serializable {
             rate = selectedProduct.getRate();
             discount = selectedProduct.getDiscount();
             unit = selectedProduct.getUnit();
-            // Automatically add the product to the table
             addItem();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product not found"));
@@ -97,6 +93,20 @@ public class SalesBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Customer not found"));
             customerName = "";
+        }
+    }
+
+    public void incrementQuantity(SalesDetails item) {
+        item.setQuantity(item.getQuantity() + 1);
+        calculateTotal();
+        System.out.println("Updated total after increment: " + total);
+    }
+
+    public void decrementQuantity(SalesDetails item) {
+        if (item.getQuantity() > 1) {
+            item.setQuantity(item.getQuantity() - 1);
+            calculateTotal();
+            System.out.println("Updated total after decrement: " + total);
         }
     }
 
@@ -119,23 +129,9 @@ public class SalesBean implements Serializable {
         clearProductFields();
     }
 
-    public void incrementQuantity(SalesDetails item) {
-        item.setQuantity(item.getQuantity() + 1);
-        calculateTotal();
-        System.out.println("Updated total after increment: " + total);
-    }
-
-    public void decrementQuantity(SalesDetails item) {
-        if (item.getQuantity() > 1) {
-            item.setQuantity(item.getQuantity() - 1);
-            calculateTotal();
-            System.out.println("Updated total after decrement: " + total);
-        }
-    }
-
     public void completeSale() {
         Sales sale = new Sales();
-        sale.setCustomer(selectedSale.getCustomer());
+        sale.setCustomer(selectedCustomer);
         sale.setDate(LocalDateTime.now());
         sale.setTotal(total);
         sale.setPaymentMode(paymentMode);
@@ -230,4 +226,21 @@ public class SalesBean implements Serializable {
     public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
     }
+
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
 }
