@@ -1,20 +1,17 @@
 package com.syntech.sbs.bean;
 
+import com.syntech.sbs.model.GenericLazyDataModel;
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
 
 @Named("userBean")
 @ViewScoped
@@ -29,35 +26,16 @@ public class UserBean implements Serializable {
     private List<User> users;
     private boolean editMode = false;
 
-    private LazyDataModel<User> lazyUsers;
+    private GenericLazyDataModel<User> lazyUsers;
 
     @Inject
     private UserRepository userRepo;
 
     @PostConstruct
     public void init() {
-        lazyUsers = new LazyDataModel<User>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public int count(Map<String, FilterMeta> filterBy) {
-                return userRepo.countUsers(filterBy);
-            }
-
-            @Override
-            public List<User> load(int first, int pageSize,
-                    Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                
-                List<User> loadedUsers = userRepo.getUsers(first, pageSize, sortBy, filterBy);
-                int numberOfUser = 0;
-                for (User user : loadedUsers) {
-                    System.out.println(user.getName() + " added");
-                    numberOfUser++;
-                }
-                System.out.println("total loaded users = " + numberOfUser);
-                return loadedUsers;
-            }
-        };
+        user = new User(); 
+        lazyUsers  = new GenericLazyDataModel<>(userRepo, User.class); 
+        
     }
 
     public int getPageSize() {
@@ -69,11 +47,11 @@ public class UserBean implements Serializable {
         lazyUsers.setRowCount(userRepo.countUsers(new HashMap<>()));
     }
 
-    public LazyDataModel<User> getLazyUsers() {
+    public GenericLazyDataModel<User> getLazyUsers() {
         return lazyUsers;
     }
 
-    public void setLazyUsers(LazyDataModel<User> lazyUsers) {
+    public void setLazyUsers(GenericLazyDataModel<User> lazyUsers) {
         this.lazyUsers = lazyUsers;
     }
 
