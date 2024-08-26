@@ -13,10 +13,20 @@
         <ui:include src="menu.xhtml" />
         <h:form id="salesForm">
             <h3>Sales Details</h3>
+            <h:panelGrid columns="5" cellpadding="10">
+                <h:outputLabel for="customerPhone" value="Customer Phone:" />
+                <p:inputText id="customerPhone" value="#{salesBean.customerPhone}" style="width:223px" />
+                <p:commandButton value="Search Customer" action="#{salesBean.searchCustomer}" update="customerName" />
+
+                <h:outputLabel for="customerName" value="Customer Name:" />
+                <h:outputText id="customerName" value="#{salesBean.customerName}" style="width:223px" />
+            </h:panelGrid>
+
+
             <h:panelGrid columns="6" cellpadding="5">
                 <h:outputLabel for="productCode" value="Product Code:" />
                 <p:inputText id="productCode" value="#{salesBean.productCode}" style="width:223px" />
-                <p:commandButton value="Search Product" action="#{salesBean.searchProduct}" update="salesDetailsTable" />
+                <p:commandButton value="Search Product" action="#{salesBean.searchProduct}" update="salesDetailsTable @form" />
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5">
@@ -37,13 +47,13 @@
                     <p:column>
                         <f:facet name="header">Quantity</f:facet>
                         <p:commandButton value="-" action="#{salesBean.decrementQuantity(item)}" 
-                                         update="salesDetailsTable" style="margin: 4px"/>
+                                         update="salesDetailsTable  :pg_total:total @form" style="margin: 4px"/>
 
                         <h:outputText value="#{item.quantity}" />
 
 
                         <p:commandButton value="+" action="#{salesBean.incrementQuantity(item)}" 
-                                         update="salesDetailsTable" style="margin: 4px"/>
+                                         update="salesDetailsTable :pg_total:total @form" style="margin: 4px"/>
 
                     </p:column>
 
@@ -59,9 +69,9 @@
                 </p:dataTable>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" cellpadding="5">
+            <h:panelGrid  id="pg_total" columns="2" cellpadding="5">
                 <h:outputLabel value="Total:" />
-                <h:outputText value="#{salesBean.total}" />
+                <h:outputText id="total" value="#{salesBean.total}" />
 
                 <h:outputLabel for="paymentMode" value="Payment Mode:" />
                 <p:selectOneMenu id="paymentMode" value="#{salesBean.paymentMode}" style="width:223px">

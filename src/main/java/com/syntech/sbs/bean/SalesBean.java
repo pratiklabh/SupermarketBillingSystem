@@ -3,8 +3,10 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.Product;
 import com.syntech.sbs.model.Sales;
 import com.syntech.sbs.model.SalesDetails;
+import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.SalesRepository;
+import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +26,11 @@ public class SalesBean implements Serializable {
     private Sales selectedSale;
     private List<Product> products;
     private Product selectedProduct;
+
+    private String customerPhone;
+    private String customerName;
+    private User selectedCustomer;
+
     private int quantity = 1;  // Default 1
     private double rate;
     private String unit;
@@ -38,6 +45,9 @@ public class SalesBean implements Serializable {
 
     @Inject
     private SalesRepository salesRepository;
+    
+    @Inject
+    private UserRepository userRepo;
 
     @PostConstruct
     public void init() {
@@ -56,6 +66,16 @@ public class SalesBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product not found"));
             clearProductFields();
+        }
+    }
+
+    public void searchCustomer() {
+        selectedCustomer = userRepo.findByPhone(customerPhone);
+        if (selectedCustomer != null) {
+            customerName = selectedCustomer.getName();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Customer not found"));
+            customerName = "";
         }
     }
 
@@ -170,6 +190,30 @@ public class SalesBean implements Serializable {
 
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public User getSelectedCustomer() {
+        return selectedCustomer;
+    }
+
+    public void setSelectedCustomer(User selectedCustomer) {
+        this.selectedCustomer = selectedCustomer;
     }
 
     public int getQuantity() {
