@@ -47,7 +47,15 @@ public class UserBean implements Serializable {
             @Override
             public List<User> load(int first, int pageSize,
                     Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                return userRepo.getUsers(first, pageSize, sortBy, filterBy);
+                
+                List<User> loadedUsers = userRepo.getUsers(first, pageSize, sortBy, filterBy);
+                int numberOfUser = 0;
+                for (User user : loadedUsers) {
+                    System.out.println(user.getName() + " added");
+                    numberOfUser++;
+                }
+                System.out.println("total loaded users = " + numberOfUser);
+                return loadedUsers;
             }
         };
     }
