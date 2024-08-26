@@ -2,17 +2,11 @@ package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.model.User_;
-import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.SortMeta;
 
 @Stateless
 public class UserRepository extends GenericRepository<User> {
@@ -90,41 +84,6 @@ public class UserRepository extends GenericRepository<User> {
         }catch (NoResultException e) {
             return null;
         }
-    }
-
-    public List<User> getUsers(int first, int pageSize) {
-        String query = "SELECT u FROM User u";
-        return entityManager.createQuery(query, User.class)
-                .setFirstResult(first)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
-
-    public int countUsers(Map<String, FilterMeta> filters) {
-        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        Root<User> countRoot = countQuery.from(User.class);
-        countQuery.select(criteriaBuilder.count(countRoot));
-
-        applyFilters(filters, countRoot, countQuery);
-
-        return entityManager.createQuery(countQuery).getSingleResult().intValue();
-    }
-
-    public List<User> getUsers(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filters) {
-        applyFilters(filters, root, criteriaQuery);
-
-        return entityManager.createQuery(criteriaQuery)
-                .setFirstResult(first)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
-
-    private void applyFilters(Map<String, FilterMeta> filters, Root<User> root, CriteriaQuery<?> query) {
-        Predicate[] predicates = filters.values().stream()
-                .map(filter -> criteriaBuilder.like(root.get(filter.getField()), "%" + filter.getFilterValue() + "%"))
-                //similar to sql, where username like '%john%' ==> filter.getField=username , filter.getFilterValue=john
-                .toArray(Predicate[]::new);
-        query.where(predicates);
     }
 
 }

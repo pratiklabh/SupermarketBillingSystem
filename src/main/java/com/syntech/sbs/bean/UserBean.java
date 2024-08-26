@@ -44,7 +44,7 @@ public class UserBean implements Serializable {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
-        lazyUsers.setRowCount(userRepo.countUsers(new HashMap<>()));
+        lazyUsers.setRowCount(userRepo.countEntity(new HashMap<>()));
     }
 
     public GenericLazyDataModel<User> getLazyUsers() {
