@@ -44,18 +44,4 @@ public class ProductRepository extends GenericRepository<Product> {
         
     }
 
-    public List<Product> getProducts(int first, int pageSize) {
-        String query = "SELECT p FROM Product p";
-        return entityManager.createQuery(query, Product.class)
-                .setFirstResult(first)
-                .setMaxResults(pageSize)
-                .getResultList();
-
-    }
-
-    public int countProducts(Map<String, FilterMeta> filterBy) {
-        String query = "SELECT COUNT(p) FROM Product p";
-        return ((Long) entityManager.createQuery(query).getSingleResult()).intValue();
-    }
-
 }

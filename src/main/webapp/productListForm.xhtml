@@ -14,7 +14,12 @@
         <h:form id="productListForm">
 
             <p:dataTable id="products" value="#{ProductBean.lazyProducts}" var="product" rowKey="#{product.id}"
-                         paginator="true" rows="3" lazy="true">
+                         paginator="true" rows="5" lazy="true"
+                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                         {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         >
                 <f:facet name="header" >
                     Products List
 
