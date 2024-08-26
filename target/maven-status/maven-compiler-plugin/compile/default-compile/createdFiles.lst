@@ -5,7 +5,6 @@ com/syntech/sbs/bean/ProductBean.class
 com/syntech/sbs/repository/PurchaseRepository.class
 com/syntech/sbs/repository/GenericRepository.class
 com/syntech/sbs/model/SalesDetails.class
-com/syntech/sbs/bean/SupplierBean$1.class
 com/syntech/sbs/model/Sales_.class
 com/syntech/sbs/model/PurchaseDetails.class
 com/syntech/sbs/model/Purchase_.class
@@ -13,7 +12,6 @@ com/syntech/sbs/JAXRSConfiguration.class
 com/syntech/sbs/repository/SupplierRepository.class
 com/syntech/sbs/model/Supplier.class
 com/syntech/sbs/model/Product_.class
-com/syntech/sbs/bean/ProductBean$1.class
 com/syntech/sbs/bean/PurchaseBean.class
 com/syntech/sbs/model/User_.class
 com/syntech/sbs/repository/ProductRepository.class

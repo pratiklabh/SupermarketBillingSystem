@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.util.stream.Collectors;
 
 @ManagedBean
 @ViewScoped
@@ -30,6 +31,7 @@ public class SalesBean implements Serializable {
     private String customerPhone;
     private String customerName;
     private User selectedCustomer;
+    private List<User> customers;
 
     private int quantity = 1;  // Default 1
     private double rate;
@@ -45,14 +47,33 @@ public class SalesBean implements Serializable {
 
     @Inject
     private SalesRepository salesRepository;
-    
+
     @Inject
     private UserRepository userRepo;
 
     @PostConstruct
     public void init() {
+        customers = userRepo.findAll();
         products = productRepository.findAll();
         selectedSale = new Sales();
+    }
+
+    public List<String> completeProductCode(String query) {
+        String queryLowerCase = query.toLowerCase();
+        return products.stream()
+                .map(Product::getCode)
+                .filter(code -> code.toLowerCase().startsWith(queryLowerCase))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> completeCustomerPhone(String query) {
+        List<String> matchingPhones = customers.stream()
+                .map(User::getPhone)
+                .filter(phone -> phone.startsWith(query))
+                .collect(Collectors.toList());
+
+        System.out.println("Matching Phones: " + matchingPhones);
+        return matchingPhones;
     }
 
     public void searchProduct() {
@@ -135,28 +156,30 @@ public class SalesBean implements Serializable {
                 .mapToLong(details -> (long) (details.getQuantity() * details.getRate()))
                 .sum();
 
-        long totalDiscount = salesDetailsList.stream()
-                .mapToLong(details -> (long) (details.getQuantity() * details.getDiscount()))
+        long discountTotal = salesDetailsList.stream()
+                .mapToLong(SalesDetails::getDiscount)
                 .sum();
 
-        total = grossTotal - totalDiscount;
-        System.out.println("Calculated total: " + total);
+        total = grossTotal - discountTotal;
+    }
+
+    public void clearProductFields() {
+        productCode = "";
+        rate = 0;
+        quantity = 1;
+        unit = "";
+        subTotal = 0;
+        discount = 0;
+        selectedProduct = null;
     }
 
     public void clear() {
         selectedSale = new Sales();
-        discount = 0L;
-        total = 0L;
         salesDetailsList.clear();
-    }
-
-    public void clearProductFields() {
-        selectedProduct = null;
-        quantity = 1;  // Reset quantity to default value
-        rate = 0;
-        unit = "";
-        subTotal = 0.0;
-        discount = 0L;
+        total = 0;
+        customerPhone = "";
+        customerName = "";
+        clearProductFields();
     }
 
     // Getters and Setters
@@ -166,30 +189,6 @@ public class SalesBean implements Serializable {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
-    }
-
-    public Sales getSelectedSale() {
-        return selectedSale;
-    }
-
-    public void setSelectedSale(Sales selectedSale) {
-        this.selectedSale = selectedSale;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public void setSelectedProduct(Product selectedProduct) {
-        this.selectedProduct = selectedProduct;
     }
 
     public String getCustomerPhone() {
@@ -208,52 +207,12 @@ public class SalesBean implements Serializable {
         this.customerName = customerName;
     }
 
-    public User getSelectedCustomer() {
-        return selectedCustomer;
+    public List<SalesDetails> getSalesDetailsList() {
+        return salesDetailsList;
     }
 
-    public void setSelectedCustomer(User selectedCustomer) {
-        this.selectedCustomer = selectedCustomer;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public double getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
-    }
-
-    public long getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(long discount) {
-        this.discount = discount;
+    public void setSalesDetailsList(List<SalesDetails> salesDetailsList) {
+        this.salesDetailsList = salesDetailsList;
     }
 
     public long getTotal() {
@@ -270,13 +229,5 @@ public class SalesBean implements Serializable {
 
     public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
-    }
-
-    public List<SalesDetails> getSalesDetailsList() {
-        return salesDetailsList;
-    }
-
-    public void setSalesDetailsList(List<SalesDetails> salesDetailsList) {
-        this.salesDetailsList = salesDetailsList;
     }
 }
