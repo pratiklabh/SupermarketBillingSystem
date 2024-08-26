@@ -14,7 +14,12 @@
         <h:form id="supplierListForm">
 
             <p:dataTable id="suppliers" value="#{SupplierBean.lazySuppliers}" var="supplier" 
-                         paginator="true" rows="3" lazy="true" rowKey="#{supplier.id}">
+                         paginator="true" rows="5" lazy="true" rowKey="#{supplier.id}"
+                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                         {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         >
                 <f:facet name="header">
                     Suppliers List
                     <p:commandButton icon="pi pi-fw pi-user-plus"

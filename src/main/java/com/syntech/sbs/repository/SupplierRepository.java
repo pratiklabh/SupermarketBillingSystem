@@ -42,16 +42,5 @@ public class SupplierRepository extends GenericRepository<Supplier> {
         }
     }
 
-    public List<Supplier> getSuppliers(int first, int pageSize) {
-        String query = "SELECT u FROM Supplier u";
-        return entityManager.createQuery(query, Supplier.class)
-                .setFirstResult(first)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
 
-    public int countSuppliers(Map<String, FilterMeta> filters) {
-        String query = "SELECT COUNT(u) FROM Supplier u";
-        return ((Long) entityManager.createQuery(query).getSingleResult()).intValue();
-    }
 }

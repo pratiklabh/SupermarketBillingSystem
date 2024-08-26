@@ -1,19 +1,16 @@
 package com.syntech.sbs.bean;
 
+import com.syntech.sbs.model.GenericLazyDataModel;
 import com.syntech.sbs.model.Supplier;
 import com.syntech.sbs.repository.SupplierRepository;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
 
 @Named("SupplierBean")
 @ViewScoped
@@ -27,36 +24,22 @@ public class SupplierBean implements Serializable {
     private List<Supplier> suppliers;
     private boolean editMode = false;
 
-    private LazyDataModel<Supplier> lazySuppliers;
+    private GenericLazyDataModel<Supplier> lazySuppliers;
 
     @Inject
     private SupplierRepository supplierRepo;
 
     @PostConstruct
     public void init() {
-        lazySuppliers = new LazyDataModel<Supplier>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public int count(Map<String, FilterMeta> filterBy) {
-                return supplierRepo.countSuppliers(filterBy);
-            }
-
-            @Override
-            public List<Supplier> load(int first, int pageSize,
-                                       Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                List<Supplier> suppliers = supplierRepo.getSuppliers(first, pageSize); // Add pagination support in SupplierRepository
-                this.setRowCount(supplierRepo.countSuppliers(filterBy)); // Count the total number of records
-                return suppliers;
-            }
-        };
+        supplier = new Supplier();
+        lazySuppliers = new GenericLazyDataModel<>(supplierRepo, Supplier.class);
     }
 
-    public LazyDataModel<Supplier> getLazySuppliers() {
+    public GenericLazyDataModel<Supplier> getLazySuppliers() {
         return lazySuppliers;
     }
 
-    public void setLazySuppliers(LazyDataModel<Supplier> lazySuppliers) {
+    public void setLazySuppliers(GenericLazyDataModel<Supplier> lazySuppliers) {
         this.lazySuppliers = lazySuppliers;
     }
 
@@ -109,15 +92,15 @@ public class SupplierBean implements Serializable {
     }
 
     public void deleteSupplier(Supplier supplier) {
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    try {
-        supplierRepo.delete(supplier.getId());
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Supplier deleted successfully"));
-        suppliers = supplierRepo.findAll(); // Refresh the supplier list
-    } catch (Exception e) {
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete supplier"));
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        try {
+            supplierRepo.delete(supplier.getId());
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Supplier deleted successfully"));
+            suppliers = supplierRepo.findAll(); // Refresh the supplier list
+        } catch (Exception e) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to delete supplier"));
+        }
     }
-}
 
     public void prepareEditSupplier(Supplier supplier) {
         this.supplier = supplier;
