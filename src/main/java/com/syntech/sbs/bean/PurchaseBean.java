@@ -1,9 +1,13 @@
 package com.syntech.sbs.bean;
 
+import com.syntech.sbs.model.Product;
 import com.syntech.sbs.model.Purchase;
 import com.syntech.sbs.model.PurchaseDetails;
+import com.syntech.sbs.model.Stock;
 import com.syntech.sbs.model.Supplier;
+import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.PurchaseRepository;
+import com.syntech.sbs.repository.StockRepository;
 import com.syntech.sbs.repository.SupplierRepository;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -39,19 +43,16 @@ public class PurchaseBean implements Serializable {
     @Inject
     private PurchaseRepository purchaseRepository;
 
+    @Inject
+    private StockRepository stockRepository;
+
+    @Inject
+    private ProductRepository productRepository;
+
     @PostConstruct
     public void init() {
         suppliers = supplierRepository.findAll();
         selectedPurchase = new Purchase();
-    }
-
-    public void savePurchase() {
-        try {
-            // Implement save logic here (e.g., save purchase to the database)
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase saved successfully"));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to save purchase"));
-        }
     }
 
     public void cancel() {
@@ -74,21 +75,71 @@ public class PurchaseBean implements Serializable {
     }
 
     public void completePurchase() {
-        Purchase purchase = new Purchase();
-        purchase.setSupplier(supplier);
-        purchase.setDate(LocalDateTime.now());
-        purchase.setTotal(total);
-        purchase.setPurchaseDetails(purchaseDetailsList);
+        try {
+            // Create a new Purchase object
+            Purchase purchase = new Purchase();
+            purchase.setSupplier(supplier);
+            purchase.setDate(LocalDateTime.now());
+            purchase.setTotal(total);
 
-        // Set the purchase reference in purchase details
-        for (PurchaseDetails details : purchaseDetailsList) {
-            details.setPurchase(purchase);
+            // Set the PurchaseDetails list for this purchase
+            for (PurchaseDetails details : purchaseDetailsList) {
+                details.setPurchase(purchase);  // Associate each detail with the purchase
+            }
+            purchase.setPurchaseDetails(purchaseDetailsList);
+
+            // Save the Purchase (which will also save PurchaseDetails due to cascade)
+            purchaseRepository.save(purchase);
+
+            // Update the stock after purchase completion
+            updateStock();
+
+            // Clear form and data
+            clear();
+
+            // Add success message
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase completed successfully"));
+        } catch (Exception e) {
+            // Add error message
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to complete purchase"));
         }
+    }
 
-        // Save purchase to the database (this will also save purchaseDetails because of cascade)
-        purchaseRepository.save(purchase);
+    private void updateStock() {
+        for (PurchaseDetails details : purchaseDetailsList) {
+            try {
+                // Fetch the product by name
+                Product product = productRepository.findByName(details.getProductName());
 
-        clear();
+                if (product != null) {
+                    // Create/updatw a Stock entry
+                    Stock stock = stockRepository.findByProductName(product.getName());
+
+                    if (stock == null) {
+                        stock = new Stock();
+                        stock.setProduct(product);
+                        stock.setQuantity(details.getQuantity());
+                    } else {
+                        // to increase stock if already present
+                        stock.setQuantity(stock.getQuantity() + details.getQuantity());
+                    }
+
+                    // Updating other stock details
+                    stock.setRate(details.getRate());
+                    stock.setUnit(details.getUnit());
+                    stock.setDate(LocalDateTime.now());
+
+                    // Save the stock entry
+                    stockRepository.save(stock);
+                } else {
+                    System.err.println("Product not found: " + details.getProductName());
+                }
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Error", "Failed to update stock"));
+
+            }
+        }
     }
 
     private void calculateTotal() {
