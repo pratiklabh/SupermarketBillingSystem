@@ -2,14 +2,11 @@ package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.Supplier;
 import com.syntech.sbs.model.Supplier_;
-import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
-import org.primefaces.model.FilterMeta;
 
 @Stateless
 public class SupplierRepository extends GenericRepository<Supplier> {

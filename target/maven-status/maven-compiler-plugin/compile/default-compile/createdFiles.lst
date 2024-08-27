@@ -5,6 +5,8 @@ com/syntech/sbs/bean/ProductBean.class
 com/syntech/sbs/repository/PurchaseRepository.class
 com/syntech/sbs/repository/GenericRepository.class
 com/syntech/sbs/model/SalesDetails.class
+com/syntech/sbs/model/Stock_.class
+com/syntech/sbs/repository/StockRepository.class
 com/syntech/sbs/model/Sales_.class
 com/syntech/sbs/model/PurchaseDetails.class
 com/syntech/sbs/model/Purchase_.class
@@ -26,6 +28,7 @@ com/syntech/sbs/model/User.class
 com/syntech/sbs/converter/ProductConverter.class
 com/syntech/sbs/bean/SupplierBean.class
 com/syntech/sbs/model/Sales.class
+com/syntech/sbs/model/Stock.class
 com/syntech/sbs/repository/SalesDetailsRepository.class
 com/syntech/sbs/converter/UserConverter.class
 com/syntech/sbs/resources/JavaEE8Resource.class
