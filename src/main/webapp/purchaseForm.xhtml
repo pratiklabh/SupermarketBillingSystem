@@ -21,6 +21,19 @@
                 <h:outputLabel value="Product Name:" />
                 <p:inputText id="productName" value="#{purchaseBean.productName}" />
 
+                <h:outputLabel value="Code:" />
+                <p:inputText id="code" value="#{purchaseBean.code}" />
+
+                <h:outputLabel value="Type:" />
+                <p:selectOneMenu id="type" value="#{purchaseBean.type}" style="width:223px">
+                    <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Grocery" itemValue="Grocery" />
+                    <f:selectItem itemLabel="Electronics" itemValue="Electronics" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="Description:" />
+                <p:inputText id="description" value="#{purchaseBean.description}" />
+
                 <h:outputLabel value="Rate:" />
                 <p:inputText id="rate" value="#{purchaseBean.rate}" />
 
@@ -38,10 +51,7 @@
                     <f:selectItem itemValue="Liter" itemLabel="Liter" />
                 </p:selectOneMenu>
 
-
-                <h:commandButton value="Add Item" 
-                                 action="#{purchaseBean.addItem}" />
-
+                <h:commandButton value="Add Item" action="#{purchaseBean.addItem}" />
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5">
@@ -52,6 +62,21 @@
                     <p:column>
                         <f:facet name="header">Product Name</f:facet>
                         <h:outputText value="#{item.productName}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Code</f:facet>
+                        <h:outputText value="#{item.code}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Type</f:facet>
+                        <h:outputText value="#{item.type}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Description</f:facet>
+                        <h:outputText value="#{item.description}" />
                     </p:column>
 
                     <p:column>

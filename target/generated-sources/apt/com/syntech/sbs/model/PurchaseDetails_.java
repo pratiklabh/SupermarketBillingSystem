@@ -11,16 +11,22 @@ public abstract class PurchaseDetails_ extends com.syntech.sbs.model.BaseIdEntit
 
 	public static volatile SingularAttribute<PurchaseDetails, String> unit;
 	public static volatile SingularAttribute<PurchaseDetails, Integer> quantity;
+	public static volatile SingularAttribute<PurchaseDetails, String> code;
 	public static volatile SingularAttribute<PurchaseDetails, BigInteger> rate;
 	public static volatile SingularAttribute<PurchaseDetails, Purchase> purchase;
 	public static volatile SingularAttribute<PurchaseDetails, BigInteger> discount;
+	public static volatile SingularAttribute<PurchaseDetails, String> description;
+	public static volatile SingularAttribute<PurchaseDetails, String> type;
 	public static volatile SingularAttribute<PurchaseDetails, String> productName;
 
 	public static final String UNIT = "unit";
 	public static final String QUANTITY = "quantity";
+	public static final String CODE = "code";
 	public static final String RATE = "rate";
 	public static final String PURCHASE = "purchase";
 	public static final String DISCOUNT = "discount";
+	public static final String DESCRIPTION = "description";
+	public static final String TYPE = "type";
 	public static final String PRODUCT_NAME = "productName";
 
 }

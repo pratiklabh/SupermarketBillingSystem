@@ -27,23 +27,36 @@ public class PurchaseDetails extends BaseIdEntity {
     @Column(name = "unit", nullable = false)
     private String unit;
 
+    @Column(name = "discount")
     private BigInteger discount;
+
+    @Column(name = "code")
+    private String code; 
+
+    @Column(name = "type")
+    private String type; 
+
+    @Column(name = "description")
+    private String description; 
 
     public PurchaseDetails() {
     }
 
     public PurchaseDetails(Purchase purchase, String productName, int quantity, 
-            BigInteger rate, String unit, BigInteger discount) {
+            BigInteger rate, String unit, BigInteger discount, String code, 
+            String type, String description) {
         this.purchase = purchase;
         this.productName = productName;
         this.quantity = quantity;
         this.rate = rate;
         this.unit = unit;
         this.discount = discount;
+        this.code = code;
+        this.type = type;
+        this.description = description;
     }
 
-    
-
+    // Getters and setters for existing fields
     public Purchase getPurchase() {
         return purchase;
     }
@@ -92,4 +105,27 @@ public class PurchaseDetails extends BaseIdEntity {
         this.discount = discount;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

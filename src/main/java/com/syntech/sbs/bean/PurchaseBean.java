@@ -35,6 +35,9 @@ public class PurchaseBean implements Serializable {
     private Supplier supplier;
     private BigInteger discount;
     private BigInteger total;
+    private String code; // New field
+    private String type; // New field
+    private String description; // New field
     private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 
     @Inject
@@ -68,6 +71,9 @@ public class PurchaseBean implements Serializable {
         detail.setRate(rate);
         detail.setUnit(unit);
         detail.setDiscount(discount);
+        detail.setCode(code); // Set new field
+        detail.setType(type); // Set new field
+        detail.setDescription(description); // Set new field
 
         purchaseDetailsList.add(detail);
         calculateTotal();
@@ -111,33 +117,43 @@ public class PurchaseBean implements Serializable {
                 // Fetch the product by name
                 Product product = productRepository.findByName(details.getProductName());
 
-                if (product != null) {
-                    // Create/updatw a Stock entry
-                    Stock stock = stockRepository.findByProductName(product.getName());
-
-                    if (stock == null) {
-                        stock = new Stock();
-                        stock.setProduct(product);
-                        stock.setQuantity(details.getQuantity());
-                    } else {
-                        // to increase stock if already present
-                        stock.setQuantity(stock.getQuantity() + details.getQuantity());
-                    }
-
-                    // Updating other stock details
-                    stock.setRate(details.getRate());
-                    stock.setUnit(details.getUnit());
-                    stock.setDate(LocalDateTime.now());
-
-                    // Save the stock entry
-                    stockRepository.save(stock);
-                } else {
-                    System.err.println("Product not found: " + details.getProductName());
+                if (product == null) {
+                    // Product not found, create a new Product
+                    product = new Product();
+                    product.setName(details.getProductName());
+                    product.setCode(details.getCode());
+                    product.setType(details.getType());
+                    product.setDescription(details.getDescription());
+                    product.setRate(details.getRate());
+                    product.setDiscount(details.getDiscount());
+                    product.setUnit(details.getUnit());
+                    // Save the new product
+                    productRepository.save(product);
                 }
+
+                // Create/update a Stock entry
+                Stock stock = stockRepository.findByProductName(product.getName());
+
+                if (stock == null) {
+                    stock = new Stock();
+                    stock.setProduct(product);
+                    stock.setQuantity(details.getQuantity());
+                } else {
+                    // Increase stock if already present
+                    stock.setQuantity(stock.getQuantity() + details.getQuantity());
+                }
+
+                // Update other stock details
+                stock.setRate(details.getRate());
+                stock.setUnit(details.getUnit());
+                stock.setDate(LocalDateTime.now());
+
+                // Save the stock entry
+                stockRepository.save(stock);
+
             } catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "Error", "Failed to update stock"));
-
             }
         }
     }
@@ -171,6 +187,9 @@ public class PurchaseBean implements Serializable {
         unit = "";
         subTotal = BigInteger.ZERO;
         discount = BigInteger.ZERO;
+        code = ""; // Clear new field
+        type = ""; // Clear new field
+        description = ""; // Clear new field
     }
 
     // Getters and Setters
@@ -266,5 +285,30 @@ public class PurchaseBean implements Serializable {
 
     public void setPurchaseDetailsList(List<PurchaseDetails> purchaseDetailsList) {
         this.purchaseDetailsList = purchaseDetailsList;
+    }
+
+    // Getters and Setters for new fields
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
