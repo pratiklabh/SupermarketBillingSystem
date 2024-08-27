@@ -17,6 +17,7 @@ public abstract class Product_ extends com.syntech.sbs.model.BaseIdEntity_ {
 	public static volatile SingularAttribute<Product, String> description;
 	public static volatile SingularAttribute<Product, BigInteger> discount;
 	public static volatile SingularAttribute<Product, String> type;
+	public static volatile SingularAttribute<Product, Stock> stock;
 
 	public static final String UNIT = "unit";
 	public static final String CODE = "code";
@@ -26,6 +27,7 @@ public abstract class Product_ extends com.syntech.sbs.model.BaseIdEntity_ {
 	public static final String DESCRIPTION = "description";
 	public static final String DISCOUNT = "discount";
 	public static final String TYPE = "type";
+	public static final String STOCK = "stock";
 
 }
 
