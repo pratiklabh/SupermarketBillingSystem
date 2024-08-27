@@ -18,24 +18,15 @@
                                         style="width: 1in; height: 0.4in;"/>
                     </f:facet>
 
+                    <p:menuitem value="Manage Users" icon="pi pi-fw pi-users"
+                                outcome="userList" />
 
-                    <p:submenu label="Manage User" icon="pi pi-fw pi-user">
+                    <p:menuitem value="Manage Products" icon="pi pi-fw pi-shopping-cart"
+                                outcome="productListForm"/>
 
-                        <p:menuitem value="View All Accounts" icon="pi pi-fw pi-users"
-                                    outcome="userList" />
+                    <p:menuitem value="Manage Suppliers" icon="pi pi-fw pi-users"
+                                outcome="supplierListForm"/>
 
-                    </p:submenu>
-
-                    <p:submenu label="Manage Products" icon="pi pi-fw pi-shopping-cart">
-                        <p:menuitem value="View All Products" icon="pi pi-fw pi-shopping-cart"
-                                    outcome="productListForm"/>
-                    </p:submenu>
-
-                    <p:submenu label="Manage Supplier" icon="pi pi-fw pi-users">
-                        <p:menuitem value="View All Suppliers" icon="pi pi-fw pi-users"
-                                    outcome="supplierListForm"/>
-                    </p:submenu>
-                    
                     <p:submenu label="Manage Bills" icon="pi pi-fw pi-file">
                         <p:menuitem value="Purchase Bill" icon="pi pi-fw pi-file"
                                     outcome="purchaseForm"/>
@@ -43,6 +34,9 @@
                                     outcome="salesForm"/>
                     </p:submenu>
 
+                    <p:menuitem value="View Stock" icon="pi pi-fw pi-shopping-cart"
+                                outcome="stockForm"/>
+                    
                     <p:divider layout="vertical"/>
 
                     <f:facet name="end">
