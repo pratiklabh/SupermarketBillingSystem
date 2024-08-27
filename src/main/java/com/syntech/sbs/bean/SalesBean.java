@@ -8,6 +8,7 @@ import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.SalesRepository;
 import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,11 @@ public class SalesBean implements Serializable {
     private List<User> customers;
 
     private int quantity = 1;  // Default 1
-    private double rate;
+    private BigInteger rate = BigInteger.ZERO;
     private String unit;
-    private double subTotal;
-    private long discount;
-    private long total;
+    private BigInteger subTotal = BigInteger.ZERO;
+    private BigInteger discount = BigInteger.ZERO;
+    private BigInteger total = BigInteger.ZERO;
     private String paymentMode;
     private List<SalesDetails> salesDetailsList = new ArrayList<>();
 
@@ -116,7 +117,7 @@ public class SalesBean implements Serializable {
             return;
         }
 
-        subTotal = quantity * rate;
+        subTotal = BigInteger.valueOf(quantity).multiply(rate);
         SalesDetails detail = new SalesDetails();
         detail.setProduct(selectedProduct);
         detail.setQuantity(quantity);
@@ -148,31 +149,34 @@ public class SalesBean implements Serializable {
     }
 
     private void calculateTotal() {
-        long grossTotal = salesDetailsList.stream()
-                .mapToLong(details -> (long) (details.getQuantity() * details.getRate()))
-                .sum();
+        // Calculate the gross total cost of all products
+        BigInteger grossTotal = salesDetailsList.stream()
+                .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getRate()))
+                .reduce(BigInteger.ZERO, BigInteger::add);
 
-        long discountTotal = salesDetailsList.stream()
-                .mapToLong(SalesDetails::getDiscount)
-                .sum();
+        // Calculate the total discount
+        BigInteger discountTotal = salesDetailsList.stream()
+                .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getDiscount()))
+                .reduce(BigInteger.ZERO, BigInteger::add);
 
-        total = grossTotal - discountTotal;
+        // Subtract the total discount from the gross total
+        total = grossTotal.subtract(discountTotal);
     }
 
     public void clearProductFields() {
         productCode = "";
-        rate = 0;
+        rate = BigInteger.ZERO;
         quantity = 1;
         unit = "";
-        subTotal = 0;
-        discount = 0;
+        subTotal = BigInteger.ZERO;
+        discount = BigInteger.ZERO;
         selectedProduct = null;
     }
 
     public void clear() {
         selectedSale = new Sales();
         salesDetailsList.clear();
-        total = 0;
+        total = BigInteger.ZERO;
         customerPhone = "";
         customerName = "";
         clearProductFields();
@@ -211,11 +215,11 @@ public class SalesBean implements Serializable {
         this.salesDetailsList = salesDetailsList;
     }
 
-    public long getTotal() {
+    public BigInteger getTotal() {
         return total;
     }
 
-    public void setTotal(long total) {
+    public void setTotal(BigInteger total) {
         this.total = total;
     }
 
@@ -235,12 +239,11 @@ public class SalesBean implements Serializable {
         this.selectedProduct = selectedProduct;
     }
 
-    public double getSubTotal() {
+    public BigInteger getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(double subTotal) {
+    public void setSubTotal(BigInteger subTotal) {
         this.subTotal = subTotal;
     }
-
 }

@@ -25,6 +25,7 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/ProductBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/PurchaseDetails.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/GenericLazyDataModel.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/StockBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/SalesDetails.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/repository/SalesDetailsRepository.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/BaseIdEntity_.java

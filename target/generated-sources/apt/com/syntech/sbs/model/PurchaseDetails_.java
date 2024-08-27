@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -10,9 +11,9 @@ public abstract class PurchaseDetails_ extends com.syntech.sbs.model.BaseIdEntit
 
 	public static volatile SingularAttribute<PurchaseDetails, String> unit;
 	public static volatile SingularAttribute<PurchaseDetails, Integer> quantity;
-	public static volatile SingularAttribute<PurchaseDetails, Double> rate;
+	public static volatile SingularAttribute<PurchaseDetails, BigInteger> rate;
 	public static volatile SingularAttribute<PurchaseDetails, Purchase> purchase;
-	public static volatile SingularAttribute<PurchaseDetails, Long> discount;
+	public static volatile SingularAttribute<PurchaseDetails, BigInteger> discount;
 	public static volatile SingularAttribute<PurchaseDetails, String> productName;
 
 	public static final String UNIT = "unit";

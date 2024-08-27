@@ -6,6 +6,7 @@ import com.syntech.sbs.model.Supplier;
 import com.syntech.sbs.repository.PurchaseRepository;
 import com.syntech.sbs.repository.SupplierRepository;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,12 @@ public class PurchaseBean implements Serializable {
     private List<Supplier> suppliers;
     private String productName;
     private int quantity;
-    private double rate;
+    private BigInteger rate;
     private String unit;
-    private double subTotal;
+    private BigInteger subTotal;
     private Supplier supplier;
-    private Long discount;
-    private Long total;
+    private BigInteger discount;
+    private BigInteger total;
     private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 
     @Inject
@@ -59,7 +60,7 @@ public class PurchaseBean implements Serializable {
     }
 
     public void addItem() {
-        subTotal = quantity * rate;
+        subTotal = BigInteger.valueOf(quantity).multiply(rate);
         PurchaseDetails detail = new PurchaseDetails();
         detail.setProductName(productName);
         detail.setQuantity(quantity);
@@ -92,33 +93,33 @@ public class PurchaseBean implements Serializable {
 
     private void calculateTotal() {
         // Calculate the gross total cost of all products
-        long grossTotal = purchaseDetailsList.stream()
-                .mapToLong(details -> (long) (details.getQuantity() * details.getRate()))
-                .sum();
+        BigInteger grossTotal = purchaseDetailsList.stream()
+                .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getRate()))
+                .reduce(BigInteger.ZERO, BigInteger::add);
 
         // Calculate the total discount
-        long totalDiscount = purchaseDetailsList.stream()
-                .mapToLong(details -> (long) (details.getQuantity() * details.getDiscount()))
-                .sum();
+        BigInteger totalDiscount = purchaseDetailsList.stream()
+                .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getDiscount()))
+                .reduce(BigInteger.ZERO, BigInteger::add);
 
         // Subtract the total discount from the gross total
-        total = grossTotal - totalDiscount;
+        total = grossTotal.subtract(totalDiscount);
     }
 
     public void clear() {
         supplier = null;
-        discount = 0L;
-        total = 0L;
+        discount = BigInteger.ZERO;
+        total = BigInteger.ZERO;
         purchaseDetailsList.clear();
     }
 
     public void clearItemFields() {
         productName = "";
         quantity = 1;
-        rate = 0;
+        rate = BigInteger.ZERO;
         unit = "";
-        subTotal = 0.0;
-        discount = 0L;
+        subTotal = BigInteger.ZERO;
+        discount = BigInteger.ZERO;
     }
 
     // Getters and Setters
@@ -160,11 +161,11 @@ public class PurchaseBean implements Serializable {
         this.quantity = quantity;
     }
 
-    public double getRate() {
+    public BigInteger getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(BigInteger rate) {
         this.rate = rate;
     }
 
@@ -176,11 +177,11 @@ public class PurchaseBean implements Serializable {
         this.unit = unit;
     }
 
-    public double getSubTotal() {
+    public BigInteger getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(double subTotal) {
+    public void setSubTotal(BigInteger subTotal) {
         this.subTotal = subTotal;
     }
 
@@ -192,19 +193,19 @@ public class PurchaseBean implements Serializable {
         this.supplier = supplier;
     }
 
-    public Long getDiscount() {
+    public BigInteger getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(BigInteger discount) {
         this.discount = discount;
     }
 
-    public Long getTotal() {
+    public BigInteger getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(BigInteger total) {
         this.total = total;
     }
 

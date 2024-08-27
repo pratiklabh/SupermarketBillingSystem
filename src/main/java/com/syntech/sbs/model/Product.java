@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,7 @@ public class Product extends BaseIdEntity {
 
     @NotNull(message = "Rate is required.")
     @Positive(message = "Rate must be a positive number")
-    private Long rate;
+    private BigInteger rate;
 
     @NotBlank(message = "Type is required.")
     @Size(min = 3, max = 30, message = "Type should be between 3 and 30 characters")
@@ -36,7 +37,7 @@ public class Product extends BaseIdEntity {
 
     @NotNull(message = "Discount is required.")
     @PositiveOrZero(message = "Discount must be zero or a positive number")
-    private Long discount;
+    private BigInteger discount;
 
     @Column(unique = true, nullable = false)
     @Pattern(regexp = "^[0-9]{5}$", message = "Code must be exactly 5 digits")
@@ -51,7 +52,7 @@ public class Product extends BaseIdEntity {
     public Product() {
     }
 
-    public Product(String name, Long rate, String type, String code, String description, String unit, Long discount) {
+    public Product(String name, BigInteger rate, String type, String code, String description, String unit, BigInteger discount) {
         this.name = name;
         this.rate = rate;
         this.type = type;
@@ -79,11 +80,11 @@ public class Product extends BaseIdEntity {
         this.name = name;
     }
 
-    public Long getRate() {
+    public BigInteger getRate() {
         return rate;
     }
 
-    public void setRate(Long rate) {
+    public void setRate(BigInteger rate) {
         this.rate = rate;
     }
 
@@ -111,11 +112,11 @@ public class Product extends BaseIdEntity {
         this.unit = unit;
     }
 
-    public Long getDiscount() {
+    public BigInteger getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(BigInteger discount) {
         this.discount = discount;
     }
 

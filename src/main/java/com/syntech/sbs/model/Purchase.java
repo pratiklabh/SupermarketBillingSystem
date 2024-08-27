@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,7 +19,7 @@ public class Purchase extends BaseIdEntity {
     private LocalDateTime date;
 
 
-    private Long total;
+    private BigInteger total;
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<PurchaseDetails> purchaseDetails;
@@ -27,7 +28,7 @@ public class Purchase extends BaseIdEntity {
     }
 
     public Purchase(Supplier supplier, LocalDateTime date, 
-                    Long total, List<PurchaseDetails> purchaseDetails) {
+                    BigInteger total, List<PurchaseDetails> purchaseDetails) {
         this.supplier = supplier;
         this.date = date;
         this.total = total;
@@ -50,11 +51,11 @@ public class Purchase extends BaseIdEntity {
         this.date = date;
     }
 
-    public Long getTotal() {
+    public BigInteger getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(BigInteger total) {
         this.total = total;
     }
 

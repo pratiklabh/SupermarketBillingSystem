@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,24 +22,27 @@ public class PurchaseDetails extends BaseIdEntity {
     private int quantity;
 
     @Column(name = "rate", nullable = false)
-    private double rate;
+    private BigInteger rate;
 
     @Column(name = "unit", nullable = false)
     private String unit;
 
-    private Long discount;
+    private BigInteger discount;
 
     public PurchaseDetails() {
     }
 
-    public PurchaseDetails(Purchase purchase, String productName,
-            int quantity, double rate, String unit) {
+    public PurchaseDetails(Purchase purchase, String productName, int quantity, 
+            BigInteger rate, String unit, BigInteger discount) {
         this.purchase = purchase;
         this.productName = productName;
         this.quantity = quantity;
         this.rate = rate;
         this.unit = unit;
+        this.discount = discount;
     }
+
+    
 
     public Purchase getPurchase() {
         return purchase;
@@ -64,11 +68,11 @@ public class PurchaseDetails extends BaseIdEntity {
         this.quantity = quantity;
     }
 
-    public double getRate() {
+    public BigInteger getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(BigInteger rate) {
         this.rate = rate;
     }
 
@@ -80,11 +84,11 @@ public class PurchaseDetails extends BaseIdEntity {
         this.unit = unit;
     }
 
-    public Long getDiscount() {
+    public BigInteger getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(BigInteger discount) {
         this.discount = discount;
     }
 

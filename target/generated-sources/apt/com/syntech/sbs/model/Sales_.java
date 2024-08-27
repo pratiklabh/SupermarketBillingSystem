@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
@@ -11,7 +12,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Sales_ extends com.syntech.sbs.model.BaseIdEntity_ {
 
 	public static volatile SingularAttribute<Sales, LocalDateTime> date;
-	public static volatile SingularAttribute<Sales, Long> total;
+	public static volatile SingularAttribute<Sales, BigInteger> total;
 	public static volatile SingularAttribute<Sales, String> paymentMode;
 	public static volatile SingularAttribute<Sales, User> customer;
 	public static volatile ListAttribute<Sales, SalesDetails> salesDetails;

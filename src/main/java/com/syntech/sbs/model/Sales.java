@@ -1,5 +1,6 @@
 package com.syntech.sbs.model;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -22,7 +23,7 @@ public class Sales extends BaseIdEntity {
     private LocalDateTime date;
 
     @Column(name = "total", nullable = false)
-    private Long total;
+    private BigInteger total;
 
     @Column(name = "payment_mode", nullable = false)
     private String paymentMode;
@@ -33,7 +34,7 @@ public class Sales extends BaseIdEntity {
     public Sales() {
     }
 
-    public Sales(User customer, LocalDateTime date, Long total, String paymentMode, List<SalesDetails> salesDetails) {
+    public Sales(User customer, LocalDateTime date, BigInteger total, String paymentMode, List<SalesDetails> salesDetails) {
         this.customer = customer;
         this.date = date;
         this.total = total;
@@ -57,11 +58,11 @@ public class Sales extends BaseIdEntity {
         this.date = date;
     }
 
-    public Long getTotal() {
+    public BigInteger getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(BigInteger total) {
         this.total = total;
     }
 
