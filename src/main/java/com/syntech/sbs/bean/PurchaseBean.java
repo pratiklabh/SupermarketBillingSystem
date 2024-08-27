@@ -72,6 +72,7 @@ public class PurchaseBean implements Serializable {
         detail.setUnit(unit);
         detail.setDiscount(discount);
         detail.setCode(code); 
+        detail.setType(type);
 
         purchaseDetailsList.add(detail);
         calculateTotal();
