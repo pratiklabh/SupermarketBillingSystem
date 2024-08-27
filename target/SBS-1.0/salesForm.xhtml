@@ -24,9 +24,7 @@
 
                 <h:outputLabel for="customerName" value="Customer Name:" />
                 <h:outputText id="customerName" value="#{salesBean.customerName}" style="width:223px" />
-            </h:panelGrid>
-
-            <h:panelGrid columns="6" cellpadding="5">
+                
                 <h:outputLabel for="productCode" value="Product Code:" />
                 <p:autoComplete id="productCode" value="#{salesBean.productCode}" 
                                 completeMethod="#{salesBean.completeProductCode}" 

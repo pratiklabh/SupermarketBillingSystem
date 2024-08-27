@@ -35,9 +35,9 @@ public class PurchaseBean implements Serializable {
     private Supplier supplier;
     private BigInteger discount;
     private BigInteger total;
-    private String code; // New field
-    private String type; // New field
-    private String description; // New field
+    private String code; 
+    private String type;
+    private String description; 
     private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 
     @Inject
@@ -71,9 +71,7 @@ public class PurchaseBean implements Serializable {
         detail.setRate(rate);
         detail.setUnit(unit);
         detail.setDiscount(discount);
-        detail.setCode(code); // Set new field
-        detail.setType(type); // Set new field
-        detail.setDescription(description); // Set new field
+        detail.setCode(code); 
 
         purchaseDetailsList.add(detail);
         calculateTotal();
@@ -103,10 +101,8 @@ public class PurchaseBean implements Serializable {
             // Clear form and data
             clear();
 
-            // Add success message
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase completed successfully"));
         } catch (Exception e) {
-            // Add error message
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to complete purchase"));
         }
     }
@@ -159,17 +155,14 @@ public class PurchaseBean implements Serializable {
     }
 
     private void calculateTotal() {
-        // Calculate the gross total cost of all products
         BigInteger grossTotal = purchaseDetailsList.stream()
                 .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getRate()))
                 .reduce(BigInteger.ZERO, BigInteger::add);
 
-        // Calculate the total discount
         BigInteger totalDiscount = purchaseDetailsList.stream()
                 .map(details -> BigInteger.valueOf(details.getQuantity()).multiply(details.getDiscount()))
                 .reduce(BigInteger.ZERO, BigInteger::add);
 
-        // Subtract the total discount from the gross total
         total = grossTotal.subtract(totalDiscount);
     }
 
@@ -187,9 +180,9 @@ public class PurchaseBean implements Serializable {
         unit = "";
         subTotal = BigInteger.ZERO;
         discount = BigInteger.ZERO;
-        code = ""; // Clear new field
-        type = ""; // Clear new field
-        description = ""; // Clear new field
+        code = ""; 
+        type = ""; 
+        description = ""; 
     }
 
     // Getters and Setters
