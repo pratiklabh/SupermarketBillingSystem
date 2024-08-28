@@ -35,9 +35,9 @@ public class PurchaseBean implements Serializable {
     private Supplier supplier;
     private BigInteger discount;
     private BigInteger total;
-    private String code; 
+    private String code;
     private String type;
-    private String description; 
+    private String description;
     private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 
     @Inject
@@ -64,19 +64,25 @@ public class PurchaseBean implements Serializable {
     }
 
     public void addItem() {
-        subTotal = BigInteger.valueOf(quantity).multiply(rate);
-        PurchaseDetails detail = new PurchaseDetails();
-        detail.setProductName(productName);
-        detail.setQuantity(quantity);
-        detail.setRate(rate);
-        detail.setUnit(unit);
-        detail.setDiscount(discount);
-        detail.setCode(code); 
-        detail.setType(type);
+        try {
+            subTotal = BigInteger.valueOf(quantity).multiply(rate);
+            PurchaseDetails detail = new PurchaseDetails();
+            detail.setProductName(productName);
+            detail.setQuantity(quantity);
+            detail.setRate(rate);
+            detail.setUnit(unit);
+            detail.setDiscount(discount);
+            detail.setCode(code);
+            detail.setType(type);
 
-        purchaseDetailsList.add(detail);
-        calculateTotal();
-        clearItemFields();
+            purchaseDetailsList.add(detail);
+            calculateTotal();
+            clearItemFields();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
+
+        }
     }
 
     public void completePurchase() {
@@ -104,7 +110,8 @@ public class PurchaseBean implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase completed successfully"));
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to complete purchase"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "Failed to complete purchase"));
         }
     }
 
@@ -181,9 +188,9 @@ public class PurchaseBean implements Serializable {
         unit = "";
         subTotal = BigInteger.ZERO;
         discount = BigInteger.ZERO;
-        code = ""; 
-        type = ""; 
-        description = ""; 
+        code = "";
+        type = "";
+        description = "";
     }
 
     // Getters and Setters

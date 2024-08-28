@@ -8,27 +8,34 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "purchase")
 public class Purchase extends BaseIdEntity {
 
     @ManyToOne
+    @NotNull(message = "Supplier must not be null")
     private Supplier supplier;
 
+    @NotNull(message = "Date must not be null")
     private LocalDateTime date;
 
-
+    @NotNull(message = "Total must not be null")
+    @Min(value = 0, message = "Total must be a positive value")
     private BigInteger total;
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
+    @NotEmpty(message = "Purchase details must not be empty")
     private List<PurchaseDetails> purchaseDetails;
 
     public Purchase() {
     }
 
-    public Purchase(Supplier supplier, LocalDateTime date, 
-                    BigInteger total, List<PurchaseDetails> purchaseDetails) {
+    public Purchase(Supplier supplier, LocalDateTime date,
+            BigInteger total, List<PurchaseDetails> purchaseDetails) {
         this.supplier = supplier;
         this.date = date;
         this.total = total;

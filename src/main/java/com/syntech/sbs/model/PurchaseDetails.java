@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "purchase_details")
@@ -13,37 +16,44 @@ public class PurchaseDetails extends BaseIdEntity {
 
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)
+    @NotNull(message = "Purchase must not be null")
     private Purchase purchase;
 
     @Column(name = "product_name", nullable = false)
+    @NotBlank(message = "Product name must not be blank")
     private String productName;
 
     @Column(name = "quantity", nullable = false)
+    @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
 
     @Column(name = "rate", nullable = false)
+    @NotNull(message = "Rate must not be null")
+    @Min(value = 0, message = "Rate must be a positive value")
     private BigInteger rate;
 
     @Column(name = "unit", nullable = false)
+    @NotBlank(message = "Unit must not be blank")
     private String unit;
 
     @Column(name = "discount")
+    @Min(value = 0, message = "Discount must be a positive value")
     private BigInteger discount;
 
     @Column(name = "code")
-    private String code; 
+    private String code;
 
     @Column(name = "type")
-    private String type; 
+    private String type;
 
     @Column(name = "description")
-    private String description; 
+    private String description;
 
     public PurchaseDetails() {
     }
 
-    public PurchaseDetails(Purchase purchase, String productName, int quantity, 
-            BigInteger rate, String unit, BigInteger discount, String code, 
+    public PurchaseDetails(Purchase purchase, String productName, int quantity,
+            BigInteger rate, String unit, BigInteger discount, String code,
             String type, String description) {
         this.purchase = purchase;
         this.productName = productName;
