@@ -3,9 +3,11 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.Product;
 import com.syntech.sbs.model.Sales;
 import com.syntech.sbs.model.SalesDetails;
+import com.syntech.sbs.model.Stock;
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.SalesRepository;
+import com.syntech.sbs.repository.StockRepository;
 import com.syntech.sbs.repository.UserRepository;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -51,6 +53,9 @@ public class SalesBean implements Serializable {
 
     @Inject
     private UserRepository userRepo;
+    
+    @Inject
+    private StockRepository stockRepository;
 
     @PostConstruct
     public void init() {
@@ -131,21 +136,54 @@ public class SalesBean implements Serializable {
     }
 
     public void completeSale() {
-        Sales sale = new Sales();
-        sale.setCustomer(selectedCustomer);
-        sale.setDate(LocalDateTime.now());
-        sale.setTotal(total);
-        sale.setPaymentMode(paymentMode);
-        sale.setSalesDetails(salesDetailsList);
+        try {
+            selectedSale.setDate(LocalDateTime.now());
+            selectedSale.setCustomer(selectedCustomer);
+            selectedSale.setTotal(total);
+            selectedSale.setPaymentMode(paymentMode);
 
-        // Set the sales reference in sales details
-        for (SalesDetails details : salesDetailsList) {
-            details.setSales(sale);
+            for (SalesDetails details : salesDetailsList) {
+                details.setSales(selectedSale);
+            }
+            selectedSale.setSalesDetails(salesDetailsList);
+
+            // Save the sale (which will also save SalesDetails due to cascade)
+            salesRepository.save(selectedSale);
+
+            // Update the stock after sale completion
+            updateStock();
+
+            // Clear form and data
+            clear();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sale completed successfully"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to complete sale"));
         }
+    }
 
-        // Save sale to the database (this will also save salesDetails because of cascade)
-        salesRepository.save(sale);
-        clear();
+    private void updateStock() {
+        for (SalesDetails details : salesDetailsList) {
+            try {
+                // Fetch the stock by product name
+                Stock stock = stockRepository.findByProductName(details.getProduct().getName());
+
+                if (stock != null) {
+                    // Decrease stock quantity
+                    stock.setQuantity(stock.getQuantity() - details.getQuantity());
+
+                    // Update stock details
+                    stock.setDate(LocalDateTime.now());
+
+                    // Save the stock entry
+                    stockRepository.save(stock);
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Stock not found for product: " + details.getProduct().getName()));
+                }
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to update stock"));
+            }
+        }
     }
 
     private void calculateTotal() {
@@ -184,6 +222,10 @@ public class SalesBean implements Serializable {
 
     }
 
+    public void cancel() {
+        selectedSale = new Sales(); // Reset the form
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled"));
+    }
     // Getters and Setters
     public String getProductCode() {
         return productCode;
