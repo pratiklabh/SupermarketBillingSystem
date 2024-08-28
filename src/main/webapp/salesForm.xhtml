@@ -20,7 +20,7 @@
                                 completeMethod="#{salesBean.completeCustomerPhone}" 
                                 var="phone" itemLabel="#{phone}" itemValue="#{phone}" 
                                 forceSelection="true" style="width:223px" />
-                <p:commandButton value="Search Customer" action="#{salesBean.searchCustomer}" update="customerName @form" />
+                <p:commandButton value="Search Customer" action="#{salesBean.searchCustomer}" update="customerName :growl @form" />
 
                 <h:outputLabel for="customerName" value="Customer Name:" />
                 <h:outputText id="customerName" value="#{salesBean.customerName}" style="width:223px" />
@@ -30,7 +30,7 @@
                                 completeMethod="#{salesBean.completeProductCode}" 
                                 var="product" itemLabel="#{product}" itemValue="#{product}" 
                                 forceSelection="true" style="width:223px" />
-                <p:commandButton value="Search Product" action="#{salesBean.searchProduct}" update="salesDetailsTable @form" />
+                <p:commandButton value="Search Product" action="#{salesBean.searchProduct}" update="salesDetailsTable :growl @form" />
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5">
@@ -51,12 +51,12 @@
                     <p:column>
                         <f:facet name="header">Quantity</f:facet>
                         <p:commandButton value="-" action="#{salesBean.decrementQuantity(item)}" 
-                                         update="salesDetailsTable :pg_total:total @form" style="margin: 4px"/>
+                                         update="salesDetailsTable :pg_total:total :growl @form" style="margin: 4px"/>
 
                         <h:outputText value="#{item.quantity}" />
 
                         <p:commandButton value="+" action="#{salesBean.incrementQuantity(item)}" 
-                                         update="salesDetailsTable :pg_total:total @form" style="margin: 4px"/>
+                                         update="salesDetailsTable :pg_total:total @form :growl" style="margin: 4px"/>
 
                     </p:column>
 
