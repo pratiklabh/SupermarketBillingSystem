@@ -32,6 +32,7 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/BaseIdEntity.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/LoginBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/Product.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/ViewPurchaseBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/Purchase.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/converter/ProductConverter.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/JAXRSConfiguration.java

@@ -35,6 +35,7 @@ com/syntech/sbs/resources/JavaEE8Resource.class
 com/syntech/sbs/repository/SalesRepository.class
 com/syntech/sbs/model/SalesDetails_.class
 com/syntech/sbs/model/BaseIdEntity_.class
+com/syntech/sbs/bean/ViewPurchaseBean.class
 com/syntech/sbs/bean/StockBean.class
 com/syntech/sbs/bean/SalesBean.class
 com/syntech/sbs/model/Product.class
