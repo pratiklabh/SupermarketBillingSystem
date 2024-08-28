@@ -37,15 +37,23 @@
                         <p:menuitem value="View Sales Bill" icon="pi pi-fw pi-file"
                                     outcome="viewSalesBill"/>
                     </p:submenu>
-
+                    
                     <p:menuitem value="View Stock" icon="pi pi-fw pi-shopping-cart"
                                 outcome="stockForm"/>
-                    
+
                     <p:divider layout="vertical"/>
 
                     <f:facet name="end">
-                        <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
+                        <p:menubar styleClass="right-menu">
+                            <p:submenu label="User" icon="pi pi-user">
+                                <p:menuitem value="View Profile" icon="pi pi-fw pi-user" outcome="viewProfileForm" />
+                                <p:menuitem value="Logout" icon="pi pi-fw pi-sign-out" 
+                                            outcome="adminLogin"/>
+                            </p:submenu>
+                        </p:menubar>
                     </f:facet>
+
+
                 </p:menubar>
             </h:form>
         </div>
