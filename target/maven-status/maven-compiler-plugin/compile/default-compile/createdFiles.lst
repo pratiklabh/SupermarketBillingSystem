@@ -1,4 +1,5 @@
 com/syntech/sbs/bean/UserBean.class
+com/syntech/sbs/bean/ViewSalesBean.class
 com/syntech/sbs/converter/PurchaseConverter.class
 com/syntech/sbs/repository/UserRepository.class
 com/syntech/sbs/bean/ProductBean.class
