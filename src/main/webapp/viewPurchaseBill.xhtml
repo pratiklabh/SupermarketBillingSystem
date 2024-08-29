@@ -43,8 +43,8 @@
                 <p:column headerText="Actions">
                     <p:commandButton value="View Details" icon="pi pi-fw pi-info-circle"
                                      styleClass="ui-button-warning"
-                                     action="#{viewPurchaseBean.viewDetails(purchase)}"
-                                     update=":viewPurchaseBillForm"
+                                     actionListener="#{viewPurchaseBean.viewDetails(purchase)}"
+                                     update=":viewPurchaseBillForm" process="@this"
                                      oncomplete="PF('purchaseDetailsDialog').show()" />
 
 
@@ -59,24 +59,26 @@
                       modal="true" showEffect="fade" hideEffect="fade">
                 <h:panelGroup>
                     <p:dataTable value="#{viewPurchaseBean.purchaseDetails}" var="detail">
-                        <p:column headerText="Code">
+                        <p:column headerText="Product Code">
                             <h:outputText value="#{detail.code}" />
                         </p:column>
-                        <p:column headerText="Description">
-                            <h:outputText value="#{detail.description}" />
-                        </p:column>
-                        <p:column headerText="Discount">
-                            <h:outputText value="#{detail.discount}" />
-                        </p:column>
+                        
                         <p:column headerText="Product Name">
                             <h:outputText value="#{detail.productName}" />
                         </p:column>
-                        <p:column headerText="Quantity">
-                            <h:outputText value="#{detail.quantity}" />
-                        </p:column>
+                        
                         <p:column headerText="Rate">
                             <h:outputText value="#{detail.rate}" />
                         </p:column>
+                        
+                        <p:column headerText="Discount">
+                            <h:outputText value="#{detail.discount}" />
+                        </p:column>
+                        
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{detail.quantity}" />
+                        </p:column>
+                        
                         <p:column headerText="Type">
                             <h:outputText value="#{detail.type}" />
                         </p:column>

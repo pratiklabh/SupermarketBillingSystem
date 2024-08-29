@@ -5,16 +5,17 @@ import com.syntech.sbs.model.Purchase;
 import com.syntech.sbs.model.PurchaseDetails;
 import com.syntech.sbs.repository.PurchaseDetailsRepository;
 import com.syntech.sbs.repository.PurchaseRepository;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("viewPurchaseBean")
 @ViewScoped
-public class ViewPurchaseBean {
+public class ViewPurchaseBean implements Serializable{
 
     private List<Purchase> purchaseList;
     private Purchase purchase;
