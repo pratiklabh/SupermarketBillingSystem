@@ -43,8 +43,8 @@
                 <p:column headerText="Actions">
                     <p:commandButton value="View Details" icon="pi pi-fw pi-info-circle"
                                      styleClass="ui-button-warning"
-                                     actionListener="#{viewPurchaseBean.viewDetails(purchase)}"
-                                     update=":viewPurchaseBillForm:purchaseDetailsDialog"
+                                     action="#{viewPurchaseBean.viewDetails(purchase)}"
+                                     update=":viewPurchaseBillForm"
                                      oncomplete="PF('purchaseDetailsDialog').show()" />
 
 
