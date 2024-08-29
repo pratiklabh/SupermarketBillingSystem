@@ -24,19 +24,19 @@
                     Sales List
                 </f:facet>
 
-                <p:column headerText="ID" filterBy="#{sales.id}" filterMatchMode="exact">
+                <p:column headerText="ID" >
                     <h:outputText value="#{sales.id}" />
                 </p:column>
 
-                <p:column headerText="Date" filterBy="#{sales.date}" filterMatchMode="contains">
+                <p:column headerText="Date" >
                     <h:outputText value="#{sales.date}" />
                 </p:column>
 
-                <p:column headerText="Name" filterBy="#{sales.customer.name}" filterMatchMode="contains">
+                <p:column headerText="Name" >
                     <h:outputText value="#{sales.customer.name}" />
                 </p:column>
 
-                <p:column headerText="Total" filterBy="#{sales.total}" filterMatchMode="contains">
+                <p:column headerText="Total" >
                     <h:outputText value="#{sales.total}" />
                 </p:column>
 
@@ -44,7 +44,8 @@
                     <p:commandButton value="View Details" icon="pi pi-fw pi-info-circle"
                                      styleClass="ui-button-warning"
                                      actionListener="#{viewSalesBean.viewDetails(sales)}"
-                                     update=":viewSalesBillForm:salesDetailsDialog"
+                                     process="@this"
+                                     update=":viewSalesBillForm"
                                      oncomplete="PF('salesDetailsDialog').show();" />
                 </p:column>
 

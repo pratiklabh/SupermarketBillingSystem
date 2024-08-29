@@ -5,21 +5,22 @@ import com.syntech.sbs.model.Sales;
 import com.syntech.sbs.model.SalesDetails;
 import com.syntech.sbs.repository.SalesDetailsRepository;
 import com.syntech.sbs.repository.SalesRepository;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("viewSalesBean")
 @ViewScoped
-public class ViewSalesBean {
+public class ViewSalesBean implements Serializable{
 
     private List<Sales> salesList;
     private Sales sales;
     private List<SalesDetails> salesDetails;
-    private GenericLazyDataModel<Sales> lazySaless;
+    private GenericLazyDataModel<Sales> lazySales;
 
     @Inject
     private SalesRepository salesRepo;
@@ -30,7 +31,7 @@ public class ViewSalesBean {
     @PostConstruct
     public void init() {
         sales = new Sales();
-        lazySaless = new GenericLazyDataModel<>(salesRepo, Sales.class);
+        lazySales = new GenericLazyDataModel<>(salesRepo, Sales.class);
         salesDetails = new ArrayList<>(); 
     }
 
@@ -51,11 +52,11 @@ public class ViewSalesBean {
     }
 
     public GenericLazyDataModel<Sales> getLazySaless() {
-        return lazySaless;
+        return lazySales;
     }
 
     public void setLazySaless(GenericLazyDataModel<Sales> lazySaless) {
-        this.lazySaless = lazySaless;
+        this.lazySales = lazySaless;
     }
 
     public List<SalesDetails> getSalesDetails() {
