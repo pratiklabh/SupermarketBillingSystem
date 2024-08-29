@@ -218,7 +218,6 @@ public class SalesBean implements Serializable {
         customerPhone = "";
         customerName = "";
         clearProductFields();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled"));
 
     }
 

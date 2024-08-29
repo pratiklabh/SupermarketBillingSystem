@@ -11,8 +11,21 @@
         <p:growl id="growl" showDetail="true" />
         <ui:include src="menu.xhtml" />
 
+        <h:form id="searchForm">
+            <h:panelGrid columns="6" cellpadding="5">
+                <h:outputLabel for="phone" value="Customer Phone:" />
+                <p:autoComplete id="phone" value="#{viewSalesBean.phone}" 
+                                completeMethod="#{viewSalesBean.completeCustomerPhone}" 
+                                var="phone" itemLabel="#{phone}" itemValue="#{phone}" 
+                                forceSelection="true" style="width:223px" />
+                <p:commandButton value="Search Customer" action="#{viewSalesBean.searchSalesByPhone}" 
+                                 update="@form :viewSalesBillForm:sales_bill" />
+            </h:panelGrid>
+        </h:form>
+
+
         <h:form id="viewSalesBillForm">
-            <p:dataTable id="sales_bill" value="#{viewSalesBean.lazySaless}" var="sales" 
+            <p:dataTable id="sales_bill" value="#{viewSalesBean.lazySales}" var="sales" 
                          paginator="true" rows="5" lazy="true" 
                          rowKey="#{sales.id}" 
                          paginatorPosition="bottom" 
