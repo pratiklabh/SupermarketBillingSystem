@@ -33,32 +33,26 @@
                     <h:outputText value="#{stock.product.name}" />
                 </p:column>
 
+                <p:column headerText="Rate">
+                    <h:outputText value="#{stock.rate}" />
+                </p:column>
+                
+                <p:column headerText="Discount">
+                    <h:outputText value="#{stock.product.discount}" />
+                </p:column>
+                
                 <p:column headerText="Quantity">
                     <h:outputText value="#{stock.quantity}" />
                 </p:column>
 
-                <p:column headerText="Rate">
-                    <h:outputText value="#{stock.rate}" />
+                <p:column headerText="Type">
+                    <h:outputText value="#{stock.product.type}" />
                 </p:column>
-
+                
                 <p:column headerText="Unit">
                     <h:outputText value="#{stock.unit}" />
                 </p:column>
 
-                <!--Actions column with Edit and Delete buttons--> 
-                <p:column headerText="Actions">
-                    <p:commandButton icon="pi pi-fw pi-pen-to-square"
-                                      />
-
-                    <p:commandButton  
-                        styleClass="ui-button-danger"
-                        icon="pi pi-trash">
-                        <p:confirm type="popup" header="Confirmation" 
-                                   message="Do you want to delete this record?" 
-                                   icon="pi pi-info-circle"/>
-                    </p:commandButton>
-
-                </p:column>
             </p:dataTable>
 
             <p:confirmPopup global="true" widgetVar="confirmPopup">
