@@ -64,24 +64,30 @@ public class PurchaseBean implements Serializable {
     }
 
     public void addItem() {
-        try {
-            subTotal = BigInteger.valueOf(quantity).multiply(rate);
-            PurchaseDetails detail = new PurchaseDetails();
-            detail.setProductName(productName);
-            detail.setQuantity(quantity);
-            detail.setRate(rate);
-            detail.setUnit(unit);
-            detail.setDiscount(discount);
-            detail.setCode(code);
-            detail.setType(type);
-
-            purchaseDetailsList.add(detail);
-            calculateTotal();
-            clearItemFields();
-        } catch (Exception e) {
+        if (productRepository.findByCode(code) != null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "Product with this Code Already exists"));
+            clearItemFields();
+        } else {
+            try {
+                subTotal = BigInteger.valueOf(quantity).multiply(rate);
+                PurchaseDetails detail = new PurchaseDetails();
+                detail.setProductName(productName);
+                detail.setQuantity(quantity);
+                detail.setRate(rate);
+                detail.setUnit(unit);
+                detail.setDiscount(discount);
+                detail.setCode(code);
+                detail.setType(type);
 
+                purchaseDetailsList.add(detail);
+                calculateTotal();
+                clearItemFields();
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
+
+            }
         }
     }
 
