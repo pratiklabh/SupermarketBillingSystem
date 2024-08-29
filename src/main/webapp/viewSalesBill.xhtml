@@ -14,19 +14,22 @@
         <h:form id="searchForm">
             <h:panelGrid columns="6" cellpadding="5">
                 <h:outputLabel for="phone" value="Customer Phone:" />
-                <p:autoComplete id="phone" value="#{viewSalesBean.phone}" 
+
+                <p:autoComplete id="phone" 
+                                value="#{viewSalesBean.phone}" 
                                 completeMethod="#{viewSalesBean.completeCustomerPhone}" 
-                                var="phone" itemLabel="#{phone}" itemValue="#{phone}" 
+                                var="phone" 
+                                itemLabel="#{phone}" itemValue="#{phone}" 
                                 forceSelection="true" style="width:223px" />
-                <p:commandButton value="Search Customer" action="#{viewSalesBean.searchSalesByPhone}" 
-                                 update="@form :viewSalesBillForm:sales_bill" />
+
+                <p:commandButton value="Search Customer" actionListener="#{viewSalesBean.searchSalesByPhone}" 
+                                 update=":viewSalesBillForm:sales_bill" />
             </h:panelGrid>
         </h:form>
 
-
         <h:form id="viewSalesBillForm">
-            <p:dataTable id="sales_bill" value="#{viewSalesBean.lazySales}" var="sales" 
-                         paginator="true" rows="5" lazy="true" 
+            <p:dataTable id="sales_bill" value="#{viewSalesBean.salesList}" var="sales" 
+                         paginator="true" rows="5" 
                          rowKey="#{sales.id}" 
                          paginatorPosition="bottom" 
                          rowsPerPageTemplate="5,10,15"
@@ -37,19 +40,19 @@
                     Sales List
                 </f:facet>
 
-                <p:column headerText="ID" >
+                <p:column headerText="ID">
                     <h:outputText value="#{sales.id}" />
                 </p:column>
 
-                <p:column headerText="Date" >
+                <p:column headerText="Date">
                     <h:outputText value="#{sales.date}" />
                 </p:column>
 
-                <p:column headerText="Name" >
+                <p:column headerText="Name">
                     <h:outputText value="#{sales.customer.name}" />
                 </p:column>
 
-                <p:column headerText="Total" >
+                <p:column headerText="Total">
                     <h:outputText value="#{sales.total}" />
                 </p:column>
 
@@ -61,7 +64,6 @@
                                      update=":viewSalesBillForm"
                                      oncomplete="PF('salesDetailsDialog').show();" />
                 </p:column>
-
 
             </p:dataTable>
 
@@ -93,7 +95,6 @@
                     </p:dataTable>
                 </h:panelGroup>
             </p:dialog>
-
 
         </h:form>
     </h:body>

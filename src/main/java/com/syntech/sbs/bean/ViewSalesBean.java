@@ -106,24 +106,13 @@ public class ViewSalesBean implements Serializable {
     public void searchSalesByPhone() {
         System.err.println("Phone: " + phone);
 
-        // Find the customer by phone number
         User customer = customerRepo.findByPhone(phone);
 
         if (customer != null) {
-            // Fetch sales related to the customer
             salesList = salesRepo.findByCustomerId(customer.getId());
-            for(Sales s: salesList){
-                System.err.println(s);
-            }
-
-            // Update the lazySales model
-            lazySales.setWrappedData(salesList);
-            System.err.println(lazySales);
-            System.err.println("Sales found for customer with phone: " + phone);
+            salesDetails.clear();
         } else {
-            salesList = new ArrayList<>(); // No sales found, empty list
-            lazySales.setWrappedData(salesList);
-            System.err.println("No customer found with phone: " + phone);
+            salesList = new ArrayList<>();
         }
     }
 
