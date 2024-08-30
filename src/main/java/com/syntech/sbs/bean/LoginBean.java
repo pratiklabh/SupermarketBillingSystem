@@ -7,13 +7,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+import static org.primefaces.component.focus.FocusBase.PropertyKeys.context;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
 public class LoginBean {
+
     private String username;
     private String password;
-    
+
     @Inject
     private UserRepository userRepo;
 
@@ -37,22 +40,32 @@ public class LoginBean {
     // Login method
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         User user = userRepo.findByUsernameAndPassword(username, password);
-        
+
         if (user != null) {
-            if (username.equals(user.getUsername())) {
-                return "userList?faces-redirect=true";
-            } else {
-                context.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                                "Access Denied", "You are not authorized to access this page."));
-                return null;
-            }
+            session.setAttribute("valid_user", user);
+            session.setAttribute("name", user.getName());
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("phone", user.getPhone());
+            session.setAttribute("role", user.getRole());
+
+            return "userList?faces-redirect=true";
         } else {
             context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Invalid credentials", "Please try again."));
             return null;
         }
     }
+
+    public String logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        session.invalidate();
+        return "adminLogin?faces-redirect=true";
+    }
+
 }
