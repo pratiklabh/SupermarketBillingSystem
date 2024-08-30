@@ -2,11 +2,16 @@ package com.syntech.sbs.repository;
 
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.model.User_;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 @Stateless
 public class UserRepository extends GenericRepository<User> {
@@ -50,40 +55,79 @@ public class UserRepository extends GenericRepository<User> {
     //authentication for login
     public User findByUsernameAndPassword(String username, String password) {
         return ((UserRepository) this.startQuery())
-                                     .filterByUsername(username)
-                                     .filterByPassword(password)
-                                     .getSingleResult();
+                .filterByUsername(username)
+                .filterByPassword(password)
+                .getSingleResult();
     }
-    
-    public User findByUsername(String username){
+
+    public User findByUsername(String username) {
         try {
             return ((UserRepository) this.startQuery())
-                                     .filterByUsername(username)
-                                     .getSingleResult();
+                    .filterByUsername(username)
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
 
     }
-    
-    public User findByEmail(String email){
-        try{
+
+    public User findByEmail(String email) {
+        try {
             return ((UserRepository) this.startQuery())
-                                     .filterByEmail(email)
-                                     .getSingleResult();
-        }catch (NoResultException e) {
+                    .filterByEmail(email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }
-    
-    public User findByPhone(String phone){
+
+    public User findByPhone(String phone) {
         try {
             return ((UserRepository) this.startQuery())
-                                     .filterByPhone(phone)
-                                     .getSingleResult();
-        }catch (NoResultException e) {
+                    .filterByPhone(phone)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public String hashPassword(String password, String salt) {
+        try {
+            // Initialize SHA-256 digest
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            // Update digest with salt
+            digest.update(salt.getBytes());
+
+            // Hash the password
+            byte[] hashedPassword = digest.digest(password.getBytes());
+
+            // Return hashed password encoded in Base64
+            return Base64.getEncoder().encodeToString(hashedPassword);
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e); // RuntimeException if algorithm not found
+        }
+    }
+
+    public String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt); // Generate random bytes
+        return Base64.getEncoder().encodeToString(salt); // Return salt encoded in Base64
+    }
+
+    @Transactional
+    @Override
+    public void save(User user) {
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            String salt = generateSalt();
+            String hashedPassword = hashPassword(user.getPassword(), salt);
+            user.setPassword(hashedPassword + ":" + salt);
+        }
+
+        entityManager.persist(user);
+
     }
 
 }

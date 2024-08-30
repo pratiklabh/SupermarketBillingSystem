@@ -26,8 +26,6 @@ public class User extends BaseIdEntity {
     private String username;
 
     @NotBlank(message = "Password is required.")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$",
-             message = "Password must be at least 6 characters long, containing at least one letter, one number, and one special character.")
     private String password;
 
     @Email(message = "Email should be valid")
