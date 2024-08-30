@@ -83,10 +83,12 @@
                     <f:selectItem itemValue="Card" itemLabel="Card" />
                 </p:selectOneMenu>
 
-                <h:commandButton value="Complete Sale" 
-                                 action="#{salesBean.completeSale}" />
-                <h:commandButton value="Cancel" 
-                                 action="#{salesBean.cancel}" />
+                <p:commandButton value="Complete Sale" 
+                                 action="#{salesBean.completeSale}" 
+                                 update="growl"/>
+                <p:commandButton value="Cancel" 
+                                 action="#{salesBean.cancel}" 
+                                 update="growl"/>
             </h:panelGrid>
         </h:form>
 

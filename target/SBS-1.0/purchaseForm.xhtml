@@ -52,7 +52,8 @@
                     <f:selectItem itemValue="Liter" itemLabel="Liter" />
                 </p:selectOneMenu>
 
-                <h:commandButton value="Add Item" action="#{purchaseBean.addItem}" />
+                <p:commandButton value="Add Item" action="#{purchaseBean.addItem}"
+                                 update="growl @form"/>
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5">
@@ -92,7 +93,8 @@
                 <h:outputText value="#{purchaseBean.total}" />
 
                 <h:commandButton value="Complete Purchase" action="#{purchaseBean.completePurchase}" />
-                <h:commandButton value="Cancel" action="#{purchaseBean.cancel}" />
+                <p:commandButton value="Cancel" action="#{purchaseBean.cancel}" 
+                                 update="growl"/>
             </h:panelGrid>
         </h:form>
     </h:body>
