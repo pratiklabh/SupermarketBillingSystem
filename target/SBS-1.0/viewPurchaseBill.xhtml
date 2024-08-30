@@ -11,8 +11,25 @@
         <p:growl id="growl" showDetail="true" />
         <ui:include src="menu.xhtml" />
 
+        <h:form id="searchForm">
+            <h:panelGrid columns="6" cellpadding="5">
+                <h:outputLabel for="phone" value="Supplier Phone:" />
+
+                <p:autoComplete id="phone" 
+                                value="#{viewPurchaseBean.phone}" 
+                                completeMethod="#{viewPurchaseBean.completeSupplierPhone}" 
+                                var="phone" 
+                                itemLabel="#{phone}" itemValue="#{phone}" 
+                                forceSelection="true" style="width:223px" />
+
+                <p:commandButton value="Search Supplier" actionListener="#{viewPurchaseBean.searchPurchaseByPhone}" 
+                                 update=":purchase_bill :viewPurchaseBillForm" />
+            </h:panelGrid>
+        </h:form>
+        
+        
         <h:form id="viewPurchaseBillForm">
-            <p:dataTable id="purchase_bill" value="#{viewPurchaseBean.lazyPurchases}" var="purchase" 
+            <p:dataTable id="purchase_bill" value="#{viewPurchaseBean.purchaseList}" var="purchase" 
                          paginator="true" rows="5" lazy="true" 
                          rowKey="#{purchase.id}" 
                          paginatorPosition="bottom" 
@@ -24,19 +41,19 @@
                     Purchase List
                 </f:facet>
 
-                <p:column headerText="ID" filterBy="#{purchase.id}" filterMatchMode="exact">
+                <p:column headerText="ID">
                     <h:outputText value="#{purchase.id}" />
                 </p:column>
 
-                <p:column headerText="Date" filterBy="#{purchase.date}" filterMatchMode="contains">
+                <p:column headerText="Date" >
                     <h:outputText value="#{purchase.date}" />
                 </p:column>
 
-                <p:column headerText="Name" filterBy="#{purchase.supplier.name}" filterMatchMode="contains">
+                <p:column headerText="Name" >
                     <h:outputText value="#{purchase.supplier.name}" />
                 </p:column>
 
-                <p:column headerText="Total" filterBy="#{purchase.total}" filterMatchMode="contains">
+                <p:column headerText="Total" >
                     <h:outputText value="#{purchase.total}" />
                 </p:column>
 
