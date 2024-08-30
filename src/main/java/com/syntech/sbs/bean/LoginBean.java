@@ -50,6 +50,7 @@ public class LoginBean {
             session.setAttribute("email", user.getEmail());
             session.setAttribute("phone", user.getPhone());
             session.setAttribute("role", user.getRole());
+            session.setMaxInactiveInterval(120);
 
             return "userList?faces-redirect=true";
         } else {

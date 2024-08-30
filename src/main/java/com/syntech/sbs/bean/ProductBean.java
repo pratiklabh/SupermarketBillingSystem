@@ -3,9 +3,9 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.GenericLazyDataModel;
 import com.syntech.sbs.model.Product;
 import com.syntech.sbs.repository.ProductRepository;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -13,9 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
+import javax.servlet.http.HttpSession;
 
 @Named("ProductBean")
 @ViewScoped
@@ -35,6 +33,17 @@ public class ProductBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+
+        if (session == null || session.getAttribute("valid_user") == null) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+                    "Please log in first", "You need to log in to access this page."));
+            try {
+                context.getExternalContext().redirect("adminLogin.xhtml");
+            } catch (IOException e) {
+            }
+        }
         product = new Product();
         lazyProducts = new GenericLazyDataModel<>(productRepo, Product.class);
 
