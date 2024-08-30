@@ -17,8 +17,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 @ManagedBean
@@ -69,24 +69,30 @@ public class PurchaseBean implements Serializable {
                     FacesMessage.SEVERITY_ERROR, "Error", "Product with this Code Already exists"));
             clearItemFields();
         } else {
-            try {
-                subTotal = BigInteger.valueOf(quantity).multiply(rate);
-                PurchaseDetails detail = new PurchaseDetails();
-                detail.setProductName(productName);
-                detail.setQuantity(quantity);
-                detail.setRate(rate);
-                detail.setUnit(unit);
-                detail.setDiscount(discount);
-                detail.setCode(code);
-                detail.setType(type);
-
-                purchaseDetailsList.add(detail);
-                calculateTotal();
-                clearItemFields();
-            } catch (Exception e) {
+            if (quantity == 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "Minimum quantity should be 1"));
+            } else {
+                try {
+                    subTotal = BigInteger.valueOf(quantity).multiply(rate);
+                    PurchaseDetails detail = new PurchaseDetails();
+                    detail.setProductName(productName);
+                    detail.setQuantity(quantity);
+                    detail.setRate(rate);
+                    detail.setUnit(unit);
+                    detail.setDiscount(discount);
+                    detail.setCode(code);
+                    detail.setType(type);
+                    detail.setDescription(description);
 
+                    purchaseDetailsList.add(detail);
+                    calculateTotal();
+                    clearItemFields();
+                } catch (Exception e) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
+
+                }
             }
         }
     }
