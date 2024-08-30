@@ -54,10 +54,25 @@ public class UserRepository extends GenericRepository<User> {
 
     //authentication for login
     public User findByUsernameAndPassword(String username, String password) {
-        return ((UserRepository) this.startQuery())
+        User user = ((UserRepository) this.startQuery())
                 .filterByUsername(username)
-                .filterByPassword(password)
                 .getSingleResult();
+
+        if (user != null) {
+            // Extract the stored hashed password and salt
+            String[] parts = user.getPassword().split(":");
+            String storedHashedPassword = parts[0];
+            String salt = parts[1];
+
+            // Hash the provided password with the stored salt
+            String hashedPassword = hashPassword(password, salt);
+
+            // Check if the hashed password matches the stored hashed password
+            if (storedHashedPassword.equals(hashedPassword)) {
+                return user; // Password matches
+            }
+        }
+        return null; // Password does not match or user not found
     }
 
     public User findByUsername(String username) {
