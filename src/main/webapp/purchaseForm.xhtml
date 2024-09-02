@@ -36,7 +36,7 @@
                 <p:inputText id="quantity" value="#{purchaseBean.quantity}" required="true" label="Quantity"/>
                 
                 <p:commandButton value="Add Item" action="#{purchaseBean.addItem}"
-                                 update="growl @form"/>
+                                 update="growl @form products"/>
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5">

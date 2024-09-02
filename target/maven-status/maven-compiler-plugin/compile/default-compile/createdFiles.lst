@@ -21,6 +21,7 @@ com/syntech/sbs/repository/ProductRepository.class
 com/syntech/sbs/repository/PurchaseDetailsRepository.class
 com/syntech/sbs/model/PurchaseDetails_.class
 com/syntech/sbs/model/Supplier_.class
+com/syntech/sbs/bean/SessionBean.class
 com/syntech/sbs/model/GenericLazyDataModel.class
 com/syntech/sbs/bean/LoginBean.class
 com/syntech/sbs/model/Purchase.class

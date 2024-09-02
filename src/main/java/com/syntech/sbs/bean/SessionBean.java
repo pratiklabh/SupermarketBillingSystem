@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-@Named
+@Named("sessionBean")
 @SessionScoped
 public class SessionBean implements Serializable {
 
