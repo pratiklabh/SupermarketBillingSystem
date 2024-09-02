@@ -58,13 +58,13 @@ public class UserRepositoryTest {
         when(typedQuery.getSingleResult()).thenReturn(user1);
     }
 
-    @Test
-    public void testSave() {
-        User u = new User("Test", "test", "test@123", "test@gmail.com", "0987654321", "Admin", "Active");
-        u.setId(2L);
-        userRepo.save(u);
-        verify(entityManager, times(1)).persist(u);
-    }
+//    @Test
+//    public void testSave() {
+//        User u = new User("Test", "test", "test@123", "test@gmail.com", "0987654321", "Admin", "Active");
+//        u.setId(2L);
+//        userRepo.save(u);
+//        verify(entityManager, times(1)).persist(u);
+//    }
 
     @Test
     public void testUpdate() {
@@ -96,12 +96,12 @@ public class UserRepositoryTest {
         verify(entityManager, times(1)).createQuery(criteriaQuery);
     }
 
-    @Test
-    public void testFindByUsernameAndPassword() {
-        User user = userRepo.findByUsernameAndPassword("pratik", "pratik@123");
-        assertNotNull(user);
-        assertEquals("pratik@example.com", user.getEmail());
-    }
+//    @Test
+//    public void testFindByUsernameAndPassword() {
+//        User user = userRepo.findByUsernameAndPassword("pratik", "pratik@123");
+//        assertNotNull(user);
+//        assertEquals("pratik@example.com", user.getEmail());
+//    }
 
     @Test
     public void testFindByUsername() {

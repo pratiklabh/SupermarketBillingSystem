@@ -41,6 +41,8 @@ public class PurchaseBean implements Serializable {
     private String type;
     private String description;
     private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
+    private List<Product> products;
+    private Product selectedProduct;
 
     @Inject
     private SupplierRepository supplierRepository;
@@ -60,13 +62,14 @@ public class PurchaseBean implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 
         if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Please log in first", "You need to log in to access this page."));
             try {
                 context.getExternalContext().redirect("adminLogin.xhtml");
             } catch (IOException e) {
             }
         }
+        products = productRepository.findAll();
         suppliers = supplierRepository.findAll();
         selectedPurchase = new Purchase();
     }
@@ -84,7 +87,7 @@ public class PurchaseBean implements Serializable {
         } else {
             if (quantity == 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Error", "Minimum quantity should be 1"));
+                        FacesMessage.SEVERITY_ERROR, "Error", "Minimum quantity should be 1"));
             } else {
                 try {
                     subTotal = BigInteger.valueOf(quantity).multiply(rate);
@@ -157,7 +160,7 @@ public class PurchaseBean implements Serializable {
                     product.setDiscount(details.getDiscount());
                     product.setUnit(details.getUnit());
                     // Save the new product
-                    productRepository.save(product);
+//                    productRepository.save(product);
                 }
 
                 // Create/update a Stock entry
@@ -336,5 +339,21 @@ public class PurchaseBean implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
     }
 }

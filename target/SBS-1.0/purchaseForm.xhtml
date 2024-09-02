@@ -19,8 +19,11 @@
                     <f:selectItems value="#{purchaseBean.suppliers}" var="supplier" itemValue="#{supplier}" itemLabel="#{supplier.name}" />
                 </p:selectOneMenu>
 
-                <h:outputLabel value="Product Name:" />
-                <p:inputText id="productName" value="#{purchaseBean.productName}" />
+                <h:outputLabel for="product" value="Product:" />
+                <p:selectOneMenu id="product" value="#{purchaseBean.selectedProduct}" converter="productConverter" style="width:223px">
+                    <f:selectItems value="#{purchaseBean.products}" var="product" itemValue="#{product}" itemLabel="#{product.name}" />
+                </p:selectOneMenu>
+
 
                 <h:outputLabel value="Code:" />
                 <p:inputText id="code" value="#{purchaseBean.code}" />
