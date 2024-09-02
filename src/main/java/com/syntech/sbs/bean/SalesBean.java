@@ -9,7 +9,6 @@ import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.SalesRepository;
 import com.syntech.sbs.repository.StockRepository;
 import com.syntech.sbs.repository.UserRepository;
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -18,13 +17,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
+import javax.inject.Named;
 
-@ManagedBean
+@Named("salesBean")
 @ViewScoped
 public class SalesBean implements Serializable {
 
@@ -55,25 +53,18 @@ public class SalesBean implements Serializable {
 
     @Inject
     private UserRepository userRepo;
-    
+
     @Inject
     private StockRepository stockRepository;
+    
+    @Inject
+    private SessionBean sessionBean;
 
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
+        sessionBean.checkSession();
         customerPhone = "";
-    customerName = "";
+        customerName = "";
         customers = userRepo.findAll();
         products = productRepository.findAll();
         selectedSale = new Sales();
@@ -240,6 +231,7 @@ public class SalesBean implements Serializable {
         selectedSale = new Sales(); // Reset the form
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled"));
     }
+
     // Getters and Setters
     public String getProductCode() {
         return productCode;

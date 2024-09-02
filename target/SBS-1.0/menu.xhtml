@@ -37,7 +37,7 @@
                         <p:menuitem value="View Sales Bill" icon="pi pi-fw pi-file"
                                     outcome="viewSalesBill"/>
                     </p:submenu>
-                    
+
                     <p:menuitem value="View Stock" icon="pi pi-fw pi-shopping-cart"
                                 outcome="stockForm"/>
 
@@ -48,7 +48,7 @@
                             <p:submenu label="User" icon="pi pi-user">
                                 <p:menuitem value="View Profile" icon="pi pi-fw pi-user" outcome="viewProfileForm" />
                                 <p:menuitem value="Logout" icon="pi pi-fw pi-sign-out" 
-                                            action="#{loginBean.logout}"/>
+                                            action="#{SessionBean.logout}"/>
                             </p:submenu>
                         </p:menubar>
                     </f:facet>

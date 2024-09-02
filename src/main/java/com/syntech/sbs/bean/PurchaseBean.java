@@ -9,7 +9,6 @@ import com.syntech.sbs.repository.ProductRepository;
 import com.syntech.sbs.repository.PurchaseRepository;
 import com.syntech.sbs.repository.StockRepository;
 import com.syntech.sbs.repository.SupplierRepository;
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -21,7 +20,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 @Named("purchaseBean")
 @ViewScoped
@@ -50,19 +48,12 @@ public class PurchaseBean implements Serializable {
     @Inject
     private ProductRepository productRepository;
 
+    @Inject
+    private SessionBean sessionBean;
+    
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
+        sessionBean.checkSession();
         products = productRepository.findAll();
         suppliers = supplierRepository.findAll();
     }

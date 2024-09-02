@@ -7,22 +7,18 @@ import com.syntech.sbs.model.Supplier;
 import com.syntech.sbs.repository.PurchaseDetailsRepository;
 import com.syntech.sbs.repository.PurchaseRepository;
 import com.syntech.sbs.repository.SupplierRepository;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 @Named("viewPurchaseBean")
 @ViewScoped
-public class ViewPurchaseBean implements Serializable{
+public class ViewPurchaseBean implements Serializable {
 
     private List<Purchase> purchaseList;
     private Purchase purchase;
@@ -39,25 +35,18 @@ public class ViewPurchaseBean implements Serializable{
 
     @Inject
     private SupplierRepository supplierRepo;
-    
+
+    @Inject
+    private SessionBean sessionBean;
+
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        sessionBean.checkSession();
 
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
-        
         purchase = new Purchase();
         lazyPurchases = new GenericLazyDataModel<>(purchaseRepo, Purchase.class);
         suppliers = supplierRepo.findAll();
-        purchaseDetails = new ArrayList<>(); 
+        purchaseDetails = new ArrayList<>();
         purchaseList = new ArrayList<>();
     }
 
@@ -69,7 +58,6 @@ public class ViewPurchaseBean implements Serializable{
         this.phone = phone;
     }
 
-    
     public List<Purchase> getPurchaseList() {
         return purchaseList;
     }
@@ -111,14 +99,14 @@ public class ViewPurchaseBean implements Serializable{
             System.out.println("Selected Purchase is null!");
         }
     }
-    
+
     public List<String> completeSupplierPhone(String query) {
         return suppliers.stream()
                 .map(Supplier::getPhone)
                 .filter(p -> p.startsWith(query))
                 .collect(Collectors.toList());
     }
-    
+
     public void searchPurchaseByPhone() {
         System.err.println("Phone: " + phone);
 

@@ -3,7 +3,6 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.GenericLazyDataModel;
 import com.syntech.sbs.model.User;
 import com.syntech.sbs.repository.UserRepository;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 @Named("userBean")
 @ViewScoped
@@ -33,19 +31,12 @@ public class UserBean implements Serializable {
     @Inject
     private UserRepository userRepo;
 
+    @Inject
+    private SessionBean sessionBean;
+
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
+        sessionBean.checkSession();
         user = new User();
         lazyUsers = new GenericLazyDataModel<>(userRepo, User.class);
 

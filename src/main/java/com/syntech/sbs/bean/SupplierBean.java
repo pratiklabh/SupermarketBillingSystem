@@ -3,7 +3,6 @@ package com.syntech.sbs.bean;
 import com.syntech.sbs.model.GenericLazyDataModel;
 import com.syntech.sbs.model.Supplier;
 import com.syntech.sbs.repository.SupplierRepository;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -12,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 @Named("SupplierBean")
 @ViewScoped
@@ -30,20 +28,13 @@ public class SupplierBean implements Serializable {
 
     @Inject
     private SupplierRepository supplierRepo;
+    
+    @Inject
+    private SessionBean sessionBean;
 
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
+        sessionBean.checkSession();
         supplier = new Supplier();
         lazySuppliers = new GenericLazyDataModel<>(supplierRepo, Supplier.class);
     }
