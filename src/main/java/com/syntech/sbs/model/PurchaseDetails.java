@@ -1,13 +1,13 @@
 package com.syntech.sbs.model;
 
 import java.math.BigInteger;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,9 +19,10 @@ public class PurchaseDetails extends BaseIdEntity {
     @NotNull(message = "Purchase must not be null")
     private Purchase purchase;
 
-    @Column(name = "product_name", nullable = false)
-    @NotBlank(message = "Product name must not be blank")
-    private String productName;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    @NotNull(message = "Product cannot be null")
+    private Product product;
 
     @Column(name = "quantity", nullable = false)
     @Min(value = 1, message = "Quantity must be at least 1")
@@ -32,41 +33,28 @@ public class PurchaseDetails extends BaseIdEntity {
     @Min(value = 0, message = "Rate must be a positive value")
     private BigInteger rate;
 
-    @Column(name = "unit", nullable = false)
-    @NotBlank(message = "Unit must not be blank")
-    private String unit;
-
     @Column(name = "discount")
     @Min(value = 0, message = "Discount must be a positive value")
     private BigInteger discount;
 
-    @Column(name = "code")
-    private String code;
-
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name = "subtotal")
+    private BigInteger subTotal;
 
     public PurchaseDetails() {
     }
 
-    public PurchaseDetails(Purchase purchase, String productName, int quantity,
-            BigInteger rate, String unit, BigInteger discount, String code,
-            String type, String description) {
+    public PurchaseDetails(Purchase purchase, Product product, int quantity, BigInteger rate, 
+            BigInteger discount, BigInteger subTotal) {
         this.purchase = purchase;
-        this.productName = productName;
+        this.product = product;
         this.quantity = quantity;
         this.rate = rate;
-        this.unit = unit;
         this.discount = discount;
-        this.code = code;
-        this.type = type;
-        this.description = description;
+        this.subTotal = subTotal;
     }
 
-    // Getters and setters for existing fields
+    
+
     public Purchase getPurchase() {
         return purchase;
     }
@@ -75,12 +63,20 @@ public class PurchaseDetails extends BaseIdEntity {
         this.purchase = purchase;
     }
 
-    public String getProductName() {
-        return productName;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public BigInteger getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigInteger subTotal) {
+        this.subTotal = subTotal;
     }
 
     public int getQuantity() {
@@ -99,14 +95,6 @@ public class PurchaseDetails extends BaseIdEntity {
         this.rate = rate;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public BigInteger getDiscount() {
         return discount;
     }
@@ -115,27 +103,46 @@ public class PurchaseDetails extends BaseIdEntity {
         this.discount = discount;
     }
 
-    public String getCode() {
-        return code;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.purchase);
+        hash = 29 * hash + Objects.hashCode(this.product);
+        hash = 29 * hash + this.quantity;
+        hash = 29 * hash + Objects.hashCode(this.rate);
+        hash = 29 * hash + Objects.hashCode(this.discount);
+        hash = 29 * hash + Objects.hashCode(this.subTotal);
+        return hash;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PurchaseDetails other = (PurchaseDetails) obj;
+        if (this.quantity != other.quantity) {
+            return false;
+        }
+        if (!Objects.equals(this.purchase, other.purchase)) {
+            return false;
+        }
+        if (!Objects.equals(this.product, other.product)) {
+            return false;
+        }
+        if (!Objects.equals(this.rate, other.rate)) {
+            return false;
+        }
+        if (!Objects.equals(this.discount, other.discount)) {
+            return false;
+        }
+        return Objects.equals(this.subTotal, other.subTotal);
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

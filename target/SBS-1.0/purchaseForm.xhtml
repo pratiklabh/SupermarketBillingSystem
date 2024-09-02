@@ -13,48 +13,28 @@
         <ui:include src="menu.xhtml" />
         <h:form id="purchaseForm">
             <h3>Purchase Details</h3>
-            <h:panelGrid columns="6" cellpadding="5">
+            <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="supplier" value="Supplier:" />
                 <p:selectOneMenu value="#{purchaseBean.supplier}" converter="supplierConverter" style="width:223px">
                     <f:selectItems value="#{purchaseBean.suppliers}" var="supplier" itemValue="#{supplier}" itemLabel="#{supplier.name}" />
                 </p:selectOneMenu>
 
                 <h:outputLabel for="product" value="Product:" />
-                <p:selectOneMenu id="product" value="#{purchaseBean.selectedProduct}" converter="productConverter" style="width:223px">
-                    <f:selectItems value="#{purchaseBean.products}" var="product" itemValue="#{product}" itemLabel="#{product.name}" />
+                <p:selectOneMenu id="product" value="#{purchaseBean.product}" converter="productConverter" 
+                                 style="width:223px" required="true">
+                    <f:selectItems value="#{purchaseBean.products}" var="product" itemValue="#{product}" 
+                                   itemLabel="#{product.name}" />
                 </p:selectOneMenu>
 
-
-                <h:outputLabel value="Code:" />
-                <p:inputText id="code" value="#{purchaseBean.code}" />
-
-                <h:outputLabel value="Type:" />
-                <p:selectOneMenu id="type" value="#{purchaseBean.type}" style="width:223px">
-                    <f:selectItem itemLabel="Select Type" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="Grocery" itemValue="Grocery" />
-                    <f:selectItem itemLabel="Electronics" itemValue="Electronics" />
-                </p:selectOneMenu>
-
-                <h:outputLabel value="Description:" />
-                <p:inputText id="description" value="#{purchaseBean.description}" />
-
-                <h:outputLabel value="Rate:" />
-                <p:inputText id="rate" value="#{purchaseBean.rate}" />
-
+                <h:outputLabel value="Rate: " />
+                <p:inputText id="rate" value="#{purchaseBean.rate}" required="true" label="Rate"/>
+                
+                <h:outputLabel value="Discount" />
+                <p:inputText id="discount" value="#{purchaseBean.discount}" required="true" label="Discount"/>
+                
                 <h:outputLabel value="Quantity:" />
-                <p:inputText id="quantity" value="#{purchaseBean.quantity}" />
-
-                <h:outputLabel value="Discount:" />
-                <p:inputText id="discount" value="#{purchaseBean.discount}" />
-
-                <h:outputLabel value="Unit:" />
-                <p:selectOneMenu id="unit" value="#{purchaseBean.unit}" style="width:223px">
-                    <f:selectItem itemLabel="Select Unit" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemValue="Pieces" itemLabel="Pieces" />
-                    <f:selectItem itemValue="Kg" itemLabel="Kg" />
-                    <f:selectItem itemValue="Liter" itemLabel="Liter" />
-                </p:selectOneMenu>
-
+                <p:inputText id="quantity" value="#{purchaseBean.quantity}" required="true" label="Quantity"/>
+                
                 <p:commandButton value="Add Item" action="#{purchaseBean.addItem}"
                                  update="growl @form"/>
             </h:panelGrid>
@@ -64,34 +44,29 @@
                     Added Products 
                 </f:facet>
                 <p:dataTable value="#{purchaseBean.purchaseDetailsList}" var="item">
-                    <p:column>
-                        <f:facet name="header">Product Name</f:facet>
-                        <h:outputText value="#{item.productName}" />
+                    <p:column headerText="Product Name">
+                        <h:outputText value="#{item.product.name}" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">Code</f:facet>
-                        <h:outputText value="#{item.code}" />
+                    <p:column headerText="Code">
+                        <h:outputText value="#{item.product.code}" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">Rate</f:facet>
+                    <p:column headerText="Rate">
                         <h:outputText value="#{item.rate}" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">Quantity</f:facet>
+                    <p:column headerText="Quantity">
                         <h:outputText value="#{item.quantity}" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">Sub Total</f:facet>
-                        <h:outputText value="#{item.quantity * item.rate}" />
+                    <p:column headerText="Sub Total">
+                        <h:outputText value="#{item.subTotal}" />
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" cellpadding="5" style="font-size: 50px">
+            <h:panelGrid columns="2" cellpadding="5" style="font-size: 20px">
                 <h:outputLabel value="Total:" />
                 <h:outputText value="#{purchaseBean.total}" />
 

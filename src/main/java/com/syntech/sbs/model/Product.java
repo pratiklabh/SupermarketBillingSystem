@@ -1,6 +1,7 @@
 package com.syntech.sbs.model;
 
 import java.math.BigInteger;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -139,6 +140,61 @@ public class Product extends BaseIdEntity {
     public void setStock(Stock stock) {
         this.stock = stock;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.rate);
+        hash = 23 * hash + Objects.hashCode(this.type);
+        hash = 23 * hash + Objects.hashCode(this.description);
+        hash = 23 * hash + Objects.hashCode(this.unit);
+        hash = 23 * hash + Objects.hashCode(this.discount);
+        hash = 23 * hash + Objects.hashCode(this.code);
+        hash = 23 * hash + Objects.hashCode(this.purchase);
+        hash = 23 * hash + Objects.hashCode(this.stock);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Product other = (Product) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.unit, other.unit)) {
+            return false;
+        }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.rate, other.rate)) {
+            return false;
+        }
+        if (!Objects.equals(this.discount, other.discount)) {
+            return false;
+        }
+        if (!Objects.equals(this.purchase, other.purchase)) {
+            return false;
+        }
+        return Objects.equals(this.stock, other.stock);
+    }
+    
     
     
 }

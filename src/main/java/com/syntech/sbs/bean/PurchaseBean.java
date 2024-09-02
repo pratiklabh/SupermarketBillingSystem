@@ -17,32 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-@ManagedBean
+@Named("purchaseBean")
 @ViewScoped
 public class PurchaseBean implements Serializable {
 
-    private Purchase selectedPurchase;
     private List<Supplier> suppliers;
-    private String productName;
-    private int quantity;
-    private BigInteger rate;
-    private String unit;
-    private BigInteger subTotal;
     private Supplier supplier;
-    private BigInteger discount;
-    private BigInteger total;
-    private String code;
-    private String type;
-    private String description;
-    private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
     private List<Product> products;
-    private Product selectedProduct;
+    private Product product;
+    private int quantity;
+    private BigInteger total;
+    private BigInteger subTotal;
+    private BigInteger rate;
+    private BigInteger discount;
+    private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 
     @Inject
     private SupplierRepository supplierRepository;
@@ -71,71 +65,62 @@ public class PurchaseBean implements Serializable {
         }
         products = productRepository.findAll();
         suppliers = supplierRepository.findAll();
-        selectedPurchase = new Purchase();
-    }
-
-    public void cancel() {
-        selectedPurchase = new Purchase(); // Reset the form
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled"));
     }
 
     public void addItem() {
-        if (productRepository.findByCode(code) != null) {
+        if (quantity == 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Error", "Product with this Code Already exists"));
-            clearItemFields();
+                    FacesMessage.SEVERITY_ERROR, "Error", "Minimum quantity should be 1"));
         } else {
-            if (quantity == 0) {
+            try {
+                subTotal = BigInteger.valueOf(quantity).multiply(rate);
+                PurchaseDetails detail = new PurchaseDetails();
+                detail.setProduct(product);
+                detail.setQuantity(quantity);
+                detail.setRate(rate);
+                detail.setDiscount(discount);
+                detail.setSubTotal(subTotal);
+
+                purchaseDetailsList.add(detail);
+                calculateTotal();
+                clearItemFields();
+            } catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR, "Error", "Minimum quantity should be 1"));
-            } else {
-                try {
-                    subTotal = BigInteger.valueOf(quantity).multiply(rate);
-                    PurchaseDetails detail = new PurchaseDetails();
-                    detail.setProductName(productName);
-                    detail.setQuantity(quantity);
-                    detail.setRate(rate);
-                    detail.setUnit(unit);
-                    detail.setDiscount(discount);
-                    detail.setCode(code);
-                    detail.setType(type);
-                    detail.setDescription(description);
+                        FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
 
-                    purchaseDetailsList.add(detail);
-                    calculateTotal();
-                    clearItemFields();
-                } catch (Exception e) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error", "Fields cannot be empty"));
-
-                }
             }
         }
     }
 
     public void completePurchase() {
+        if (purchaseDetailsList.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "Purchase details cannot be empty"));
+            return;
+        }
+
+        if (total == null || total.equals(BigInteger.ZERO)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "Total must be calculated and non-zero"));
+            return;
+        }
+
         try {
-            // Create a new Purchase object
             Purchase purchase = new Purchase();
             purchase.setSupplier(supplier);
             purchase.setDate(LocalDateTime.now());
             purchase.setTotal(total);
 
-            // Set the PurchaseDetails list for this purchase
-            for (PurchaseDetails details : purchaseDetailsList) {
-                details.setPurchase(purchase);  // Associate each detail with the purchase
+            // Set the purchase for each purchase detail
+            for (PurchaseDetails detail : purchaseDetailsList) {
+                detail.setPurchase(purchase);
             }
+
             purchase.setPurchaseDetails(purchaseDetailsList);
-
-            // Save the Purchase (which will also save PurchaseDetails due to cascade)
             purchaseRepository.save(purchase);
-
-            // Update the stock after purchase completion
             updateStock();
 
-            // Clear form and data
             clear();
-
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase completed successfully"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
@@ -146,24 +131,7 @@ public class PurchaseBean implements Serializable {
     private void updateStock() {
         for (PurchaseDetails details : purchaseDetailsList) {
             try {
-                // Fetch the product by name
-                Product product = productRepository.findByName(details.getProductName());
-
-                if (product == null) {
-                    // Product not found, create a new Product
-                    product = new Product();
-                    product.setName(details.getProductName());
-                    product.setCode(details.getCode());
-                    product.setType(details.getType());
-                    product.setDescription(details.getDescription());
-                    product.setRate(details.getRate());
-                    product.setDiscount(details.getDiscount());
-                    product.setUnit(details.getUnit());
-                    // Save the new product
-//                    productRepository.save(product);
-                }
-
-                // Create/update a Stock entry
+                Product product = productRepository.findByName(details.getProduct().getName());
                 Stock stock = stockRepository.findByProductName(product.getName());
 
                 if (stock == null) {
@@ -171,16 +139,12 @@ public class PurchaseBean implements Serializable {
                     stock.setProduct(product);
                     stock.setQuantity(details.getQuantity());
                 } else {
-                    // Increase stock if already present
                     stock.setQuantity(stock.getQuantity() + details.getQuantity());
                 }
 
-                // Update other stock details
                 stock.setRate(details.getRate());
-                stock.setUnit(details.getUnit());
                 stock.setDate(LocalDateTime.now());
 
-                // Save the stock entry
                 stockRepository.save(stock);
 
             } catch (Exception e) {
@@ -202,86 +166,32 @@ public class PurchaseBean implements Serializable {
         total = grossTotal.subtract(totalDiscount);
     }
 
-    public void clear() {
+    public void cancel() {
+        clear();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled"));
+    }
+
+    private void clear() {
         supplier = null;
-        discount = BigInteger.ZERO;
+        product = null;
+        quantity = 0;
         total = BigInteger.ZERO;
         purchaseDetailsList.clear();
     }
-
     public void clearItemFields() {
-        productName = "";
         quantity = 1;
         rate = BigInteger.ZERO;
-        unit = "";
         subTotal = BigInteger.ZERO;
         discount = BigInteger.ZERO;
-        code = "";
-        type = "";
-        description = "";
     }
 
     // Getters and Setters
-    public Purchase getSelectedPurchase() {
-        if (selectedPurchase == null) {
-            selectedPurchase = new Purchase();
-        }
-        return selectedPurchase;
-    }
-
-    public void setSelectedPurchase(Purchase selectedPurchase) {
-        this.selectedPurchase = selectedPurchase;
-    }
-
     public List<Supplier> getSuppliers() {
-        if (suppliers == null) {
-            suppliers = new ArrayList<>();
-        }
         return suppliers;
     }
 
     public void setSuppliers(List<Supplier> suppliers) {
         this.suppliers = suppliers;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigInteger getRate() {
-        return rate;
-    }
-
-    public void setRate(BigInteger rate) {
-        this.rate = rate;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public BigInteger getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(BigInteger subTotal) {
-        this.subTotal = subTotal;
     }
 
     public Supplier getSupplier() {
@@ -292,12 +202,20 @@ public class PurchaseBean implements Serializable {
         this.supplier = supplier;
     }
 
-    public BigInteger getDiscount() {
-        return discount;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setDiscount(BigInteger discount) {
-        this.discount = discount;
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public BigInteger getTotal() {
@@ -316,44 +234,36 @@ public class PurchaseBean implements Serializable {
         this.purchaseDetailsList = purchaseDetailsList;
     }
 
-    // Getters and Setters for new fields
-    public String getCode() {
-        return code;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public String getType() {
-        return type;
+    public BigInteger getSubTotal() {
+        return subTotal;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSubTotal(BigInteger subTotal) {
+        this.subTotal = subTotal;
     }
 
-    public String getDescription() {
-        return description;
+    public BigInteger getRate() {
+        return rate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRate(BigInteger rate) {
+        this.rate = rate;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public BigInteger getDiscount() {
+        return discount;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setDiscount(BigInteger discount) {
+        this.discount = discount;
     }
 
-    public Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public void setSelectedProduct(Product selectedProduct) {
-        this.selectedProduct = selectedProduct;
-    }
 }

@@ -22,20 +22,16 @@ public class Stock extends BaseIdEntity {
     @Column(nullable = false)
     private BigInteger rate;
 
-    @Column(nullable = false, length = 50)
-    private String unit;
-
     @Column(nullable = false)
     private LocalDateTime date;
 
     public Stock() {
     }
 
-    public Stock(Product product, Integer quantity, BigInteger rate, String unit, LocalDateTime date) {
+    public Stock(Product product, Integer quantity, BigInteger rate, LocalDateTime date) {
         this.product = product;
         this.quantity = quantity;
         this.rate = rate;
-        this.unit = unit;
         this.date = date;
     }
 
@@ -61,14 +57,6 @@ public class Stock extends BaseIdEntity {
 
     public void setRate(BigInteger rate) {
         this.rate = rate;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public LocalDateTime getDate() {
