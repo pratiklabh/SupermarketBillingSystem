@@ -72,6 +72,8 @@ public class SalesBean implements Serializable {
             } catch (IOException e) {
             }
         }
+        customerPhone = "";
+    customerName = "";
         customers = userRepo.findAll();
         products = productRepository.findAll();
         selectedSale = new Sales();
