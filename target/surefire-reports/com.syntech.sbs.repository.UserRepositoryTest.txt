@@ -1,4 +1,32 @@
 -------------------------------------------------------------------------------
 Test set: com.syntech.sbs.repository.UserRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.798 s -- in com.syntech.sbs.repository.UserRepositoryTest
+Tests run: 7, Failures: 7, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec <<< FAILURE!
+com.syntech.sbs.repository.UserRepositoryTest.testUpdate()  Time elapsed: 0.004 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.update(com.syntech.sbs.model.BaseIdEntity)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testUpdate(UserRepositoryTest.java:73)
+
+com.syntech.sbs.repository.UserRepositoryTest.testDelete()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.delete(java.lang.Long)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testDelete(UserRepositoryTest.java:79)
+
+com.syntech.sbs.repository.UserRepositoryTest.testFindById()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.findById(java.lang.Long)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testFindById(UserRepositoryTest.java:85)
+
+com.syntech.sbs.repository.UserRepositoryTest.testFindAll()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "javax.persistence.TypedQuery.getResultList()" because "this.typedQuery" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testFindAll(UserRepositoryTest.java:93)
+
+com.syntech.sbs.repository.UserRepositoryTest.testFindByUsername()  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.findByUsername(String)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testFindByUsername(UserRepositoryTest.java:108)
+
+com.syntech.sbs.repository.UserRepositoryTest.testFindByPhone()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.findByPhone(String)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testFindByPhone(UserRepositoryTest.java:115)
+
+com.syntech.sbs.repository.UserRepositoryTest.testFindByEmail()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "com.syntech.sbs.repository.UserRepository.findByEmail(String)" because "this.userRepo" is null
+	at com.syntech.sbs.repository.UserRepositoryTest.testFindByEmail(UserRepositoryTest.java:122)
+

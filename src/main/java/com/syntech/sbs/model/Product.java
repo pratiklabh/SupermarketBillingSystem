@@ -5,8 +5,6 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -47,10 +45,6 @@ public class Product extends BaseIdEntity {
     @NotNull(message = "Code is required.")
     private String code;
 
-    @ManyToOne
-    @JoinColumn(name = "purchase_id")
-    private Purchase purchase;
-
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Stock stock;
     // Constructors, Getters, and Setters
@@ -68,14 +62,7 @@ public class Product extends BaseIdEntity {
     }
 
 
-    public Purchase getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
-    }
-
+    
     // Other Getters and Setters
     public String getName() {
         return name;
@@ -151,7 +138,6 @@ public class Product extends BaseIdEntity {
         hash = 23 * hash + Objects.hashCode(this.unit);
         hash = 23 * hash + Objects.hashCode(this.discount);
         hash = 23 * hash + Objects.hashCode(this.code);
-        hash = 23 * hash + Objects.hashCode(this.purchase);
         hash = 23 * hash + Objects.hashCode(this.stock);
         return hash;
     }
@@ -189,9 +175,7 @@ public class Product extends BaseIdEntity {
         if (!Objects.equals(this.discount, other.discount)) {
             return false;
         }
-        if (!Objects.equals(this.purchase, other.purchase)) {
-            return false;
-        }
+        
         return Objects.equals(this.stock, other.stock);
     }
     

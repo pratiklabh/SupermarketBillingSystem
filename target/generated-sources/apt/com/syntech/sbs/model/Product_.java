@@ -13,7 +13,6 @@ public abstract class Product_ extends com.syntech.sbs.model.BaseIdEntity_ {
 	public static volatile SingularAttribute<Product, String> code;
 	public static volatile SingularAttribute<Product, BigInteger> rate;
 	public static volatile SingularAttribute<Product, String> name;
-	public static volatile SingularAttribute<Product, Purchase> purchase;
 	public static volatile SingularAttribute<Product, String> description;
 	public static volatile SingularAttribute<Product, BigInteger> discount;
 	public static volatile SingularAttribute<Product, String> type;
@@ -23,7 +22,6 @@ public abstract class Product_ extends com.syntech.sbs.model.BaseIdEntity_ {
 	public static final String CODE = "code";
 	public static final String RATE = "rate";
 	public static final String NAME = "name";
-	public static final String PURCHASE = "purchase";
 	public static final String DESCRIPTION = "description";
 	public static final String DISCOUNT = "discount";
 	public static final String TYPE = "type";
