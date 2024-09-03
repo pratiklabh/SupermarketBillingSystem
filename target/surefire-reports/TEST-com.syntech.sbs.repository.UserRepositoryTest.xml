@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.syntech.sbs.repository.UserRepositoryTest" time="0.704" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.syntech.sbs.repository.UserRepositoryTest" time="0.705" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="netbeans.deploy" value="true"/>
     <property name="java.specification.version" value="21"/>
@@ -14,7 +14,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/opt/jdk-21.0.2/lib"/>
-    <property name="sun.java.command" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903170015478_3.jar /home/pratik/NetBeansProjects/SBS/target/surefire 2024-09-03T17-00-15_395-jvmRun1 surefire-20240903170015478_1tmp surefire_0-20240903170015478_2tmp"/>
+    <property name="sun.java.command" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903171235269_3.jar /home/pratik/NetBeansProjects/SBS/target/surefire 2024-09-03T17-12-35_161-jvmRun1 surefire-20240903171235269_1tmp surefire_0-20240903171235269_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="exec.vmArgs" value=""/>
     <property name="surefire.test.class.path" value="/home/pratik/NetBeansProjects/SBS/target/test-classes:/home/pratik/NetBeansProjects/SBS/target/classes:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.6.0/junit-jupiter-api-5.6.0.jar:/home/pratik/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/home/pratik/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-commons/1.6.0/junit-platform-commons-1.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.6.0/junit-jupiter-params-5.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.6.0/junit-jupiter-engine-5.6.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-engine/1.6.0/junit-platform-engine-1.6.0.jar:/home/pratik/.m2/repository/javax/javaee-api/8.0/javaee-api-8.0.jar:/home/pratik/.m2/repository/com/sun/mail/javax.mail/1.6.0/javax.mail-1.6.0.jar:/home/pratik/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/home/pratik/.m2/repository/org/primefaces/primefaces/14.0.0/primefaces-14.0.0.jar:/home/pratik/.m2/repository/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar:/home/pratik/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/home/pratik/.m2/repository/org/hibernate/hibernate-core/5.6.15.Final/hibernate-core-5.6.15.Final.jar:/home/pratik/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/jboss-logging-3.4.3.Final.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy/1.12.18/byte-buddy-1.12.18.jar:/home/pratik/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/home/pratik/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/home/pratik/.m2/repository/org/jboss/jandex/2.4.2.Final/jandex-2.4.2.Final.jar:/home/pratik/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/pratik/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/home/pratik/.m2/repository/org/hibernate/common/hibernate-commons-annotations/5.1.2.Final/hibernate-commons-annotations-5.1.2.Final.jar:/home/pratik/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar:/home/pratik/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar:/home/pratik/.m2/repository/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar:/home/pratik/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.15/FastInfoset-1.2.15.jar:/home/pratik/.m2/repository/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar:/home/pratik/.m2/repository/org/omnifaces/omnifaces/3.14/omnifaces-3.14.jar:/home/pratik/.m2/repository/org/mockito/mockito-core/4.1.0/mockito-core-4.1.0.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.1/byte-buddy-agent-1.12.1.jar:/home/pratik/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/home/pratik/.m2/repository/javax/ws/rs/javax.ws.rs-api/2.1.1/javax.ws.rs-api-2.1.1.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="current.jrebel.agent.path" value="/home/pratik/.netbeans/21/griffin/jrebel.jar"/>
-    <property name="surefire.real.class.path" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903170015478_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903171235269_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
     <property name="user.name" value="pratik"/>
@@ -58,11 +58,11 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testFindAll" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.655"/>
-  <testcase name="testFindById" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.005"/>
-  <testcase name="testFindByUsername" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.006"/>
+  <testcase name="testFindAll" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.651"/>
+  <testcase name="testFindById" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.006"/>
+  <testcase name="testFindByUsername" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.007"/>
   <testcase name="testFindByEmail" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.005"/>
-  <testcase name="testFindByPhone" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.003"/>
-  <testcase name="testDelete" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.004"/>
+  <testcase name="testFindByPhone" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.005"/>
+  <testcase name="testDelete" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.003"/>
   <testcase name="testUpdate" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.003"/>
 </testsuite>

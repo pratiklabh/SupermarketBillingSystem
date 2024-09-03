@@ -92,4 +92,9 @@ public class Supplier extends BaseIdEntity {
         return Objects.equals(this.phone, other.phone);
     }
 
+    @Override
+    public String toString() {
+        return "Supplier{id="+ getId() + ", name=" + name + ", address=" + address + ", phone=" + phone + '}';
+    }
+
 }

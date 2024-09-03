@@ -8,7 +8,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
 @Path("/suppliers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -19,54 +18,69 @@ public class SupplierRestApi {
 
     @GET
     public Response getAllSuppliers() {
-        List<Supplier> suppliers = supplierRepository.findAll();
-        return Response.ok(suppliers).build();
+        try {
+            List<Supplier> suppliers = supplierRepository.findAll();
+            return RestResponse.responseBuilder("true", "200", "Suppliers retrieved successfully", suppliers.toString());
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", e.getMessage());
+        }
     }
 
     @GET
     @Path("/{id}")
     public Response getSupplierById(@PathParam("id") Long id) {
-        Supplier supplier = supplierRepository.findById(id);
-        if (supplier != null) {
-            return Response.ok(supplier).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            Supplier supplier = supplierRepository.findById(id);
+            if (supplier != null) {
+                return RestResponse.responseBuilder("true", "200", "Supplier found", supplier.toString());
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Supplier not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", e.getMessage());
         }
     }
 
-    
     @POST
     public Response createSupplier(Supplier supplier) {
         try {
             supplierRepository.save(supplier);
-            return Response.status(Response.Status.CREATED).entity(supplier).build();
+            return RestResponse.responseBuilder("true", "201", "Supplier created successfully", supplier.toString());
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return RestResponse.responseBuilder("false", "400", "Failed to create supplier", e.getMessage());
         }
     }
 
     @PUT
     @Path("/{id}")
     public Response updateSupplier(@PathParam("id") Long id, Supplier supplier) {
-        Supplier existingSupplier = supplierRepository.findById(id);
-        if (existingSupplier != null) {
-            supplier.setId(id);
-            supplierRepository.update(supplier);
-            return Response.ok(supplier).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            Supplier existingSupplier = supplierRepository.findById(id);
+            if (existingSupplier != null) {
+                supplier.setId(id);
+                supplierRepository.update(supplier);
+                return RestResponse.responseBuilder("true", "200", "Supplier updated successfully", supplier.toString());
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Supplier not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", e.getMessage());
         }
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteSupplier(@PathParam("id") Long id) {
-        Supplier supplier = supplierRepository.findById(id);
-        if (supplier != null) {
-            supplierRepository.delete(id);
-            return Response.noContent().build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            Supplier supplier = supplierRepository.findById(id);
+            if (supplier != null) {
+                supplierRepository.delete(id);
+                return RestResponse.responseBuilder("true", "204", "Supplier deleted successfully", null);
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Supplier not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", e.getMessage());
         }
     }
 }
