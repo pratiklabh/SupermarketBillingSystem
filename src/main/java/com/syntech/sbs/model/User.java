@@ -118,4 +118,9 @@ public class User extends BaseIdEntity {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "User{id="+ getId() + ", name=" + name + ", username=" + username + ", email=" + email + ", phone=" + phone + ", role=" + role + ", status=" + status + '}';
+    }
+
 }
