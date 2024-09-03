@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Purchase Bills List</title>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" showDetail="true" />
+        <ui:include src="menu.xhtml" />
+
+        <h:form id="searchForm">
+            <h:panelGrid columns="6" cellpadding="5">
+                <h:outputLabel for="phone" value="Supplier Phone:" />
+
+                <p:autoComplete id="phone" 
+                                value="#{viewPurchaseBean.phone}" 
+                                completeMethod="#{viewPurchaseBean.completeSupplierPhone}" 
+                                var="phone" 
+                                itemLabel="#{phone}" itemValue="#{phone}" 
+                                forceSelection="true" style="width:223px" />
+
+                <p:commandButton value="Search Supplier" actionListener="#{viewPurchaseBean.searchPurchaseByPhone}" 
+                                 update=":purchase_bill :viewPurchaseBillForm" />
+            </h:panelGrid>
+        </h:form>
+        
+        
+        <h:form id="viewPurchaseBillForm">
+            <p:dataTable id="purchase_bill" value="#{viewPurchaseBean.purchaseList}" var="purchase" 
+                         paginator="true" rows="5" lazy="true" 
+                         rowKey="#{purchase.id}" 
+                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                         {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <f:facet name="header">
+                    Purchase List
+                </f:facet>
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{purchase.id}" />
+                </p:column>
+
+                <p:column headerText="Date" >
+                    <h:outputText value="#{purchase.date}" />
+                </p:column>
+
+                <p:column headerText="Name" >
+                    <h:outputText value="#{purchase.supplier.name}" />
+                </p:column>
+
+                <p:column headerText="Total" >
+                    <h:outputText value="#{purchase.total}" />
+                </p:column>
+
+                <p:column headerText="Actions">
+                    <p:commandButton value="View Details" icon="pi pi-fw pi-info-circle"
+                                     styleClass="ui-button-warning"
+                                     actionListener="#{viewPurchaseBean.viewDetails(purchase)}"
+                                     update=":viewPurchaseBillForm" process="@this"
+                                     oncomplete="PF('purchaseDetailsDialog').show()" />
+
+
+
+                </p:column>
+
+            </p:dataTable>
+
+            <!-- Dialog for Purchase Details -->
+            <p:dialog id="purchaseDetailsDialog" header="Purchase Details" 
+                      widgetVar="purchaseDetailsDialog" 
+                      modal="true" showEffect="fade" hideEffect="fade">
+                <h:panelGroup>
+                    <p:dataTable value="#{viewPurchaseBean.purchaseDetails}" var="detail">
+                        <p:column headerText="Product Code">
+                            <h:outputText value="#{detail.code}" />
+                        </p:column>
+                        
+                        <p:column headerText="Product Name">
+                            <h:outputText value="#{detail.productName}" />
+                        </p:column>
+                        
+                        <p:column headerText="Rate">
+                            <h:outputText value="#{detail.rate}" />
+                        </p:column>
+                        
+                        <p:column headerText="Discount">
+                            <h:outputText value="#{detail.discount}" />
+                        </p:column>
+                        
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{detail.quantity}" />
+                        </p:column>
+                        
+                        <p:column headerText="Type">
+                            <h:outputText value="#{detail.type}" />
+                        </p:column>
+                        <p:column headerText="Unit">
+                            <h:outputText value="#{detail.unit}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

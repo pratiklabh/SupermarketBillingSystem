@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -57,12 +57,8 @@ public class SalesBean implements Serializable {
     @Inject
     private StockRepository stockRepository;
     
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         customerPhone = "";
         customerName = "";
         customers = userRepo.findAll();

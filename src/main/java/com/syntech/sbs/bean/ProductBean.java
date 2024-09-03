@@ -29,12 +29,8 @@ public class ProductBean implements Serializable {
     @EJB
     private ProductRepository productRepo;
     
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         product = new Product();
         lazyProducts = new GenericLazyDataModel<>(productRepo, Product.class);
 

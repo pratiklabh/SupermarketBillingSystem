@@ -36,13 +36,8 @@ public class ViewSalesBean implements Serializable {
     @Inject
     private UserRepository customerRepo;
 
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
-
         sales = new Sales();
         lazySales = new GenericLazyDataModel<>(salesRepo, Sales.class);
         customers = customerRepo.findAll();

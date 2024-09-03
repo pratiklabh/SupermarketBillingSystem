@@ -23,12 +23,8 @@ public class StockBean implements Serializable {
 
     private GenericLazyDataModel<Stock> lazyStock;
 
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         stock = new Stock();
         lazyStock = new GenericLazyDataModel<>(stockRepo, Stock.class);
     }

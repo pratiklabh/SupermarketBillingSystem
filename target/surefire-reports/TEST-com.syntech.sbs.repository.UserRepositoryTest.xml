@@ -1,96 +1,65 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="7" name="com.syntech.sbs.repository.UserRepositoryTest" time="0.009" errors="0" skipped="0">
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.syntech.sbs.repository.UserRepositoryTest" time="0.83" tests="7" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="jansi.mode" value="force"/>
-    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
-    <property name="java.vm.version" value="21.0.2+13-LTS-58"/>
-    <property name="sun.boot.library.path" value="/opt/jdk-21.0.2/lib"/>
-    <property name="maven.multiModuleProjectDirectory" value="/home/pratik/NetBeansProjects"/>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/pratik/NetBeansProjects/SBS/target/test-classes:/home/pratik/NetBeansProjects/SBS/target/classes:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.6.0/junit-jupiter-api-5.6.0.jar:/home/pratik/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/home/pratik/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-commons/1.6.0/junit-platform-commons-1.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.6.0/junit-jupiter-params-5.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.6.0/junit-jupiter-engine-5.6.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-engine/1.6.0/junit-platform-engine-1.6.0.jar:/home/pratik/.m2/repository/javax/javaee-api/8.0/javaee-api-8.0.jar:/home/pratik/.m2/repository/com/sun/mail/javax.mail/1.6.0/javax.mail-1.6.0.jar:/home/pratik/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/home/pratik/.m2/repository/org/primefaces/primefaces/14.0.0/primefaces-14.0.0.jar:/home/pratik/.m2/repository/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar:/home/pratik/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/home/pratik/.m2/repository/org/hibernate/hibernate-core/5.6.15.Final/hibernate-core-5.6.15.Final.jar:/home/pratik/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/jboss-logging-3.4.3.Final.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy/1.12.18/byte-buddy-1.12.18.jar:/home/pratik/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/home/pratik/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/home/pratik/.m2/repository/org/jboss/jandex/2.4.2.Final/jandex-2.4.2.Final.jar:/home/pratik/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/pratik/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/home/pratik/.m2/repository/org/hibernate/common/hibernate-commons-annotations/5.1.2.Final/hibernate-commons-annotations-5.1.2.Final.jar:/home/pratik/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar:/home/pratik/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar:/home/pratik/.m2/repository/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar:/home/pratik/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.15/FastInfoset-1.2.15.jar:/home/pratik/.m2/repository/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar:/home/pratik/.m2/repository/org/omnifaces/omnifaces/3.14/omnifaces-3.14.jar:/home/pratik/.m2/repository/org/mockito/mockito-core/4.1.0/mockito-core-4.1.0.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.1/byte-buddy-agent-1.12.1.jar:/home/pratik/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.0.pr2/jackson-databind-2.10.0.pr2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.0.pr2/jackson-annotations-2.10.0.pr2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.0.pr2/jackson-core-2.10.0.pr2.jar:/home/pratik/.m2/repository/org/json/json/20190722/json-20190722.jar:"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
-    <property name="guice.disable.misplaced.annotation.check" value="true"/>
-    <property name="path.separator" value=":"/>
-    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="21"/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/home/pratik/NetBeansProjects/SBS"/>
-    <property name="java.vm.compressedOopsMode" value="32-bit"/>
-    <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
-    <property name="os.arch" value="amd64"/>
-    <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="line.separator" value="
-"/>
-    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="stderr.encoding" value="UTF-8"/>
-    <property name="os.name" value="Linux"/>
-    <property name="classworlds.conf" value="/usr/share/maven/bin/m2.conf"/>
-    <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="stdout.encoding" value="UTF-8"/>
-    <property name="java.library.path" value=":/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
-    <property name="maven.conf" value="/usr/share/maven/conf"/>
+    <property name="sun.boot.library.path" value="/opt/jdk-21.0.2/lib"/>
+    <property name="sun.java.command" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903150330902_3.jar /home/pratik/NetBeansProjects/SBS/target/surefire 2024-09-03T15-03-30_808-jvmRun1 surefire-20240903150330902_1tmp surefire_0-20240903150330902_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="java.class.version" value="65.0"/>
-    <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="6.8.0-41-generic"/>
-    <property name="library.jansi.path" value="/usr/share/maven/lib/jansi-native"/>
+    <property name="surefire.test.class.path" value="/home/pratik/NetBeansProjects/SBS/target/test-classes:/home/pratik/NetBeansProjects/SBS/target/classes:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.6.0/junit-jupiter-api-5.6.0.jar:/home/pratik/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/home/pratik/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-commons/1.6.0/junit-platform-commons-1.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.6.0/junit-jupiter-params-5.6.0.jar:/home/pratik/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.6.0/junit-jupiter-engine-5.6.0.jar:/home/pratik/.m2/repository/org/junit/platform/junit-platform-engine/1.6.0/junit-platform-engine-1.6.0.jar:/home/pratik/.m2/repository/javax/javaee-api/8.0/javaee-api-8.0.jar:/home/pratik/.m2/repository/com/sun/mail/javax.mail/1.6.0/javax.mail-1.6.0.jar:/home/pratik/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/home/pratik/.m2/repository/org/primefaces/primefaces/14.0.0/primefaces-14.0.0.jar:/home/pratik/.m2/repository/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar:/home/pratik/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/home/pratik/.m2/repository/org/hibernate/hibernate-core/5.6.15.Final/hibernate-core-5.6.15.Final.jar:/home/pratik/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/jboss-logging-3.4.3.Final.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy/1.12.18/byte-buddy-1.12.18.jar:/home/pratik/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/home/pratik/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/home/pratik/.m2/repository/org/jboss/jandex/2.4.2.Final/jandex-2.4.2.Final.jar:/home/pratik/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/pratik/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/home/pratik/.m2/repository/org/hibernate/common/hibernate-commons-annotations/5.1.2.Final/hibernate-commons-annotations-5.1.2.Final.jar:/home/pratik/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar:/home/pratik/.m2/repository/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar:/home/pratik/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar:/home/pratik/.m2/repository/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar:/home/pratik/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.15/FastInfoset-1.2.15.jar:/home/pratik/.m2/repository/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar:/home/pratik/.m2/repository/org/omnifaces/omnifaces/3.14/omnifaces-3.14.jar:/home/pratik/.m2/repository/org/mockito/mockito-core/4.1.0/mockito-core-4.1.0.jar:/home/pratik/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.1/byte-buddy-agent-1.12.1.jar:/home/pratik/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.0.pr2/jackson-databind-2.10.0.pr2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.0.pr2/jackson-annotations-2.10.0.pr2.jar:/home/pratik/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.0.pr2/jackson-core-2.10.0.pr2.jar:/home/pratik/.m2/repository/org/json/json/20190722/json-20190722.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/pratik"/>
-    <property name="user.timezone" value="Asia/Kathmandu"/>
-    <property name="file.encoding" value="UTF-8"/>
-    <property name="java.specification.version" value="21"/>
-    <property name="user.name" value="pratik"/>
-    <property name="java.class.path" value="/usr/share/maven/boot/plexus-classworlds-2.x.jar"/>
-    <property name="java.vm.specification.version" value="21"/>
-    <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean install"/>
-    <property name="java.home" value="/opt/jdk-21.0.2"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.version" value="21.0.2"/>
-    <property name="native.encoding" value="UTF-8"/>
-    <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/usr/share/maven"/>
-    <property name="file.separator" value="/"/>
     <property name="java.version.date" value="2024-01-16"/>
+    <property name="java.home" value="/opt/jdk-21.0.2"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/pratik/NetBeansProjects/SBS"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="current.jrebel.agent.path" value="/home/pratik/.netbeans/21/griffin/jrebel.jar"/>
+    <property name="surefire.real.class.path" value="/home/pratik/NetBeansProjects/SBS/target/surefire/surefirebooter-20240903150330902_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
+    <property name="user.name" value="pratik"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.8.0-41-generic"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="maven.ext.class.path" value="/opt/netbeans/java/maven-nblib/netbeans-eventspy.jar"/>
+    <property name="localRepository" value="/home/pratik/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="21.0.2"/>
+    <property name="user.dir" value="/home/pratik/NetBeansProjects/SBS"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21.0.2+13-LTS-58"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
-    <property name="sun.cpu.endian" value="little"/>
+    <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testUpdate" time="0.004">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.update(com.syntech.sbs.model.BaseIdEntity)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.update(com.syntech.sbs.model.BaseIdEntity)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testUpdate(UserRepositoryTest.java:73)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testDelete" time="0">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.delete(java.lang.Long)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.delete(java.lang.Long)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testDelete(UserRepositoryTest.java:79)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testFindById" time="0">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findById(java.lang.Long)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findById(java.lang.Long)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testFindById(UserRepositoryTest.java:85)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testFindAll" time="0.001">
-    <failure message="Cannot invoke &quot;javax.persistence.TypedQuery.getResultList()&quot; because &quot;this.typedQuery&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;javax.persistence.TypedQuery.getResultList()&quot; because &quot;this.typedQuery&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testFindAll(UserRepositoryTest.java:93)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testFindByUsername" time="0.002">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByUsername(String)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByUsername(String)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testFindByUsername(UserRepositoryTest.java:108)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testFindByPhone" time="0.001">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByPhone(String)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByPhone(String)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testFindByPhone(UserRepositoryTest.java:115)
-</failure>
-  </testcase>
-  <testcase classname="com.syntech.sbs.repository.UserRepositoryTest" name="com.syntech.sbs.repository.UserRepositoryTest.testFindByEmail" time="0.001">
-    <failure message="Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByEmail(String)&quot; because &quot;this.userRepo&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.syntech.sbs.repository.UserRepository.findByEmail(String)&quot; because &quot;this.userRepo&quot; is null
-	at com.syntech.sbs.repository.UserRepositoryTest.testFindByEmail(UserRepositoryTest.java:122)
-</failure>
-  </testcase>
+  <testcase name="testFindAll" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.78"/>
+  <testcase name="testFindById" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.005"/>
+  <testcase name="testFindByUsername" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.005"/>
+  <testcase name="testFindByEmail" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.004"/>
+  <testcase name="testFindByPhone" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.004"/>
+  <testcase name="testDelete" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.003"/>
+  <testcase name="testUpdate" classname="com.syntech.sbs.repository.UserRepositoryTest" time="0.003"/>
 </testsuite>

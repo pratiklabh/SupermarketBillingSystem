@@ -36,13 +36,8 @@ public class ViewPurchaseBean implements Serializable {
     @Inject
     private SupplierRepository supplierRepo;
 
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
-
         purchase = new Purchase();
         lazyPurchases = new GenericLazyDataModel<>(purchaseRepo, Purchase.class);
         suppliers = supplierRepo.findAll();

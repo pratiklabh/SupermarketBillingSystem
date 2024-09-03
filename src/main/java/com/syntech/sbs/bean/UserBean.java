@@ -31,12 +31,8 @@ public class UserBean implements Serializable {
     @Inject
     private UserRepository userRepo;
 
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         user = new User();
         lazyUsers = new GenericLazyDataModel<>(userRepo, User.class);
 

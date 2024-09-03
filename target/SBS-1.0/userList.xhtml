@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Users List</title>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" showDetail="true" />
+        <ui:include src="menu.xhtml" />
+
+        <h:form id="userListForm">
+            <p:dataTable id="users" value="#{userBean.lazyUsers}" var="user" 
+                         paginator="true" rows="5" lazy="true" 
+                         rowKey="#{user.id}" paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                         {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <f:facet name="header">
+                    Users List
+                    <p:commandButton icon="pi pi-fw pi-user-plus"
+                                     value="Add User"
+                                     styleClass="ui-button-success"
+                                     style="margin:4px; margin-left: 83%"
+                                     action="#{userBean.prepareNewUser}" 
+                                     oncomplete="PF('userDialog').show()"
+                                     update=":editUserForm :growl"
+                                     ajax="true" />
+                </f:facet>
+
+                <p:column headerText="ID" filterBy="#{user.id}" filterMatchMode="exact">
+                    <h:outputText value="#{user.id}" />
+                </p:column>
+
+                <p:column headerText="Name" filterBy="#{user.name}" filterMatchMode="contains">
+                    <h:outputText value="#{user.name}" />
+                </p:column>
+
+                <p:column headerText="Username" filterBy="#{user.username}" filterMatchMode="contains">
+                    <h:outputText value="#{user.username}" />
+                </p:column>
+
+                <p:column headerText="Email" filterBy="#{user.email}" filterMatchMode="contains">
+                    <h:outputText value="#{user.email}" />
+                </p:column>
+
+                <p:column headerText="Phone" filterBy="#{user.phone}" filterMatchMode="contains">
+                    <h:outputText value="#{user.phone}" />
+                </p:column>
+
+                <p:column headerText="Role" filterBy="#{user.role}" filterMatchMode="exact">
+                    <h:outputText value="#{user.role}" />
+                </p:column>
+
+                <p:column headerText="Status" filterBy="#{user.status}" filterMatchMode="exact">
+                    <h:outputText value="#{user.status}" />
+                </p:column>
+
+                <!-- Actions column with Edit and Delete buttons --> 
+                <p:column headerText="Actions">
+                    <p:commandButton icon="pi pi-fw pi-user-edit"
+                                     style="margin: 3px"
+                                     styleClass="ui-button-warning"
+                                     action="#{userBean.prepareEditUser(user)}"
+                                     oncomplete="PF('userDialog').show()"
+                                     update=":editUserForm :growl"
+                                     ajax="true" />
+
+                    <p:commandButton  
+                        update=":userListForm:users, :userListForm:message :growl" 
+                        action="#{userBean.deleteUser(user)}"
+                        styleClass="ui-button-danger"
+                        icon="pi pi-trash">
+                        <p:confirm type="popup" header="Confirmation" 
+                                   message="Do you want to delete this record?" 
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmPopup global="true" widgetVar="confirmPopup">
+                <p:commandButton value="No" type="button" 
+                                 styleClass="ui-confirm-popup-no ui-button-flat" icon="pi pi-times" />
+                <p:commandButton value="Yes" type="button" 
+                                 styleClass="ui-confirm-popup-yes" icon="pi pi-check" />
+            </p:confirmPopup>
+
+        </h:form>
+
+        <!--         Dialog for user form -->
+        <p:dialog header="User Form" widgetVar="userDialog" modal="true" showEffect="fade" hideEffect="fade">
+            <h:form id="editUserForm">
+
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" />
+                    <p:inputText id="name" value="#{userBean.user.name}" />
+
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{userBean.user.username}" />
+
+                    <h:outputLabel for="password" value="Password:" rendered="#{!userBean.editMode}" />
+                    <p:password id="password" value="#{userBean.user.password}" rendered="#{!userBean.editMode}" />
+
+                    <h:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{userBean.user.email}" />
+
+                    <h:outputLabel for="phone" value="Phone:" />
+                    <p:inputText id="phone" value="#{userBean.user.phone}" />
+
+                    <h:outputLabel for="role" value="Role:" />
+                    <p:selectOneMenu id="role" value="#{userBean.user.role}" style="width:223px">
+                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Admin" itemLabel="Admin" />
+                        <f:selectItem itemValue="Cashier" itemLabel="Cashier" />
+                        <f:selectItem itemValue="Customer" itemLabel="Customer" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="status" value="Status:" />
+                    <p:selectOneMenu id="status" value="#{userBean.user.status}" style="width:223px">
+                        <f:selectItem itemLabel="Select Status" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemValue="Active" itemLabel="Active" />
+                        <f:selectItem itemValue="Disabled" itemLabel="Disabled" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="#{userBean.editMode ? 'Update' : 'Save'}"
+                                     icon="pi pi-fw pi-save"
+                                     action="#{userBean.saveOrUpdateUser}"
+                                     update=":userListForm :editUserForm :userListForm :messages :growl"
+                                     oncomplete="if (args.validationFailed) 
+                                     { PF('userDialog').show(); } 
+                                     else 
+                                     { PF('userDialog').hide(); }"
+                                     ajax="true" />
+
+                    <p:commandButton value="Cancel" 
+                                     icon="pi pi-fw pi-times"
+                                     onclick="PF('userDialog').hide();" 
+                                     type="button"/>
+                </h:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+    </h:body>
+</html>

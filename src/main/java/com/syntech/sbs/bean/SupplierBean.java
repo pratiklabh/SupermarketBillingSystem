@@ -29,12 +29,8 @@ public class SupplierBean implements Serializable {
     @Inject
     private SupplierRepository supplierRepo;
     
-    @Inject
-    private SessionBean sessionBean;
-
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         supplier = new Supplier();
         lazySuppliers = new GenericLazyDataModel<>(supplierRepo, Supplier.class);
     }

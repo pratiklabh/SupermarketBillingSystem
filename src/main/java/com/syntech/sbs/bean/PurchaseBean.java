@@ -48,12 +48,8 @@ public class PurchaseBean implements Serializable {
     @Inject
     private ProductRepository productRepository;
 
-    @Inject
-    private SessionBean sessionBean;
-    
     @PostConstruct
     public void init() {
-        sessionBean.checkSession();
         products = productRepository.findAll();
         suppliers = supplierRepository.findAll();
     }

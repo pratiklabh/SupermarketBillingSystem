@@ -15,19 +15,6 @@ public class SessionBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public void checkSession() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        if (session == null || session.getAttribute("valid_user") == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Please log in first", "You need to log in to access this page."));
-            try {
-                context.getExternalContext().redirect("adminLogin.xhtml");
-            } catch (IOException e) {
-            }
-        }
-    }
-
     public void storeUserInSession(User user) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
