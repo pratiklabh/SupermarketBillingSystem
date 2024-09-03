@@ -178,6 +178,11 @@ public class Product extends BaseIdEntity {
         
         return Objects.equals(this.stock, other.stock);
     }
+
+    @Override
+    public String toString() {
+        return "Product{id="+ getId() + ",name=" + name + ", rate=" + rate + ", type=" + type + ", description=" + description + ", unit=" + unit + ", discount=" + discount + ", code=" + code + '}';
+    }
     
     
     
