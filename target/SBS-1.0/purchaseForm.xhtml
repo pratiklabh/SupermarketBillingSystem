@@ -70,7 +70,8 @@
                 <h:outputLabel value="Total:" />
                 <h:outputText value="#{purchaseBean.total}" />
 
-                <h:commandButton value="Complete Purchase" action="#{purchaseBean.completePurchase}" />
+                <p:commandButton value="Complete Purchase" action="#{purchaseBean.completePurchase}" 
+                                 update="growl"/>
                 <p:commandButton value="Cancel" action="#{purchaseBean.cancel}" 
                                  update="growl"/>
             </h:panelGrid>

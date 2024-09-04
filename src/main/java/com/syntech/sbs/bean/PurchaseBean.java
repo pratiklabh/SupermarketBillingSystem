@@ -108,6 +108,7 @@ public class PurchaseBean implements Serializable {
             updateStock();
 
             clear();
+            clearItemFields();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Purchase completed successfully"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(

@@ -38,10 +38,12 @@ com/syntech/sbs/bean/PurchaseBean.class
 com/syntech/sbs/model/User_.class
 com/syntech/sbs/repository/ProductRepository.class
 com/syntech/sbs/repository/PurchaseDetailsRepository.class
+com/syntech/sbs/api/ProductRestApi.class
 com/syntech/sbs/model/Stock.class
 com/syntech/sbs/converter/UserConverter.class
 com/syntech/sbs/resources/JavaEE8Resource.class
 com/syntech/sbs/repository/SalesRepository.class
+com/syntech/sbs/api/UserRestApi.class
 com/syntech/sbs/model/SalesDetails_.class
 com/syntech/sbs/model/BaseIdEntity_.class
 com/syntech/sbs/model/Product.class
