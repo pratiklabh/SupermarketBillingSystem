@@ -2,55 +2,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Admin Dashboard</title>
-        <h:outputStylesheet name="css/adminDashboardStyles.css" />
-        <h:outputScript>
-            function toggleDropdown(event) {
-                event.preventDefault();
-                const dropdown = event.currentTarget.parentElement;
-                dropdown.classList.toggle('show');
-            }
-        </h:outputScript>
-    </h:head>
-    <h:body>
-        <div class="header">
-            <h1>Supermarket Billing System</h1>
-            <div class="profile">
-                <a href="#" onclick="toggleDropdown(event)">    
-                    <p:button icon="pi pi-user" styleClass="rounded-button ui-button-info" />
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div>
+<h:head>
+    <title>Admin Dashboard</title>
+</h:head>
+<h:body>
+    <h:form id="dashboardForm">
+        <div class="dashboard">
+            <!-- Total Customers -->
+            <p:card title="Total Customers" styleClass="card">
+                <div class="card-content">
+                    <i class="pi pi-users card-icon" style="font-size: 50px; margin-right: 20px;"></i>
+                    <span class="card-text" style="font-size: 50px;">#{UserBean.getTotalCustomers}</span>
+                </div>
+            </p:card>
+
+            <!-- Total Sales -->
+            <p:card title="Total Sales" styleClass="card">
+                <div class="card-content">
+                    <i class="pi pi-shopping-cart card-icon" style="font-size: 50px; margin-right: 20px;"></i>
+                    <span class="card-text" style="font-size: 50px;">#{adminDashboardBean.totalSales}</span>
+                </div>
+            </p:card>
+
+            <!-- Total Purchases -->
+            <p:card title="Total Purchases" styleClass="card">
+                <div class="card-content">
+                    <i class="pi pi-briefcase card-icon" style="font-size: 50px; margin-right: 20px;"></i>
+                    <span class="card-text" style="font-size: 50px;">#{adminDashboardBean.totalPurchases}</span>
+                </div>
+            </p:card>
+
+            <!-- Most Sold Product -->
+            <p:card title="Most Sold Product" styleClass="card">
+                <div class="card-content">
+                    <i class="pi pi-chart-bar card-icon" style="font-size: 50px; margin-right: 20px;"></i>
+                    <span class="card-text" style="font-size: 50px;">#{adminDashboardBean.mostSoldProduct}</span>
+                </div>
+            </p:card>
         </div>
-        <div class="header-line"></div>
-        <div class="container">
-            <div class="sidebar">
-                <h:graphicImage name="images/supermarket2.png" />
-                <br/>
-                <ul class="list-unstyled components">
-                    <li><a href="/SBS-1.0/adminDashboard.xhtml">Dashboard</a></li>
-                    <li><a href="#">Stock</a></li>
-                    <li>
-                        <a href="#" onclick="toggleDropdown(event)">Sales</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Purchase Bills</a></li>
-                            <li><a href="#">Sales Bills</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Purchase</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Manage Users</a></li>
-                    
-                    
-                </ul>
-            </div>
-            <div class="content">
-                <h2>Dashboard</h2>
-            </div>
-        </div>
-    </h:body>
+    </h:form>
+</h:body>
 </html>

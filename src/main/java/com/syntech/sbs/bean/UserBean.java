@@ -139,4 +139,8 @@ public class UserBean implements Serializable {
 
         return null; // No duplicates found
     }
+    
+    public int getTotalCustomers() {
+        return userRepo.findAll().size();
+    }
 }
