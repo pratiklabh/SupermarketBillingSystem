@@ -1,7 +1,9 @@
 package com.syntech.sbs.api;
 
+import com.syntech.sbs.model.ClientLayoutPreferences;
 import com.syntech.sbs.model.Sales;
 import com.syntech.sbs.model.SalesDetails;
+import com.syntech.sbs.repository.ClientLayoutPreferencesRepository;
 import com.syntech.sbs.repository.SalesDetailsRepository;
 import com.syntech.sbs.repository.SalesRepository;
 import javax.inject.Inject;
@@ -26,6 +28,9 @@ public class SalesRestApi {
 
     @Inject
     private SalesDetailsRepository salesDetailsRepository;
+    
+    @Inject
+    private ClientLayoutPreferencesRepository clientLayoutPreferencesRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -148,44 +153,68 @@ public class SalesRestApi {
         }
     }
 
+    
     @GET
-    @Path("/combined/{salesId}")
-    public Response getCombinedSalesDetailsById(@PathParam("salesId") Long salesId) {
+    @Path("/preferences")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllClientLayoutPreferencess() {
         try {
-            Sales sale = salesRepository.findById(salesId);
-            if (sale == null) {
-                return RestResponse.responseBuilder("false", "404", "Sale not found", null);
+            List<ClientLayoutPreferences> preferencesList = clientLayoutPreferencesRepository.findAll(); // Fetch all client layout preferences
+            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+            // Check if the preferencesList is empty
+            if (preferencesList.isEmpty()) {
+                return RestResponse.responseBuilder("false", "404", "No layout preferences found", null);
             }
 
-            JsonArrayBuilder combinedArrayBuilder = Json.createArrayBuilder();
-            List<SalesDetails> detailsList = salesDetailsRepository.findBySalesId(sale.getId());
-
-            for (SalesDetails detail : detailsList) {
-                String productName = detail.getProduct().getName();
-                BigInteger rate = detail.getRate();
-                BigInteger discount = detail.getDiscount();
-                BigInteger quantity = BigInteger.valueOf(detail.getQuantity());
-
-                BigInteger total = (rate.subtract(discount)).multiply(quantity);
-
-                // Create combined sales object
-                JsonObject jsonCombined = Json.createObjectBuilder()
-                        .add("sales_id", detail.getSales().getId())
-                        .add("date", sale.getDate().toString())
-                        .add("productName", productName)
-                        .add("rate", rate)
-                        .add("quantity", quantity)
-                        .add("discount", discount)
-                        .add("total", total)
+            // Iterate over the list of client layout preferences and build JSON objects
+            for (ClientLayoutPreferences preference : preferencesList) {
+                JsonObject jsonPreference = Json.createObjectBuilder()
+                        .add("client_id", preference.getId())
+                        .add("client_name", preference.getClientName())
+                        .add("company_name_align", preference.getCompanyNameAlign())
+                        .add("address_align", preference.getAddressAlign())
+                        .add("date_align", preference.getDateAlign())
+                        .add("customer_name_align", preference.getCustomerNameAlign())
+                        .add("sales_invoice_align", preference.getSalesInvoiceAlign())
+                        .add("table_align", preference.getTableAlign())
+                        .add("grand_total_align", preference.getGrandTotalAlign())
                         .build();
-
-                combinedArrayBuilder.add(jsonCombined);
+                jsonArrayBuilder.add(jsonPreference); // Add each preference to the array
             }
 
-            return RestResponse.responseBuilder("true", "200", "Combined sales details retrieved successfully", combinedArrayBuilder.build());
+            JsonArray jsonResult = jsonArrayBuilder.build();
+            return RestResponse.responseBuilder("true", "200", "Layout preferences found", jsonResult);
         } catch (Exception e) {
             return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
         }
     }
 
+    @GET
+    @Path("/preferences/{clientId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getClientLayoutPreferencesById(@PathParam("clientId") Long clientId) {
+        try {
+            ClientLayoutPreferences preference = clientLayoutPreferencesRepository.findById(clientId);
+            if (preference != null) {
+                JsonObject jsonResult = Json.createObjectBuilder()
+                        .add("client_id", preference.getId())
+                        .add("client_name", preference.getClientName())
+                        .add("company_name_align", preference.getCompanyNameAlign())
+                        .add("address_align", preference.getAddressAlign())
+                        .add("date_align", preference.getDateAlign())
+                        .add("customer_name_align", preference.getCustomerNameAlign())
+                        .add("sales_invoice_align", preference.getSalesInvoiceAlign())
+                        .add("table_align", preference.getTableAlign())
+                        .add("grand_total_align", preference.getGrandTotalAlign())
+                        .build();
+                return RestResponse.responseBuilder("true", "200", "Layout preference found", jsonResult);
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Layout preference not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
+        }
+    }
+    
 }

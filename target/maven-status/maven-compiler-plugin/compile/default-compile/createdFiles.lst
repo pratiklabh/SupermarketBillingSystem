@@ -3,11 +3,13 @@ com/syntech/sbs/bean/AdminDashboardBean.class
 com/syntech/sbs/bean/ProductBean.class
 com/syntech/sbs/repository/GenericRepository.class
 com/syntech/sbs/model/PurchaseDetails.class
+com/syntech/sbs/api/SalesRestApi.class
 com/syntech/sbs/model/Supplier.class
 com/syntech/sbs/model/Product_.class
 com/syntech/sbs/model/Contact_.class
 com/syntech/sbs/model/PurchaseDetails_.class
 com/syntech/sbs/model/Supplier_.class
+com/syntech/sbs/repository/ClientLayoutPreferencesRepository.class
 com/syntech/sbs/bean/SessionBean.class
 com/syntech/sbs/listener/AdminPhaseListener.class
 com/syntech/sbs/model/GenericLazyDataModel.class
@@ -21,6 +23,7 @@ com/syntech/sbs/model/Sales.class
 com/syntech/sbs/repository/SalesDetailsRepository.class
 com/syntech/sbs/api/RestResponse.class
 com/syntech/sbs/bean/ViewPurchaseBean.class
+com/syntech/sbs/model/ClientLayoutPreferences.class
 com/syntech/sbs/bean/StockBean.class
 com/syntech/sbs/bean/SalesBean.class
 com/syntech/sbs/model/BaseIdEntity.class
@@ -48,4 +51,5 @@ com/syntech/sbs/resources/JavaEE8Resource.class
 com/syntech/sbs/repository/SalesRepository.class
 com/syntech/sbs/model/SalesDetails_.class
 com/syntech/sbs/model/BaseIdEntity_.class
+com/syntech/sbs/model/ClientLayoutPreferences_.class
 com/syntech/sbs/model/Product.class

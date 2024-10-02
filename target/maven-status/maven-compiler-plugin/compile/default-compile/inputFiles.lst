@@ -8,6 +8,7 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/api/SalesRestApi.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/PurchaseBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/converter/PurchaseConverter.java
+/home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/ClientLayoutPreferences_.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/AdminDashboardBean.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/User_.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/repository/PurchaseRepository.java
@@ -37,6 +38,7 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/SupplierBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/Stock.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/SalesDetails_.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/ClientLayoutPreferences.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/SalesBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/UserBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/ProductBean.java
@@ -51,6 +53,7 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/ViewPurchaseBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/Purchase.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/SessionBean.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/repository/ClientLayoutPreferencesRepository.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/repository/SupplierRepository.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/Stock_.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/Supplier_.java
