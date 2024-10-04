@@ -3,9 +3,11 @@ package com.syntech.sbs.api;
 import com.syntech.sbs.model.ClientLayoutPreferences;
 import com.syntech.sbs.model.Sales;
 import com.syntech.sbs.model.SalesDetails;
+import com.syntech.sbs.model.Template;
 import com.syntech.sbs.repository.ClientLayoutPreferencesRepository;
 import com.syntech.sbs.repository.SalesDetailsRepository;
 import com.syntech.sbs.repository.SalesRepository;
+import com.syntech.sbs.repository.TemplateRepository;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -28,9 +30,12 @@ public class SalesRestApi {
 
     @Inject
     private SalesDetailsRepository salesDetailsRepository;
-    
+
     @Inject
     private ClientLayoutPreferencesRepository clientLayoutPreferencesRepository;
+
+    @Inject
+    private TemplateRepository templateRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,6 +69,53 @@ public class SalesRestApi {
     }
 
     @GET
+    @Path("/salesdetails/{salesId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSalesWithDetailsById(@PathParam("salesId") Long salesId) {
+        try {
+            // Fetch the sales record
+            Sales sale = salesRepository.findById(salesId);
+
+            // Fetch the sales details for the given salesId
+            List<SalesDetails> detailsList = salesDetailsRepository.findBySalesId(salesId);
+
+            if (sale != null) {
+                JsonObjectBuilder saleObjectBuilder = Json.createObjectBuilder()
+                        .add("id", sale.getId())
+                        .add("customerName", sale.getCustomer().getName())
+                        .add("date", sale.getDate().toString())
+                        .add("total", sale.getTotal())
+                        .add("paymentMode", sale.getPaymentMode());
+
+                // Build sales details array
+                JsonArrayBuilder detailsArrayBuilder = Json.createArrayBuilder();
+
+                for (SalesDetails detail : detailsList) {
+                    JsonObjectBuilder detailObjectBuilder = Json.createObjectBuilder()
+                            .add("productName", detail.getProduct().getName())
+                            .add("rate", detail.getRate())
+                            .add("quantity", detail.getQuantity())
+                            .add("discount", detail.getDiscount());
+
+                    detailsArrayBuilder.add(detailObjectBuilder);
+                }
+
+                // Add sales details to the sales JSON object
+                saleObjectBuilder.add("details", detailsArrayBuilder);
+
+                // Build final combined response
+                JsonObject jsonResponse = saleObjectBuilder.build();
+
+                return RestResponse.responseBuilder("true", "200", "Sales and details retrieved successfully", jsonResponse);
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Sales not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
+        }
+    }
+
+    @GET
     @Path("/{id}")
     public Response getSalesById(@PathParam("id") Long id) {
         try {
@@ -85,44 +137,7 @@ public class SalesRestApi {
         }
     }
 
-    @GET
-    @Path("/combined")
-    public Response getCombinedSalesDetails() {
-        try {
-            List<Sales> salesList = salesRepository.findAll();
-            JsonArrayBuilder combinedArrayBuilder = Json.createArrayBuilder();
-
-            for (Sales sale : salesList) {
-                List<SalesDetails> detailsList = salesDetailsRepository.findBySalesId(sale.getId());
-                for (SalesDetails detail : detailsList) {
-                    String productName = detail.getProduct().getName();
-                    BigInteger rate = detail.getRate();
-                    BigInteger discount = detail.getDiscount();
-                    BigInteger quantity = BigInteger.valueOf(detail.getQuantity());
-
-                    BigInteger total = (rate.subtract(discount)).multiply(quantity);
-
-                    // Create combined sales object
-                    JsonObject jsonCombined = Json.createObjectBuilder()
-                            .add("sales_id", detail.getSales().getId())
-                            .add("date", sale.getDate().toString())
-                            .add("productName", productName)
-                            .add("rate", rate)
-                            .add("quantity", quantity)
-                            .add("discount", discount)
-                            .add("total", total)
-                            .build();
-
-                    combinedArrayBuilder.add(jsonCombined);
-                }
-            }
-
-            return RestResponse.responseBuilder("true", "200", "Combined sales details retrieved successfully", combinedArrayBuilder.build());
-        } catch (Exception e) {
-            return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
-        }
-    }
-
+    
     @GET
     @Path("/details/{salesId}")
     public Response getSalesDetailsBySalesId(@PathParam("salesId") Long salesId) {
@@ -153,7 +168,6 @@ public class SalesRestApi {
         }
     }
 
-    
     @GET
     @Path("/preferences")
     @Produces(MediaType.APPLICATION_JSON)
@@ -216,5 +230,52 @@ public class SalesRestApi {
             return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
         }
     }
-    
+
+    @GET
+    @Path("/template")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllTemplate() {
+        try {
+            List<Template> templateList = templateRepository.findAll(); // Fetch all client layout preferences
+            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+            // Check if the preferencesList is empty
+            if (templateList.isEmpty()) {
+                return RestResponse.responseBuilder("false", "404", "No template found", null);
+            }
+
+            // Iterate over the list of client layout preferences and build JSON objects
+            for (Template template : templateList) {
+                JsonObject jsonTemplate = Json.createObjectBuilder()
+                        .add("template", template.getTemplate())
+                        .build();
+                jsonArrayBuilder.add(jsonTemplate); // Add each preference to the array
+            }
+
+            JsonArray jsonResult = jsonArrayBuilder.build();
+            return RestResponse.responseBuilder("true", "200", "Template found", jsonResult);
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("/template/{templateId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTemplateById(@PathParam("templateId") Long templateId) {
+        try {
+            Template template = templateRepository.findById(templateId);
+            if (template != null) {
+                JsonObject jsonResult = Json.createObjectBuilder()
+                        .add("template", template.getTemplate())
+                        .build();
+                return RestResponse.responseBuilder("true", "200", "Template found", jsonResult);
+            } else {
+                return RestResponse.responseBuilder("false", "404", "Template not found", null);
+            }
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred", Json.createObjectBuilder().add("error", e.getMessage()).build());
+        }
+    }
+
 }
