@@ -8,17 +8,20 @@ import com.syntech.sbs.repository.ClientLayoutPreferencesRepository;
 import com.syntech.sbs.repository.SalesDetailsRepository;
 import com.syntech.sbs.repository.SalesRepository;
 import com.syntech.sbs.repository.TemplateRepository;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.math.BigInteger;
-import java.util.List;
-import javax.json.JsonArray;
 
 @Path("/sales")
 @Produces(MediaType.APPLICATION_JSON)
@@ -137,7 +140,6 @@ public class SalesRestApi {
         }
     }
 
-    
     @GET
     @Path("/details/{salesId}")
     public Response getSalesDetailsBySalesId(@PathParam("salesId") Long salesId) {
@@ -278,4 +280,25 @@ public class SalesRestApi {
         }
     }
 
+    @GET
+    @Path("/localTemplate")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTemplateFile() {
+        try {
+            String filePath = "/home/pratik/Documents/localTemplate.html";
+
+            String fileContent = new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8);
+
+//            System.err.println(fileContent);
+            JsonObject jsonFileContent = Json.createObjectBuilder()
+                    .add("fileContent", fileContent)
+                    .build();
+
+            return RestResponse.responseBuilder("true", "200", "File fetched successfully", jsonFileContent);
+        } catch (Exception e) {
+            return RestResponse.responseBuilder("false", "500", "An error occurred while fetching the file", Json.createObjectBuilder().add("error", e.getMessage()).build());
+        }
+    }
+
 }
+

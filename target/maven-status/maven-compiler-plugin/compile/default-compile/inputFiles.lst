@@ -6,8 +6,11 @@
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/api/CombinedSales.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/Sales_.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/api/SalesRestApi.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/repository/TemplateRepository.java
+/home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/model/Template.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/PurchaseBean.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/converter/PurchaseConverter.java
+/home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/Template_.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/ClientLayoutPreferences_.java
 /home/pratik/NetBeansProjects/SBS/src/main/java/com/syntech/sbs/bean/AdminDashboardBean.java
 /home/pratik/NetBeansProjects/SBS/target/generated-sources/apt/com/syntech/sbs/model/User_.java
